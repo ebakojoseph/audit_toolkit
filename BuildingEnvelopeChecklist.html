@@ -802,6 +802,7 @@ const PFN_GROUPS = {
 // ===== STATE =====
 let state = loadState();
 let activeSection = 0;
+let currentProject = null;
 
 function defaultState() {
   return {
@@ -836,7 +837,46 @@ function defaultState() {
     declaration: false,
   };
 }
+async function loadProjectFromDashboard() {
+  const projectId = new URLSearchParams(window.location.search).get('project');
 
+  if (!projectId) return;
+
+  try {
+    const localProjects = JSON.parse(
+      localStorage.getItem('audit-dashboard-v3') || '[]'
+    );
+
+    const project = localProjects.find(p => p.id === projectId);
+
+    if (!project) return;
+
+    currentProject = project;
+
+    const info = {
+      site_building: project.project_id || '',
+      site_inspector: project.auditor || '',
+      site_date: project.audit_date || '',
+      site_address: project.address || '',
+      site_city: project.city || '',
+      site_province: project.province || '',
+      site_btype: project.facility_type || '',
+      site_area: project.floor_area || '',
+      site_area_unit: project.area_unit || 'm²',
+      site_notes: project.notes || ''
+    };
+
+    state.fields = {
+      ...(state.fields || {}),
+      ...info
+    };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (error) {
+    console.error('Could not load project:', error);
+  }
+}
+  
 function loadState() {
   try {
     const s = localStorage.getItem(STORAGE_KEY);
@@ -853,6 +893,7 @@ function saveState() {
     else state.fields[k] = el.value;
   });
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  updateProjectHeader();
   showToast();
 }
 
@@ -1013,6 +1054,7 @@ function rebuildUIFromState() {
 
 // ===== INIT =====
 function init() {
+  loadProjectFromDashboard().then(() => {
   buildSidebar();
   buildPFNGroups();
   buildMoistureTable();
@@ -1034,10 +1076,13 @@ function init() {
   const signDate = document.querySelector('[data-field="sign_date"]');
   if (signDate && !signDate.value) signDate.value = '2026-09-03';
   // Re-create icons
+    addProjectHeader();
   if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
     lucide.createIcons();
   }
-}
+      
+  });
+}                                
 
 // ===== SIDEBAR =====
 function buildSidebar() {
@@ -1053,7 +1098,50 @@ function buildSidebar() {
     nav2.insertAdjacentHTML('beforeend', html);
   });
 }
+function addProjectHeader() {
+  document.querySelectorAll('.section-panel').forEach((panel, index) => {
+    if (index === 0) return;
 
+    const heading = panel.querySelector('.mb-1');
+    if (!heading) return;
+
+    if (heading.querySelector('.project-context')) return;
+
+    const box = document.createElement('div');
+    box.className =
+      'project-context bg-accent-50 border border-accent-200 rounded-xl p-3 mb-4 text-xs text-surface-700 leading-relaxed';
+
+    heading.insertAdjacentElement('afterend', box);
+  });
+
+  updateProjectHeader();
+}
+
+function updateProjectHeader() {
+  const get = key => {
+    const field = document.querySelector(`[data-field="${key}"]`);
+    return field ? field.value.trim() : '';
+  };
+
+  const project = get('site_building') || '—';
+  const inspector = get('site_inspector') || '—';
+  const date = get('site_date') || '—';
+
+  const address = [
+    get('site_address'),
+    get('site_city'),
+    get('site_province')
+  ].filter(Boolean).join(', ') || '—';
+
+  document.querySelectorAll('.project-context').forEach(box => {
+    box.innerHTML = `
+      <div><strong>Project:</strong> ${project}</div>
+      <div><strong>Address:</strong> ${address}</div>
+      <div><strong>Inspector:</strong> ${inspector}</div>
+      <div><strong>Inspection date:</strong> ${date}</div>
+    `;
+  });
+}
 function setActiveSection(idx) {
   activeSection = idx;
   document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
