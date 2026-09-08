@@ -88,6 +88,15 @@ input, select, textarea { font-family: inherit; }
   #sidebar { display: none; }
   #mobile-nav { display: flex !important; }
 }
+
+.print-only-project { display: none; }
+@media print {
+  #project-context { display: none !important; }
+  .print-only-project { display: flex !important; justify-content: space-between; gap: 12px; border-bottom: 1px solid #cbd5e1; padding: 0 0 6px; margin-bottom: 10px; font-size: 9px; color: #475569; }
+}
+@media (max-width: 767px) {
+  #project-context { top: 60px; }
+}
 </style>
 </head>
 <body data-id="0" class="min-h-screen flex flex-col">
@@ -132,11 +141,22 @@ input, select, textarea { font-family: inherit; }
   </div>
 </header>
 
+<!-- PROJECT CONTEXT: imported from index.html -->
+<div id="project-context" class="fixed top-[60px] left-0 right-0 z-30 bg-white border-b border-surface-300 shadow-sm md:pl-56 lg:pl-60">
+  <div class="px-4 md:px-6 py-2 flex flex-wrap items-center gap-x-5 gap-y-1 text-xs text-surface-600">
+    <span><strong class="text-navy-900">Project:</strong> <span data-project-context="project">—</span></span>
+    <span><strong class="text-navy-900">Address:</strong> <span data-project-context="address">—</span></span>
+    <span><strong class="text-navy-900">Inspector:</strong> <span data-project-context="inspector">—</span></span>
+    <span><strong class="text-navy-900">Inspection date:</strong> <span data-project-context="date">—</span></span>
+  </div>
+</div>
+
+
 <!-- MAIN LAYOUT -->
-<div data-id="21" class="flex flex-1 pt-[60px]" style="min-height: calc(100vh - 60px);">
+<div data-id="21" class="flex flex-1 pt-[92px]" style="min-height: calc(100vh - 60px);">
 
   <!-- SIDEBAR -->
-  <aside data-id="22" id="sidebar" class="hidden md:flex flex-col w-56 lg:w-60 bg-navy-900 text-white fixed top-[60px] bottom-0 left-0 z-40 overflow-y-auto" style="scrollbar-width:thin;">
+  <aside data-id="22" id="sidebar" class="hidden md:flex flex-col w-56 lg:w-60 bg-navy-900 text-white fixed top-[92px] bottom-0 left-0 z-40 overflow-y-auto" style="scrollbar-width:thin;">
     <nav data-id="23" class="flex flex-col py-3 px-2 gap-0.5" id="sidebar-nav">
     </nav>
     <div data-id="24" class="mt-auto p-4 border-t border-navy-700">
@@ -853,6 +873,8 @@ function saveState(showNotification = true) {
     else state.fields[k] = el.value;
   });
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  updateProjectContext();
+  updatePageProjectHeaders();
   if (showNotification) showToast();
 }
 
@@ -870,48 +892,60 @@ function csvEscape(value) {
   return s;
 }
 
-function sanitizeFilePart(value) {
-  return String(value || '')
-    .trim()
-    .replace(/[^a-zA-Z0-9_-]+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
-}
-
-function getExportFileName() {
-  const projectId = document.querySelector('[data-field="site_building"]')?.value || '';
-  const inspectionDate = document.querySelector('[data-field="site_date"]')?.value || '';
-  const inspector = document.querySelector('[data-field="site_inspector"]')?.value || '';
-  const now = new Date();
-  const saveTime = [now.getHours(), now.getMinutes(), now.getSeconds()]
-    .map(v => String(v).padStart(2, '0')).join('');
-  const safeProject = sanitizeFilePart(projectId) || 'project';
-  const safeDate = inspectionDate ? inspectionDate.replace(/-/g, '') : 'nodate';
-  const safeInspector = sanitizeFilePart(inspector);
-  return safeInspector
-    ? `${safeProject}_${safeDate}_${saveTime}_${safeInspector}.csv`
-    : `${safeProject}_${safeDate}_${saveTime}.csv`;
-}
-
 function buildExportState() {
-  saveState(false);
+  saveState();
   return state;
 }
 
 function exportStateToCsv() {
   const data = buildExportState();
   const rows = [['key', 'value']];
-  Object.keys(data).forEach(key => rows.push([key, JSON.stringify(data[key])]));
+
+  Object.keys(data).forEach(key => {
+    rows.push([key, JSON.stringify(data[key])]);
+  });
+
   const csv = rows.map(row => row.map(csvEscape).join(',')).join('\n');
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const link = document.createElement('a');
-  const url = URL.createObjectURL(blob);
-  link.href = url;
-  link.download = getExportFileName();
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+
+ function sanitizeFilePart(value) {
+  return String(value || "")
+    .trim()
+    .replace(/[^a-zA-Z0-9_-]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function getExportFileName() {
+  const projectId =
+    document.querySelector('[data-field="site_building"]')?.value || "";
+
+  const inspectionDate =
+    document.querySelector('[data-field="site_date"]')?.value || "";
+
+  const inspector =
+    document.querySelector('[data-field="site_inspector"]')?.value || "";
+
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2, "0");
+  const mm = String(now.getMinutes()).padStart(2, "0");
+  const ss = String(now.getSeconds()).padStart(2, "0");
+  const saveTime = `${hh}${mm}${ss}`;
+
+  const safeProject = sanitizeFilePart(projectId) || "project";
+  const safeDate = inspectionDate ? inspectionDate.replace(/-/g, "") : "nodate";
+  const safeInspector = sanitizeFilePart(inspector);
+
+  return safeInspector
+    ? `${safeProject}_${safeDate}_${saveTime}_${safeInspector}.csv`
+    : `${safeProject}_${safeDate}_${saveTime}.csv`;
+}
+a.download = getExportFileName();
+  a.click();
+
+  URL.revokeObjectURL(a.href);
 }
 
 function parseCsvLine(line) {
@@ -999,6 +1033,107 @@ function rebuildUIFromState() {
   }
 }
 
+
+// ===== PROJECT DATA FROM INDEX =====
+const PROJECT_CONTEXT_KEYS = {
+  project: ['projectId', 'project_id', 'buildingName', 'building', 'site_building', 'name'],
+  address: ['address', 'streetAddress', 'site_address', 'projectAddress'],
+  city: ['city', 'site_city'],
+  province: ['province', 'state', 'site_province'],
+  inspector: ['inspector', 'inspectorName', 'site_inspector'],
+  date: ['inspectionDate', 'date', 'site_date']
+};
+
+function readIndexProjectData() {
+  const sources = [];
+  const query = new URLSearchParams(window.location.search);
+  const encoded = query.get('projectData') || query.get('project');
+  if (encoded) {
+    try { sources.push(JSON.parse(encoded)); } catch (e) {
+      try { sources.push(JSON.parse(decodeURIComponent(encoded))); } catch (_) {}
+    }
+  }
+  ['indexProjectData', 'selectedProject', 'currentProject', 'projectData', 'project'].forEach(key => {
+    try {
+      const value = localStorage.getItem(key);
+      if (value) sources.push(JSON.parse(value));
+    } catch (e) {}
+  });
+  if (window.parent && window.parent !== window) {
+    try {
+      if (window.parent.projectData) sources.push(window.parent.projectData);
+      if (window.parent.currentProject) sources.push(window.parent.currentProject);
+    } catch (e) {}
+  }
+  return sources.find(value => value && typeof value === 'object') || {};
+}
+
+function getProjectValue(project, kind) {
+  const keys = PROJECT_CONTEXT_KEYS[kind] || [];
+  for (const key of keys) {
+    if (project[key] !== undefined && project[key] !== null && String(project[key]).trim()) {
+      return String(project[key]).trim();
+    }
+  }
+  return '';
+}
+
+function importProjectDataFromIndex() {
+  const project = readIndexProjectData();
+  const values = {
+    site_building: getProjectValue(project, 'project'),
+    site_address: getProjectValue(project, 'address'),
+    site_city: getProjectValue(project, 'city'),
+    site_province: getProjectValue(project, 'province'),
+    site_inspector: getProjectValue(project, 'inspector'),
+    site_date: getProjectValue(project, 'date')
+  };
+  Object.entries(values).forEach(([field, value]) => {
+    if (!value) return;
+    state.fields[field] = value;
+    const element = document.querySelector(`[data-field="${field}"]`);
+    if (element && !element.value) element.value = value;
+  });
+  updateProjectContext();
+  saveState(false);
+}
+
+function updateProjectContext() {
+  const get = field => document.querySelector(`[data-field="${field}"]`)?.value?.trim() || '—';
+  const values = {
+    project: get('site_building'),
+    address: [get('site_address'), get('site_city'), get('site_province')].filter(v => v !== '—').join(', ') || '—',
+    inspector: get('site_inspector'),
+    date: get('site_date')
+  };
+  document.querySelectorAll('[data-project-context]').forEach(element => {
+    element.textContent = values[element.dataset.projectContext] || '—';
+  });
+}
+
+function addPageProjectHeaders() {
+  document.querySelectorAll('.section-panel').forEach(panel => {
+    if (panel.querySelector(':scope > .page-project-header')) return;
+    const header = document.createElement('div');
+    header.className = 'page-project-header print-only-project';
+    header.innerHTML = '<strong data-page-project="project">—</strong><span data-page-project="address">—</span><span data-page-project="inspector">—</span><span data-page-project="date">—</span>';
+    panel.prepend(header);
+  });
+  updatePageProjectHeaders();
+}
+
+function updatePageProjectHeaders() {
+  const values = {
+    project: document.querySelector('[data-project-context="project"]')?.textContent || '—',
+    address: document.querySelector('[data-project-context="address"]')?.textContent || '—',
+    inspector: document.querySelector('[data-project-context="inspector"]')?.textContent || '—',
+    date: document.querySelector('[data-project-context="date"]')?.textContent || '—'
+  };
+  document.querySelectorAll('[data-page-project]').forEach(element => {
+    element.textContent = values[element.dataset.pageProject] || '—';
+  });
+}
+
 // ===== INIT =====
 function init() {
   buildSidebar();
@@ -1012,15 +1147,17 @@ function init() {
   buildConditionRating();
   buildDeclaration();
   restoreFields();
+  importProjectDataFromIndex();
+  addPageProjectHeaders();
   setActiveSection(0);
   updateAllCalcs();
   startAutoSave();
   bindGlobalEvents();
   // default date
   const dateField = document.querySelector('[data-field="site_date"]');
-  if (dateField && !dateField.value) dateField.value = new Date().toISOString().slice(0, 10);
+  if (dateField && !dateField.value) dateField.value = '2026-09-03';
   const signDate = document.querySelector('[data-field="sign_date"]');
-  if (signDate && !signDate.value) signDate.value = new Date().toISOString().slice(0, 10);
+  if (signDate && !signDate.value) signDate.value = '2026-09-03';
   // Re-create icons
   if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
     lucide.createIcons();
@@ -1042,21 +1179,21 @@ function buildSidebar() {
   });
 }
 
-function setActiveSection(index) {
-  const section = Number(index);
-  if (!Number.isInteger(section) || !document.getElementById(`panel-${section}`)) return;
-  activeSection = section;
-  document.querySelectorAll('.section-panel').forEach(panel => panel.classList.toggle('active', panel.id === `panel-${section}`));
-  document.querySelectorAll('.sidebar-btn').forEach(button => {
-    const active = Number(button.dataset.sec) === section;
-    button.classList.toggle('bg-accent-500/20', active);
-    button.classList.toggle('text-white', active);
-    button.classList.toggle('text-white/60', !active);
-    button.classList.toggle('hover:bg-navy-700', !active);
-    button.setAttribute('aria-current', active ? 'page' : 'false');
+function setActiveSection(idx) {
+  activeSection = idx;
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('panel-' + idx);
+  if (panel) panel.classList.add('active');
+  document.querySelectorAll('.sidebar-btn').forEach(b => {
+    const s = parseInt(b.dataset.sec);
+    if (s === idx) {
+      b.classList.add('bg-accent-500/20', 'text-white');
+      b.classList.remove('text-white/60', 'hover:bg-navy-700');
+    } else {
+      b.classList.remove('bg-accent-500/20');
+      b.classList.add('text-white/60', 'hover:bg-navy-700');
+    }
   });
-  const main = document.getElementById('main-content');
-  if (main) main.scrollTop = 0;
   updateAllCalcs();
 }
 
@@ -1092,6 +1229,89 @@ function buildPFNGroups() {
         container.appendChild(div);
       }
     });
+  });
+  // Delegate PFN toggle clicks
+  document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.pfn-toggle button');
+    if (!btn) return;
+    const key = btn.dataset.key;
+    const val = btn.dataset.val;
+    const toggle = btn.parentElement;
+    toggle.querySelectorAll('button').forEach(b => b.className = '');
+    if (state.pfn[key] === val) {
+      state.pfn[key] = '';
+    } else {
+      state.pfn[key] = val;
+      btn.classList.add(val === 'pass' ? 'active-pass' : val === 'fail' ? 'active-fail' : 'active-na');
+    }
+    updateAllCalcs();
+  });
+}
+
+// ===== MOISTURE TABLE =====
+function buildMoistureTable() {
+  renderMoistureRows();
+}
+function renderMoistureRows() {
+  const tb = document.getElementById('moisture-tbody');
+  tb.innerHTML = '';
+  state.moisture.forEach((row, i) => {
+    const reading = parseFloat(row.reading);
+    let statusHtml = '<span class="badge" style="background:#e2e8f0;color:#64748b;">—</span>';
+    if (!isNaN(reading)) {
+      if (reading < 16) statusHtml = '<span class="badge badge-good">Good</span>';
+      else if (reading <= 20) statusHtml = '<span class="badge badge-elevated">Elevated</span>';
+      else statusHtml = '<span class="badge badge-high">High</span>';
+    }
+    const tr = document.createElement('tr');
+    tr.className = 'border-t border-surface-200';
+    tr.innerHTML = `<td class="px-3 py-2"><input type="text" value="${row.loc}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-moisture="${i}" data-mf="loc" /></td>
+      <td class="px-3 py-2 text-right"><input type="number" value="${row.reading}" class="w-20 text-right border border-surface-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-accent-200 outline-none" data-moisture="${i}" data-mf="reading" step="0.1" /></td>
+      <td class="px-3 py-2 text-right"><input type="number" value="${row.ref}" class="w-20 text-right border border-surface-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-accent-200 outline-none" data-moisture="${i}" data-mf="ref" step="0.1" /></td>
+      <td class="px-3 py-2 text-center">${statusHtml}</td>`;
+    tb.appendChild(tr);
+  });
+  tb.querySelectorAll('[data-moisture]').forEach(inp => {
+    inp.addEventListener('input', function() {
+      const idx = parseInt(this.dataset.moisture);
+      const field = this.dataset.mf;
+      state.moisture[idx][field] = this.value;
+      renderMoistureRows();
+    });
+  });
+}
+
+// ===== ANOMALY TABLE =====
+function buildAnomalyTable() { renderAnomalyRows(); }
+function renderAnomalyRows() {
+  const tb = document.getElementById('anomaly-tbody');
+  tb.innerHTML = '';
+  state.anomalies.forEach((row, i) => {
+    const mn = parseFloat(row.minT), mx = parseFloat(row.maxT);
+    const delta = (!isNaN(mn) && !isNaN(mx)) ? (mx - mn).toFixed(1) : '';
+    const tr = document.createElement('tr');
+    tr.className = 'border-t border-surface-200';
+    tr.innerHTML = `<td class="px-2 py-1"><input type="text" value="${row.zone||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-anom="${i}" data-af="zone" /></td>
+      <td class="px-2 py-1"><select class="text-xs border border-surface-300 rounded-lg px-1 py-1 bg-white" data-anom="${i}" data-af="type">
+        <option value="">—</option><option ${row.type==='Air Leakage'?'selected':''}>Air Leakage</option><option ${row.type==='Moisture Intrusion'?'selected':''}>Moisture Intrusion</option><option ${row.type==='Missing Insulation'?'selected':''}>Missing Insulation</option><option ${row.type==='Thermal Bridge'?'selected':''}>Thermal Bridge</option><option ${row.type==='Structural Anomaly'?'selected':''}>Structural Anomaly</option><option ${row.type==='Other'?'selected':''}>Other</option>
+      </select></td>
+      <td class="px-2 py-1 text-right"><input type="number" value="${row.minT||''}" class="w-16 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-anom="${i}" data-af="minT" step="0.1" /></td>
+      <td class="px-2 py-1 text-right"><input type="number" value="${row.maxT||''}" class="w-16 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-anom="${i}" data-af="maxT" step="0.1" /></td>
+      <td class="px-2 py-1 text-right font-semibold tabular-nums text-sm">${delta}</td>
+      <td class="px-2 py-1 text-center"><select class="text-xs border border-surface-300 rounded-lg px-1 py-1 bg-white" data-anom="${i}" data-af="severity">
+        <option value="">—</option><option ${row.severity==='Low'?'selected':''}>Low</option><option ${row.severity==='Medium'?'selected':''}>Medium</option><option ${row.severity==='High'?'selected':''}>High</option>
+      </select></td>
+      <td class="px-2 py-1"><input type="text" value="${row.notes||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-anom="${i}" data-af="notes" /></td>
+      <td class="px-2 py-1 no-print"><button class="text-fail-500 hover:text-fail-700 text-xs font-bold" data-del-anom="${i}">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+  
+tb.querySelectorAll('[data-anom]').forEach(el => {
+    el.addEventListener('input', function() { state.anomalies[parseInt(this.dataset.anom)][this.dataset.af] = this.value; });
+    el.addEventListener('change', function() { state.anomalies[parseInt(this.dataset.anom)][this.dataset.af] = this.value; });
+  });
+  tb.querySelectorAll('[data-del-anom]').forEach(b => {
+    b.addEventListener('click', function() { state.anomalies.splice(parseInt(this.dataset.delAnom), 1); renderAnomalyRows(); });
   });
 }
 
@@ -1499,20 +1719,6 @@ function startAutoSave() {
 
 // ===== GLOBAL EVENTS =====
 function bindGlobalEvents() {
-  document.addEventListener('click', function(event) {
-    const button = event.target.closest('.pfn-toggle button');
-    if (!button) return;
-    const toggle = button.closest('.pfn-toggle');
-    const key = button.dataset.key;
-    const value = button.dataset.val;
-    if (!toggle || !key || !value) return;
-    state.pfn[key] = value;
-    toggle.querySelectorAll('button').forEach(item => item.classList.remove('active-pass', 'active-fail', 'active-na'));
-    button.classList.add(`active-${value}`);
-    saveState();
-    updateAllCalcs();
-  });
-
   // Sidebar nav
   document.addEventListener('click', function(e) {
     const btn = e.target.closest('.sidebar-btn');
@@ -1629,11 +1835,15 @@ document.getElementById('csv-file-input')?.addEventListener('change', function(e
   // General input change tracking
   document.addEventListener('input', function(e) {
     if (e.target.matches('[data-field]')) {
+      updateProjectContext();
+      updatePageProjectHeaders();
       updateAllCalcs();
     }
   });
   document.addEventListener('change', function(e) {
     if (e.target.matches('[data-field]')) {
+      updateProjectContext();
+      updatePageProjectHeaders();
       updateAllCalcs();
     }
   });
@@ -1650,18 +1860,6 @@ setTimeout(() => {
     lucide.createIcons();
   }
 }, 100);
-
-(function installNavigationFallbacks() {
-  const menu = document.getElementById('mobile-menu-btn');
-  const close = document.getElementById('mobile-close-btn');
-  const overlay = document.getElementById('mobile-overlay');
-  menu?.addEventListener('click', () => overlay?.classList.remove('hidden'));
-  close?.addEventListener('click', () => overlay?.classList.add('hidden'));
-  overlay?.addEventListener('click', event => {
-    if (event.target === overlay) overlay.classList.add('hidden');
-  });
-})();
-
 </script>
 </body>
 </html>
