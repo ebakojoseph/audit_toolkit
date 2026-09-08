@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inspection Tools Welcome</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          },
+          colors: {
+            navy: {
+              900: '#0f2040',
+              800: '#152a50',
+              700: '#1a3460'
+            },
+            accent: {
+              500: '#1e6fbd',
+              400: '#4797e7',
+              200: '#a3cbf3',
+              100: '#d1e5f9',
+              50: '#e8f2fc'
+            }
+          },
+          boxShadow: {
+            soft: '0 20px 50px rgba(15, 32, 64, 0.12)'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-slate-100 text-slate-900 font-sans">
+  <div class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-navy-900 via-navy-800 to-accent-500"></div>
+    <div class="absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_top_right,white,transparent_35%),radial-gradient(circle_at_bottom_left,white,transparent_25%)]"></div>
+
+    <main class="relative mx-auto flex min-h-screen max-w-6xl items-center px-6 py-12">
+      <div class="grid w-full gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+        <section class="text-white">
+          <div class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium backdrop-blur">
+            <i data-lucide="clipboard-check" class="h-4 w-4 text-accent-200"></i>
+            Building diagnostics workspace
+          </div>
+
+          <h1 class="mt-6 max-w-3xl text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+            Welcome to your inspection toolkit
+          </h1>
+
+          <p class="mt-5 max-w-2xl text-base leading-7 text-slate-200 sm:text-lg">
+            Open your building envelope checklist, organize field inspections, and keep your workflow simple from the first click.
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-3 text-sm text-slate-200">
+            <div class="rounded-full bg-white/10 px-4 py-2 backdrop-blur">Field-ready</div>
+            <div class="rounded-full bg-white/10 px-4 py-2 backdrop-blur">CSV save and restore</div>
+            <div class="rounded-full bg-white/10 px-4 py-2 backdrop-blur">Print-friendly reports</div>
+          </div>
+        </section>
+
+        <section class="rounded-3xl bg-white p-6 shadow-soft sm:p-8">
+          <div class="mb-6">
+            <h2 class="text-2xl font-bold text-navy-900">Choose a tool</h2>
+            <p class="mt-2 text-sm leading-6 text-slate-600">
+              Click Envelop to open your Building Envelope Diagnostic Checklist from GitHub.
+            </p>
+          </div>
+
+          <div class="grid gap-4">
+            <a
+              href="https://github.com/ebakojoseph/audit_toolkit/blob/main/BuildingEnvelopeChecklist.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group block rounded-2xl border border-slate-200 bg-slate-50 p-5 transition hover:-translate-y-0.5 hover:border-accent-200 hover:bg-accent-50 focus:outline-none focus:ring-2 focus:ring-accent-400"
+            >
+              <div class="flex items-start gap-4">
+                <div class="rounded-2xl bg-navy-900 p-3 text-white shadow-md">
+                  <i data-lucide="building-2" class="h-6 w-6"></i>
+                </div>
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center justify-between gap-3">
+                    <h3 class="text-lg font-bold text-navy-900">Envelop</h3>
+                    <span class="inline-flex items-center gap-1 text-sm font-semibold text-accent-500">
+                      Open
+                      <i data-lucide="arrow-up-right" class="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+                    </span>
+                  </div>
+                  <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Open the checklist file in your audit_toolkit GitHub repository.
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900">
+            Note: this GitHub link opens the repository file view. For direct website-style use later, publish the file through GitHub Pages and link to that published URL instead.
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
