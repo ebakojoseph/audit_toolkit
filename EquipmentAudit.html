@@ -1,1 +1,1324 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Equipment Audit</title><style>body{font-family:system-ui;margin:2rem;max-width:1100px}table{width:100%;border-collapse:collapse}td,th{border:1px solid #ccc;padding:.5rem}input,select,textarea{width:100%;box-sizing:border-box}</style></head><body><h1>Residential Equipment Audit</h1><p>Record equipment measurements, annual energy, ratings, recommendations, and M&amp;V data.</p><button onclick="download()">Save project JSON</button><table><thead><tr><th>Category</th><th>Equipment</th><th>Voltage</th><th>Current</th><th>PF</th><th>Hours/year</th><th>Estimated kWh/year</th><th>Status / recommendation</th></tr></thead><tbody id="rows"></tbody></table><script>const items=['Furnace','Boiler','Heat pump','Air conditioner','Lighting','Water heater','Refrigerator','Freezer','Dishwasher','Clothes washer','Clothes dryer','Plug loads','EV charger'];function row(i){return `<tr><td><input value="${items[i]}"></td><td><input></td><td><input type="number" value="120"></td><td><input class="a" type="number"></td><td><input class="pf" type="number" step=".01" value="1"></td><td><input class="h" type="number"></td><td><output class="k"></output></td><td><textarea></textarea></td></tr>`}document.getElementById('rows').innerHTML=items.map((_,i)=>row(i)).join('');document.querySelectorAll('input').forEach(x=>x.addEventListener('input',calc));function calc(){document.querySelectorAll('tr').forEach(r=>{let v=+r.querySelector('input[type=number]')?.value||0;let nums=[...r.querySelectorAll('input[type=number]')].map(x=>+x.value||0);let a=nums[1]||0,pf=nums[2]||1,h=nums[3]||0;let o=r.querySelector('.k');if(o)o.value=(v*a*pf*h/1000).toFixed(1)})}function download(){let b=new Blob([document.documentElement.outerHTML],{type:'text/html'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='EquipmentAudit.html';a.click()}</script></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Equipment Audit</title><style>body{font-family:system-ui;margin:2rem;max-width:1100px}table{width:100%;border-collapse:collapse}td,th{border:1px solid #ccc;padding:.5rem}input,select,textarea{width:100%;box-sizing:border-box}</style></head><body><h1>Residential Equipment Audit</h1><p>Record equipment measurements, annual energy, ratings, recommendations, and M&amp;V data.</p><button onclick="download()">Save project JSON</button><table><thead><tr><th>Category</th><th>Equipment</th><th>Voltage</th><th>Current</th><th>PF</th><th>Hours/year</th><th>Estimated kWh/year</th><th>Status / recommendation</th></tr></thead><tbody id="rows"></tbody></table><script>const items=['Furnace','Boiler','Heat pump','Air conditioner','Lighting','Water heater','Refrigerator','Freezer','Dishwasher','Clothes washer','Clothes dryer','Plug loads','EV charger'];function row(i){return `<tr><td><input value="${items[i]}"></td><td><input></td><td><input type="number" value="120"></td><td><input class="a" type="number"></td><td><input class="pf" type="number" step=".01" value="1"></td><td><input class="h" type="number"></td><td><output class="k"></output></td><td><textarea></textarea></td></tr>`}document.getElementById('rows').innerHTML=items.map((_,i)=>row(i)).join('');document.querySelectorAll('input').forEach(x=>x.addEventListener('input',calc));function calc(){document.querySelectorAll('tr').forEach(r=>{let v=+r.querySelector('input[type=number]')?.value||0;let nums=[...r.querySelectorAll('input[type=number]')].map(x=>+x.value||0);let a=nums[1]||0,pf=nums[2]||1,h=nums[3]||0;let o=r.querySelector('.k');if(o)o.value=(v*a*pf*h/1000).toFixed(1)})}function download(){let b=new Blob([document.documentElement.outerHTML],{type:'text/html'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='EquipmentAudit.html';a.click()}</script></body></html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Equipment Audit</title>
+
+  <style>
+    :root {
+      --navy: #0f2040;
+      --blue: #1d5fa7;
+      --blue-2: #2f7fd0;
+      --blue-light: #e8f2fc;
+      --bg: #f3f6fb;
+      --surface: #ffffff;
+      --border: #d7e0ec;
+      --text: #182538;
+      --muted: #61708a;
+      --green: #287b45;
+      --orange: #ac6900;
+      --red: #b13b3b;
+      --shadow: 0 18px 45px rgba(15, 32, 64, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(180deg, #0f2040 0, #1d5fa7 310px, var(--bg) 680px);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .page {
+      width: min(1500px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 24px 0 50px;
+    }
+
+    .hero {
+      color: white;
+      padding: 28px;
+      border-radius: 24px 24px 0 0;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 14px;
+      border: 1px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.1);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      font-size: clamp(2.2rem, 5vw, 4.4rem);
+      line-height: 1;
+    }
+
+    .hero p {
+      max-width: 860px;
+      margin: 0;
+      color: #e2ecfb;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .workspace {
+      background: var(--surface);
+      border-radius: 0 0 24px 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .section {
+      padding: 22px 26px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section h2 {
+      margin: 0 0 6px;
+      color: var(--navy);
+      font-size: 20px;
+    }
+
+    .section-intro {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 11px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 56px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid #9dc9f2;
+      border-color: var(--blue);
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 15px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: white;
+      color: var(--navy);
+    }
+
+    .secondary {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.3);
+      color: white;
+    }
+
+    .blue-button {
+      background: var(--blue);
+      color: white;
+    }
+
+    .light-button {
+      background: var(--blue-light);
+      color: var(--navy);
+      border: 1px solid #bfd9f2;
+    }
+
+    .danger-button {
+      background: #fff0f0;
+      color: var(--red);
+      border: 1px solid #f0c6c6;
+      padding: 7px 10px;
+      font-size: 12px;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .tab {
+      background: #edf3fa;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .tab.active {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: white;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .panel-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .panel-heading h3 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 18px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 1350px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+      font-size: 13px;
+    }
+
+    th {
+      background: var(--blue-light);
+      color: var(--navy);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .calculated {
+      display: inline-block;
+      min-width: 85px;
+      padding: 10px 8px;
+      border-radius: 8px;
+      background: #f0f7ff;
+      color: var(--blue);
+      font-weight: 800;
+      text-align: right;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .metric {
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #f9fbfe;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .metric-value {
+      margin-top: 5px;
+      color: var(--navy);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .utility-table {
+      min-width: 850px;
+    }
+
+    .utility-table input {
+      min-width: 110px;
+    }
+
+    .status-good {
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .status-warn {
+      color: var(--orange);
+      font-weight: 800;
+    }
+
+    .status-bad {
+      color: var(--red);
+      font-weight: 800;
+    }
+
+    .footer-note {
+      padding: 18px 26px 24px;
+      background: #f8fbff;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1000px) {
+      .form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .summary-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .workspace {
+        border-radius: 0;
+      }
+
+      .section,
+      .hero,
+      .footer-note {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .form-grid,
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .hero {
+        background: var(--navy);
+      }
+
+      .hero-actions,
+      .tabs,
+      button,
+      .delete-cell {
+        display: none !important;
+      }
+
+      .workspace {
+        box-shadow: none;
+      }
+
+      .tab-panel {
+        display: block !important;
+      }
+
+      .table-wrap {
+        overflow: visible;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header class="hero">
+      <span class="eyebrow">Building diagnostics workspace</span>
+      <h1>Equipment</h1>
+      <p>
+        Record equipment inventory, nameplate ratings, measured performance,
+        estimated energy use, utility consumption, and recommendations for
+        residential, commercial, institutional, and industrial facilities.
+      </p>
+
+      <div class="hero-actions">
+        <button class="primary" id="saveButton">Save project</button>
+        <button class="secondary" id="openButton">Open project</button>
+        <button class="secondary" id="printButton">Print</button>
+        <input id="fileInput" type="file" accept="application/json" hidden>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="section">
+        <h2>Project information</h2>
+        <p class="section-intro">
+          These fields identify the facility and provide the basis for the
+          utility-bill comparison.
+        </p>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="client">Client / organization</label>
+            <input id="client" data-project="client">
+          </div>
+
+          <div class="field">
+            <label for="facility">Facility name</label>
+            <input id="facility" data-project="facility">
+          </div>
+
+          <div class="field">
+            <label for="address">Facility address</label>
+            <input id="address" data-project="address">
+          </div>
+
+          <div class="field">
+            <label for="auditDate">Audit date</label>
+            <input id="auditDate" type="date" data-project="auditDate">
+          </div>
+
+          <div class="field">
+            <label for="auditor">Auditor</label>
+            <input id="auditor" data-project="auditor">
+          </div>
+
+          <div class="field">
+            <label for="floorArea">Gross floor area</label>
+            <input id="floorArea" type="number" step="0.01" data-project="floorArea">
+          </div>
+
+          <div class="field">
+            <label for="areaUnit">Area unit</label>
+            <select id="areaUnit" data-project="areaUnit">
+              <option value="">Select</option>
+              <option>m²</option>
+              <option>ft²</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="facilityType">Facility type</label>
+            <input id="facilityType" data-project="facilityType" placeholder="Office, retail, school...">
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Equipment inventory</h2>
+        <p class="section-intro">
+          Add nameplate information where available. Estimated annual energy is
+          based on quantity × nameplate power × load factor × operating hours.
+          Measured energy should replace the estimate when reliable metering is
+          available.
+        </p>
+
+        <div class="tabs" id="equipmentTabs"></div>
+        <div id="equipmentPanels"></div>
+
+        <div class="summary-grid">
+          <div class="metric">
+            <div class="metric-label">Estimated electricity</div>
+            <div class="metric-value"><span id="estimatedTotal">0</span> kWh/y</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-label">Measured equipment energy</div>
+            <div class="metric-value"><span id="measuredTotal">0</span> kWh/y</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-label">Utility electricity</div>
+            <div class="metric-value"><span id="utilityTotal">0</span> kWh/y</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-label">Estimated gap</div>
+            <div class="metric-value"><span id="gapTotal">0</span> kWh/y</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-label">Estimated EUI</div>
+            <div class="metric-value"><span id="euiTotal">0</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Facility utility consumption</h2>
+        <p class="section-intro">
+          Enter actual utility-bill consumption here. The equipment estimate
+          will be compared with facility electricity consumption. Add gas,
+          steam, fuel oil, water, or other energy carriers as required.
+        </p>
+
+        <div class="panel-heading">
+          <h3>Electricity bills</h3>
+          <button class="blue-button" id="addElectricityBill">+ Add billing period</button>
+        </div>
+
+        <div class="table-wrap">
+          <table class="utility-table">
+            <thead>
+              <tr>
+                <th>Period</th>
+                <th>Start date</th>
+                <th>End date</th>
+                <th>Consumption (kWh)</th>
+                <th>Peak demand (kW)</th>
+                <th>Cost</th>
+                <th>Actual / estimated</th>
+                <th>Notes</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="electricityBills"></tbody>
+          </table>
+        </div>
+
+        <div class="panel-heading" style="margin-top:24px;">
+          <h3>Other utility bills</h3>
+          <button class="blue-button" id="addOtherBill">+ Add utility period</button>
+        </div>
+
+        <div class="table-wrap">
+          <table class="utility-table">
+            <thead>
+              <tr>
+                <th>Energy carrier</th>
+                <th>Period</th>
+                <th>Consumption</th>
+                <th>Unit</th>
+                <th>Cost</th>
+                <th>Actual / estimated</th>
+                <th>Notes</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="otherBills"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Comparison and recommendations</h2>
+        <p class="section-intro">
+          Use the comparison to identify unexplained gaps, missing end uses,
+          incorrect operating assumptions, metering opportunities, and
+          potential energy-conservation measures.
+        </p>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="baselinePeriod">Baseline period</label>
+            <input id="baselinePeriod" data-analysis="baselinePeriod" placeholder="e.g., Jan-Dec 2025">
+          </div>
+
+          <div class="field">
+            <label for="comparisonNote">Comparison notes</label>
+            <input id="comparisonNote" data-analysis="comparisonNote">
+          </div>
+
+          <div class="field">
+            <label for="recommendation">Primary recommendation</label>
+            <input id="recommendation" data-analysis="recommendation">
+          </div>
+
+          <div class="field">
+            <label for="mvPlan">M&V plan</label>
+            <input id="mvPlan" data-analysis="mvPlan" placeholder="Utility bills, submeter, logger...">
+          </div>
+        </div>
+
+        <div style="margin-top:16px;" class="field">
+          <label for="analysisNotes">Analysis notes</label>
+          <textarea id="analysisNotes" data-analysis="analysisNotes"></textarea>
+        </div>
+      </section>
+
+      <div class="footer-note">
+        Measurement warning: current and voltage measurements involving panels,
+        disconnects, or live conductors must be performed only by a qualified
+        person using appropriately rated instruments and safe work procedures.
+        Current-only readings should not be treated as real power where power
+        factor or load cycling is significant.
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "equipment_audit_v2";
+
+    const fixedTabs = [
+      { id: "furnace", label: "Furnace" },
+      { id: "boiler", label: "Boiler" },
+      { id: "heatPump", label: "Heat Pump" },
+      { id: "ac", label: "AC" },
+      { id: "ventilation", label: "Ventilation" },
+      { id: "appliances", label: "Appliances" },
+      { id: "lighting", label: "Lighting" }
+    ];
+
+    const equipmentTemplates = {
+      furnace: ["Furnace"],
+      boiler: ["Boiler"],
+      heatPump: ["Heat pump"],
+      ac: ["Air conditioner"],
+      ventilation: ["Air-handling unit", "Exhaust fan", "Supply fan", "Return fan"],
+      appliances: ["Refrigerator", "Freezer", "Dishwasher", "Laundry machine", "Clothes dryer"],
+      lighting: ["Lighting load"]
+    };
+
+    function blankEquipment(name) {
+      return {
+        name,
+        location: "",
+        quantity: 1,
+        power: "",
+        powerUnit: "W",
+        loadFactor: 1,
+        hoursDay: "",
+        daysYear: 365,
+        measuredKwh: "",
+        measuredAmps: "",
+        measuredVolts: "",
+        powerFactor: 1,
+        efficiencyType: "",
+        efficiencyValue: "",
+        condition: "",
+        recommendation: "",
+        notes: ""
+      };
+    }
+
+    function defaultState() {
+      const equipment = {};
+
+      fixedTabs.forEach(tab => {
+        equipment[tab.id] = equipmentTemplates[tab.id].map(name => blankEquipment(name));
+      });
+
+      return {
+        project: {
+          client: "",
+          facility: "",
+          address: "",
+          auditDate: "",
+          auditor: "",
+          floorArea: "",
+          areaUnit: "",
+          facilityType: ""
+        },
+        activeTab: "furnace",
+        equipment,
+        electricityBills: [],
+        otherBills: [],
+        analysis: {
+          baselinePeriod: "",
+          comparisonNote: "",
+          recommendation: "",
+          mvPlan: "",
+          analysisNotes: ""
+        }
+      };
+    }
+
+    let state = loadState();
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return defaultState();
+
+        const loaded = JSON.parse(saved);
+        return mergeState(defaultState(), loaded);
+      } catch (error) {
+        return defaultState();
+      }
+    }
+
+    function mergeState(base, loaded) {
+      const merged = structuredClone(base);
+
+      if (loaded.project) {
+        merged.project = {
+          ...merged.project,
+          ...loaded.project
+        };
+      }
+
+      if (loaded.analysis) {
+        merged.analysis = {
+          ...merged.analysis,
+          ...loaded.analysis
+        };
+      }
+
+      if (loaded.activeTab) {
+        merged.activeTab = loaded.activeTab;
+      }
+
+      if (loaded.equipment) {
+        Object.keys(merged.equipment).forEach(tabId => {
+          if (Array.isArray(loaded.equipment[tabId])) {
+            merged.equipment[tabId] = loaded.equipment[tabId].map(row => ({
+              ...blankEquipment(row.name || "Equipment"),
+              ...row
+            }));
+          }
+        });
+      }
+
+      if (Array.isArray(loaded.electricityBills)) {
+        merged.electricityBills = loaded.electricityBills;
+      }
+
+      if (Array.isArray(loaded.otherBills)) {
+        merged.otherBills = loaded.otherBills;
+      }
+
+      return merged;
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      updateSummary();
+    }
+
+    function number(value) {
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : 0;
+    }
+
+    function annualEstimate(row) {
+      const powerKw = row.powerUnit === "kW"
+        ? number(row.power)
+        : number(row.power) / 1000;
+
+      return (
+        number(row.quantity) *
+        powerKw *
+        number(row.loadFactor) *
+        number(row.hoursDay) *
+        number(row.daysYear)
+      );
+    }
+
+    function measuredEstimate(row) {
+      if (number(row.measuredKwh) > 0) {
+        return number(row.measuredKwh);
+      }
+
+      const volts = number(row.measuredVolts);
+      const amps = number(row.measuredAmps);
+      const pf = number(row.powerFactor) || 1;
+      const hours = number(row.hoursDay) * number(row.daysYear);
+
+      if (volts > 0 && amps > 0 && hours > 0) {
+        return volts * amps * pf * hours / 1000;
+      }
+
+      return 0;
+    }
+
+    function format(value) {
+      return number(value).toLocaleString(undefined, {
+        maximumFractionDigits: 1
+      });
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function renderTabs() {
+      const tabs = document.getElementById("equipmentTabs");
+      const panels = document.getElementById("equipmentPanels");
+
+      tabs.innerHTML = fixedTabs.map(tab => `
+        <button class="tab ${state.activeTab === tab.id ? "active" : ""}"
+          type="button" data-tab-button="${tab.id}">
+          ${tab.label}
+        </button>
+      `).join("");
+
+      panels.innerHTML = fixedTabs.map(tab => {
+        if (tab.id === "appliances") return appliancePanel(tab);
+        if (tab.id === "lighting") return lightingPanel(tab);
+        return majorEquipmentPanel(tab);
+      }).join("");
+
+      document.querySelectorAll("[data-tab-button]").forEach(button => {
+        button.addEventListener("click", () => {
+          state.activeTab = button.dataset.tabButton;
+          saveState();
+          renderTabs();
+        });
+      });
+
+      bindEquipmentInputs();
+      bindAddButtons();
+    }
+
+    function majorEquipmentPanel(tab) {
+      return `
+        <div class="tab-panel ${state.activeTab === tab.id ? "active" : ""}">
+          <div class="panel-heading">
+            <div>
+              <h3>${tab.label}</h3>
+              <div class="note">
+                Add nameplate power, operating assumptions, and measured data where available.
+              </div>
+            </div>
+            <button class="light-button" data-add-equipment="${tab.id}" type="button">
+              + Add ${tab.label}
+            </button>
+          </div>
+          ${equipmentTable(tab.id)}
+        </div>
+      `;
+    }
+
+    function appliancePanel(tab) {
+      return `
+        <div class="tab-panel ${state.activeTab === tab.id ? "active" : ""}">
+          <div class="panel-heading">
+            <div>
+              <h3>Appliances</h3>
+              <div class="note">
+                Record major appliances and add additional units as required.
+              </div>
+            </div>
+            <button class="light-button" data-add-equipment="appliances" type="button">
+              + Add appliance
+            </button>
+          </div>
+          ${equipmentTable("appliances")}
+        </div>
+      `;
+    }
+
+    function lightingPanel(tab) {
+      return `
+        <div class="tab-panel ${state.activeTab === tab.id ? "active" : ""}">
+          <div class="panel-heading">
+            <div>
+              <h3>Lighting loads</h3>
+              <div class="note">
+                Use one row for each fixture group or lighting circuit.
+              </div>
+            </div>
+            <button class="light-button" data-add-equipment="lighting" type="button">
+              + Add lighting load
+            </button>
+          </div>
+          ${equipmentTable("lighting")}
+        </div>
+      `;
+    }
+
+    function equipmentTable(tabId) {
+      const rows = state.equipment[tabId] || [];
+
+      return `
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Equipment / load</th>
+                <th>Location</th>
+                <th>Qty</th>
+                <th>Nameplate power</th>
+                <th>Unit</th>
+                <th>Load factor</th>
+                <th>Hours/day</th>
+                <th>Days/year</th>
+                <th>Estimated kWh/year</th>
+                <th>Measured kWh/year</th>
+                <th>Measured V</th>
+                <th>Measured A</th>
+                <th>PF</th>
+                <th>Efficiency type/value</th>
+                <th>Condition</th>
+                <th>Recommendation</th>
+                <th>Notes</th>
+                <th class="delete-cell"></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map((row, index) => equipmentRow(tabId, row, index)).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function equipmentRow(tabId, row, index) {
+      const estimate = annualEstimate(row);
+      const measured = measuredEstimate(row);
+
+      return `
+        <tr data-equipment-row="${tabId}:${index}">
+          <td>
+            <input data-eq="${tabId}" data-index="${index}" data-field="name"
+              value="${escapeHtml(row.name)}">
+          </td>
+
+          <td>
+            <input data-eq="${tabId}" data-index="${index}" data-field="location"
+              value="${escapeHtml(row.location)}">
+          </td>
+
+          <td>
+            <input type="number" min="0" step="1"
+              data-eq="${tabId}" data-index="${index}" data-field="quantity"
+              value="${escapeHtml(row.quantity)}">
+          </td>
+
+          <td>
+            <input type="number" min="0" step="0.01"
+              data-eq="${tabId}" data-index="${index}" data-field="power"
+              value="${escapeHtml(row.power)}">
+          </td>
+
+          <td>
+            <select data-eq="${tabId}" data-index="${index}" data-field="powerUnit">
+              <option ${row.powerUnit === "W" ? "selected" : ""}>W</option>
+              <option ${row.powerUnit === "kW" ? "selected" : ""}>kW</option>
+            </select>
+          </td>
+
+          <td>
+            <input type="number" min="0" max="1" step="0.01"
+              data-eq="${tabId}" data-index="${index}" data-field="loadFactor"
+              value="${escapeHtml(row.loadFactor)}">
+          </td>
+
+          <td>
+            <input type="number" min="0" step="0.1"
+              data-eq="${tabId}" data-index="${index}" data-field="hoursDay"
+              value="${escapeHtml(row.hoursDay)}">
+          </td>
+
+          <td>
+            <input type="number" min="0" step="1"
+              data-eq="${tabId}" data-index="${index}" data-field="daysYear"
+              value="${escapeHtml(row.daysYear)}">
+          </td>
+
+          <td>
+            <output class="calculated">${format(estimate)}</output>
+          </td>
+
+          <td>
+            <input type="number" min="0" step="0.1"
+              data-eq="${tabId}" data-index="${index}" data-field="measuredKwh"
+              value="${escapeHtml(row.measuredKwh)}">
+            <div class="note">Measured takes priority</div>
+          </td>
+
+          <td>
+            <input type="number" min="0" step="0.1"
+              data-eq="${tabId}" data-index="${index}" data-field="measuredVolts"
+              value="${escapeHtml(row.measuredVolts)}">
+          </td>
+
+          <td>
+            <input type="number" min="0" step="0.01"
+              data-eq="${tabId}" data-index="${index}" data-field="measuredAmps"
+              value="${escapeHtml(row.measuredAmps)}">
+          </td>
+
+          <td>
+            <input type="number" min="0" max="1" step="0.01"
+              data-eq="${tabId}" data-index="${index}" data-field="powerFactor"
+              value="${escapeHtml(row.powerFactor)}">
+          </td>
+
+          <td>
+            <input placeholder="AFUE, COP, SEER, EF..."
+              data-eq="${tabId}" data-index="${index}" data-field="efficiencyType"
+              value="${escapeHtml(row.efficiencyType)}">
+            <input placeholder="Value"
+              data-eq="${tabId}" data-index="${index}" data-field="efficiencyValue"
+              value="${escapeHtml(row.efficiencyValue)}">
+          </td>
+
+          <td>
+            <input data-eq="${tabId}" data-index="${index}" data-field="condition"
+              value="${escapeHtml(row.condition)}">
+          </td>
+
+          <td>
+            <textarea data-eq="${tabId}" data-index="${index}" data-field="recommendation">${escapeHtml(row.recommendation)}</textarea>
+          </td>
+
+          <td>
+            <textarea data-eq="${tabId}" data-index="${index}" data-field="notes">${escapeHtml(row.notes)}</textarea>
+          </td>
+
+          <td class="delete-cell">
+            <button class="danger-button" data-delete-equipment="${tabId}" data-index="${index}" type="button">
+              Delete
+            </button>
+          </td>
+        </tr>
+      `;
+    }
+
+    function bindEquipmentInputs() {
+      document.querySelectorAll("[data-eq]").forEach(element => {
+        element.addEventListener("input", updateEquipmentValue);
+        element.addEventListener("change", updateEquipmentValue);
+      });
+
+      document.querySelectorAll("[data-delete-equipment]").forEach(button => {
+        button.addEventListener("click", () => {
+          const tabId = button.dataset.deleteEquipment;
+          const index = Number(button.dataset.index);
+
+          if (state.equipment[tabId].length <= 1) {
+            alert("Keep at least one row in this tab.");
+            return;
+          }
+
+          state.equipment[tabId].splice(index, 1);
+          saveState();
+          renderTabs();
+        });
+      });
+    }
+
+    function updateEquipmentValue(event) {
+      const element = event.target;
+      const tabId = element.dataset.eq;
+      const index = Number(element.dataset.index);
+      const field = element.dataset.field;
+
+      state.equipment[tabId][index][field] = element.value;
+      saveState();
+
+      const rowElement = document.querySelector(
+        `[data-equipment-row="${tabId}:${index}"]`
+      );
+
+      if (rowElement) {
+        const row = state.equipment[tabId][index];
+        const outputs = rowElement.querySelectorAll("output");
+
+        if (outputs[0]) {
+          outputs[0].textContent = format(annualEstimate(row));
+        }
+      }
+    }
+
+    function bindAddButtons() {
+      document.querySelectorAll("[data-add-equipment]").forEach(button => {
+        button.addEventListener("click", () => {
+          const tabId = button.dataset.addEquipment;
+          const defaultName = tabId === "lighting"
+            ? "Lighting load"
+            : tabId === "appliances"
+              ? "Appliance"
+              : fixedTabs.find(tab => tab.id === tabId)?.label || "Equipment";
+
+          state.equipment[tabId].push(blankEquipment(defaultName));
+          state.activeTab = tabId;
+          saveState();
+          renderTabs();
+        });
+      });
+    }
+
+    function renderElectricityBills() {
+      const body = document.getElementById("electricityBills");
+
+      body.innerHTML = state.electricityBills.map((bill, index) => `
+        <tr>
+          <td><input data-electricity="${index}" data-field="period" value="${escapeHtml(bill.period)}"></td>
+          <td><input type="date" data-electricity="${index}" data-field="start" value="${escapeHtml(bill.start)}"></td>
+          <td><input type="date" data-electricity="${index}" data-field="end" value="${escapeHtml(bill.end)}"></td>
+          <td><input type="number" step="0.1" data-electricity="${index}" data-field="kwh" value="${escapeHtml(bill.kwh)}"></td>
+          <td><input type="number" step="0.01" data-electricity="${index}" data-field="kw" value="${escapeHtml(bill.kw)}"></td>
+          <td><input type="number" step="0.01" data-electricity="${index}" data-field="cost" value="${escapeHtml(bill.cost)}"></td>
+          <td>
+            <select data-electricity="${index}" data-field="quality">
+              <option ${bill.quality === "Actual" ? "selected" : ""}>Actual</option>
+              <option ${bill.quality === "Estimated" ? "selected" : ""}>Estimated</option>
+            </select>
+          </td>
+          <td><input data-electricity="${index}" data-field="notes" value="${escapeHtml(bill.notes)}"></td>
+          <td><button class="danger-button" data-delete-electricity="${index}" type="button">Delete</button></td>
+        </tr>
+      `).join("");
+
+      body.querySelectorAll("[data-electricity]").forEach(element => {
+        element.addEventListener("input", updateElectricityBill);
+        element.addEventListener("change", updateElectricityBill);
+      });
+
+      body.querySelectorAll("[data-delete-electricity]").forEach(button => {
+        button.addEventListener("click", () => {
+          state.electricityBills.splice(Number(button.dataset.deleteElectricity), 1);
+          saveState();
+          renderElectricityBills();
+        });
+      });
+    }
+
+    function updateElectricityBill(event) {
+      const element = event.target;
+      state.electricityBills[Number(element.dataset.electricity)][element.dataset.field] = element.value;
+      saveState();
+    }
+
+    function renderOtherBills() {
+      const body = document.getElementById("otherBills");
+
+      body.innerHTML = state.otherBills.map((bill, index) => `
+        <tr>
+          <td><input data-other="${index}" data-field="carrier" value="${escapeHtml(bill.carrier)}" placeholder="Natural gas, steam..."></td>
+          <td><input data-other="${index}" data-field="period" value="${escapeHtml(bill.period)}"></td>
+          <td><input type="number" step="0.01" data-other="${index}" data-field="consumption" value="${escapeHtml(bill.consumption)}"></td>
+          <td><input data-other="${index}" data-field="unit" value="${escapeHtml(bill.unit)}" placeholder="GJ, m³, L..."></td>
+          <td><input type="number" step="0.01" data-other="${index}" data-field="cost" value="${escapeHtml(bill.cost)}"></td>
+          <td>
+            <select data-other="${index}" data-field="quality">
+              <option ${bill.quality === "Actual" ? "selected" : ""}>Actual</option>
+              <option ${bill.quality === "Estimated" ? "selected" : ""}>Estimated</option>
+            </select>
+          </td>
+          <td><input data-other="${index}" data-field="notes" value="${escapeHtml(bill.notes)}"></td>
+          <td><button class="danger-button" data-delete-other="${index}" type="button">Delete</button></td>
+        </tr>
+      `).join("");
+
+      body.querySelectorAll("[data-other]").forEach(element => {
+        element.addEventListener("input", updateOtherBill);
+        element.addEventListener("change", updateOtherBill);
+      });
+
+      body.querySelectorAll("[data-delete-other]").forEach(button => {
+        button.addEventListener("click", () => {
+          state.otherBills.splice(Number(button.dataset.deleteOther), 1);
+          saveState();
+          renderOtherBills();
+        });
+      });
+    }
+
+    function updateOtherBill(event) {
+      const element = event.target;
+      state.otherBills[Number(element.dataset.other)][element.dataset.field] = element.value;
+      saveState();
+    }
+
+    function totalUtilityKwh() {
+      return state.electricityBills.reduce((sum, bill) => sum + number(bill.kwh), 0);
+    }
+
+    function updateSummary() {
+      const allRows = Object.values(state.equipment).flat();
+
+      const estimated = allRows.reduce((sum, row) => sum + annualEstimate(row), 0);
+      const measured = allRows.reduce((sum, row) => sum + measuredEstimate(row), 0);
+      const utility = totalUtilityKwh();
+      const gap = utility - estimated;
+
+      const area = number(state.project.floorArea);
+      const eui = area > 0 ? utility / area : 0;
+
+      document.getElementById("estimatedTotal").textContent = format(estimated);
+      document.getElementById("measuredTotal").textContent = format(measured);
+      document.getElementById("utilityTotal").textContent = format(utility);
+      document.getElementById("gapTotal").textContent = format(gap);
+      document.getElementById("euiTotal").textContent = area > 0
+        ? `${format(eui)} kWh/${state.project.areaUnit || "area-y"}`
+        : "0";
+    }
+
+    function bindProjectFields() {
+      document.querySelectorAll("[data-project]").forEach(element => {
+        element.value = state.project[element.dataset.project] || "";
+
+        element.addEventListener("input", () => {
+          state.project[element.dataset.project] = element.value;
+          saveState();
+        });
+
+        element.addEventListener("change", () => {
+          state.project[element.dataset.project] = element.value;
+          saveState();
+        });
+      });
+
+      document.querySelectorAll("[data-analysis]").forEach(element => {
+        element.value = state.analysis[element.dataset.analysis] || "";
+
+        element.addEventListener("input", () => {
+          state.analysis[element.dataset.analysis] = element.value;
+          saveState();
+        });
+      });
+    }
+
+    function exportProject() {
+      const fileName = (state.project.facility || "equipment-audit")
+        .replace(/[^a-z0-9_-]+/gi, "-")
+        .replace(/^-|-$/g, "");
+
+      const blob = new Blob(
+        [JSON.stringify(state, null, 2)],
+        { type: "application/json" }
+      );
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `${fileName || "equipment-audit"}-project.json`;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+
+    function importProject(text) {
+      try {
+        state = mergeState(defaultState(), JSON.parse(text));
+        saveState();
+        bindProjectFields();
+        renderTabs();
+        renderElectricityBills();
+        renderOtherBills();
+      } catch (error) {
+        alert("The selected file is not a valid Equipment project JSON file.");
+      }
+    }
+
+    document.getElementById("saveButton").addEventListener("click", exportProject);
+
+    document.getElementById("openButton").addEventListener("click", () => {
+      document.getElementById("fileInput").click();
+    });
+
+    document.getElementById("fileInput").addEventListener("change", event => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => importProject(reader.result);
+      reader.readAsText(file);
+      event.target.value = "";
+    });
+
+    document.getElementById("printButton").addEventListener("click", () => {
+      window.print();
+    });
+
+    document.getElementById("addElectricityBill").addEventListener("click", () => {
+      state.electricityBills.push({
+        period: "",
+        start: "",
+        end: "",
+        kwh: "",
+        kw: "",
+        cost: "",
+        quality: "Actual",
+        notes: ""
+      });
+
+      saveState();
+      renderElectricityBills();
+    });
+
+    document.getElementById("addOtherBill").addEventListener("click", () => {
+      state.otherBills.push({
+        carrier: "",
+        period: "",
+        consumption: "",
+        unit: "",
+        cost: "",
+        quality: "Actual",
+        notes: ""
+      });
+
+      saveState();
+      renderOtherBills();
+    });
+
+    bindProjectFields();
+    renderTabs();
+    renderElectricityBills();
+    renderOtherBills();
+    updateSummary();
+  </script>
+</body>
+</html>
