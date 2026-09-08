@@ -1,57 +1,3052 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Equipment Audit</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://unpkg.com/lucide@latest" defer></script>
-<style>
-:root{--navy:#0f2040;--accent:#1e6fbd;--surface:#f1f5f9;--border:#e2e8f0;--muted:#64748b;--warn:#f59e0b;--pass:#22c55e}*{box-sizing:border-box}body{margin:0;background:var(--surface);font-family:Inter,Arial,sans-serif;color:#1e293b}input,select,textarea{font:inherit}.sidebar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}.dot-grey{background:#cbd5e1}.dot-yellow{background:#f59e0b}.dot-green{background:#22c55e}.section-panel{display:none}.section-panel.active{display:block}.card{background:#fff;border-radius:1rem;padding:1.25rem;box-shadow:0 1px 3px #0f20401a}.field{width:100%;border:1px solid #cbd5e1;border-radius:.75rem;padding:.5rem .75rem;font-size:.875rem;outline:none}.field:focus{border-color:#4797e7;box-shadow:0 0 0 3px #d1e5f9}.stat-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center}.stat-val{font-size:24px;font-weight:700;color:var(--navy)}.stat-lbl{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-top:4px}.table-input{width:100%;border:0;background:transparent;padding:5px;font-size:13px;outline:none}.table-input:focus{background:#f8fafc;border-radius:6px}.tab-btn{border:1px solid #cbd5e1;background:#f8fafc;color:#475569;padding:.55rem .8rem;border-radius:.65rem;font-size:.8rem;font-weight:600}.tab-btn.active{background:#1e6fbd;color:#fff;border-color:#1e6fbd}.toast{position:fixed;bottom:20px;right:20px;background:#0f2040;color:#fff;padding:8px 16px;border-radius:10px;font-size:13px;opacity:0;transition:opacity .3s;z-index:9999}.toast.show{opacity:1}@media print{.no-print,.sidebar,header,#bottom-bar{display:none!important}.section-panel{display:block!important;page-break-before:always}main{margin:0!important;padding:0!important}.card{box-shadow:none;border:1px solid #ddd}}
-</style></head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Equipment Audit</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script
+    src="https://unpkg.com/lucide@latest"
+    defer
+  ></script>
+
+  <style>
+    :root {
+      --navy: #0f2040;
+      --accent: #1e6fbd;
+      --surface: #f1f5f9;
+      --border: #e2e8f0;
+      --muted: #64748b;
+      --warn: #f59e0b;
+      --pass: #22c55e;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--surface);
+      font-family: Inter, Arial, sans-serif;
+      color: #1e293b;
+    }
+
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .sidebar-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .dot-grey {
+      background: #cbd5e1;
+    }
+
+    .dot-yellow {
+      background: #f59e0b;
+    }
+
+    .dot-green {
+      background: #22c55e;
+    }
+
+    .section-panel {
+      display: none;
+    }
+
+    .section-panel.active {
+      display: block;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 1rem;
+      padding: 1.25rem;
+      box-shadow: 0 1px 3px #0f20401a;
+    }
+
+    .field {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+      outline: none;
+      background: #fff;
+    }
+
+    .field:focus {
+      border-color: #4797e7;
+      box-shadow: 0 0 0 3px #d1e5f9;
+    }
+
+    .field[readonly],
+    .field:disabled {
+      background: #f8fafc;
+      color: #475569;
+      cursor: not-allowed;
+    }
+
+    .stat-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .stat-lbl {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+    }
+
+    .table-input {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      padding: 5px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .table-input:focus {
+      background: #f8fafc;
+      border-radius: 6px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge-good {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .badge-poor {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #0f2040;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 9999;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    @media print {
+      .no-print,
+      .sidebar,
+      header,
+      #bottom-bar {
+        display: none !important;
+      }
+
+      .section-panel {
+        display: block !important;
+        page-break-before: always;
+      }
+
+      main {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+      }
+    }
+  </style>
+</head>
+
+
 <body>
-<header class="fixed top-0 left-0 right-0 z-50 bg-[#0f2040] text-white shadow-lg h-[60px]"><div class="flex items-center h-full px-4 gap-3"><button id="mobile-menu" class="md:hidden p-2"><i data-lucide="menu"></i></button><i data-lucide="plug-zap" class="w-5 h-5 text-blue-300"></i><span class="font-bold text-sm md:text-base whitespace-nowrap">Equipment Audit</span><div class="flex-1 hidden sm:flex items-center gap-2 mx-4"><div class="flex-1 bg-[#1a3460] rounded-full h-2.5 overflow-hidden"><div id="progress-fill" class="h-full bg-[#4797e7] rounded-full" style="width:0%"></div></div><span id="progress-pct" class="text-xs font-semibold text-blue-200">0%</span></div><div class="flex items-center gap-2 ml-auto"><button id="btn-print" class="bg-[#1e6fbd] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"><i data-lucide="printer" class="inline w-3.5 h-3.5"></i><span class="hidden sm:inline"> Print</span></button><button id="btn-save" class="bg-[#1e6fbd] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"><i data-lucide="download" class="inline w-3.5 h-3.5"></i><span class="hidden sm:inline"> Save CSV</span></button><button id="btn-open" class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"><i data-lucide="upload" class="inline w-3.5 h-3.5"></i><span class="hidden sm:inline"> Open CSV</span></button><button id="btn-reset" class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"><i data-lucide="rotate-ccw" class="inline w-3.5 h-3.5"></i><span class="hidden sm:inline"> Reset</span></button><input id="file-input" type="file" accept=".csv,text/csv" hidden></div></div></header>
-<div class="flex flex-1 pt-[60px] min-h-screen">
-<aside id="sidebar" class="hidden md:flex flex-col w-56 lg:w-60 bg-[#0f2040] text-white fixed top-[60px] bottom-0 left-0 z-40 overflow-y-auto"><nav id="sidebar-nav" class="flex flex-col py-3 px-2 gap-0.5"></nav><div class="mt-auto p-4 border-t border-[#1a3460] text-[10px] text-slate-400 text-center">Equipment Audit Tool<br>v1.0</div></aside>
-<div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-50 hidden"><aside class="w-72 bg-[#0f2040] text-white h-full"><div class="flex justify-between p-4 border-b border-[#1a3460]"><b>Sections</b><button id="mobile-close">✕</button></div><nav id="mobile-nav" class="flex flex-col py-3 px-2"></nav></aside></div>
-<main id="main" class="flex-1 md:ml-56 lg:ml-60 p-4 md:p-6 pb-20 overflow-y-auto">
-<section class="section-panel active" data-section="0"><div class="mb-1"><h2 class="text-xl font-bold text-[#0f2040] flex items-center gap-2"><i data-lucide="building-2" class="w-5 h-5 text-[#1e6fbd]"></i>Site Information</h2><p id="completion-0" class="text-xs text-slate-500 mt-1"></p></div><div class="card mt-3"><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><label class="text-xs font-semibold">Date of Audit<input type="date" data-field="auditDate" class="field mt-1"></label><label class="text-xs font-semibold">Auditor Name<input data-field="auditor" class="field mt-1"></label><label class="text-xs font-semibold">Client / Organization<input data-field="client" class="field mt-1"></label><label class="text-xs font-semibold">Facility Name / Project ID<input data-field="facility" class="field mt-1"></label><label class="text-xs font-semibold">Street Address<input data-field="address" class="field mt-1"></label><label class="text-xs font-semibold">City / Province / State<input data-field="location" class="field mt-1"></label><label class="text-xs font-semibold">Facility Type<select data-field="facilityType" class="field mt-1"><option></option><option>Commercial</option><option>Industrial</option><option>Institutional</option><option>Multi-Unit Residential</option><option>Single-Family Residential</option><option>Mixed-Use</option></select></label><label class="text-xs font-semibold">Gross Floor Area<input type="number" data-field="floorArea" class="field mt-1"></label><label class="text-xs font-semibold">Area Unit<select data-field="areaUnit" class="field mt-1"><option>m²</option><option>ft²</option></select></label><label class="text-xs font-semibold">Number of Stories<input type="number" data-field="stories" class="field mt-1"></label><label class="text-xs font-semibold md:col-span-2">Notes / Special Conditions<textarea data-field="siteNotes" rows="3" class="field mt-1"></textarea></label></div></div></section>
-<section class="section-panel" data-section="1"><section-header title="Furnace" icon="flame" index="1"></section-header><div id="panel-furnace"></div></section>
-<section class="section-panel" data-section="2"><section-header title="Boiler" icon="droplets" index="2"></section-header><div id="panel-boiler"></div></section>
-<section class="section-panel" data-section="3"><section-header title="Heat Pump" icon="refresh-cw" index="3"></section-header><div id="panel-heatPump"></div></section>
-<section class="section-panel" data-section="4"><section-header title="Air Conditioning" icon="snowflake" index="4"></section-header><div id="panel-ac"></div></section>
-<section class="section-panel" data-section="5"><section-header title="Ventilation" icon="wind" index="5"></section-header><div id="panel-ventilation"></div></section>
-<section class="section-panel" data-section="6"><section-header title="Appliances" icon="refrigerator" index="6"></section-header><div id="panel-appliances"></div></section>
-<section class="section-panel" data-section="7"><section-header title="Lighting" icon="lightbulb" index="7"></section-header><div id="panel-lighting"></div></section>
-<section class="section-panel" data-section="8"><section-header title="Facility Energy" icon="bar-chart-3" index="8"></section-header><div class="card mt-3"><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><label class="text-xs font-semibold">Baseline Period<input data-field="baselinePeriod" class="field mt-1" placeholder="e.g. Jan-Dec 2025"></label><label class="text-xs font-semibold">Electricity Utility Provider<input data-field="electricProvider" class="field mt-1"></label><label class="text-xs font-semibold">Gas Utility Provider<input data-field="gasProvider" class="field mt-1"></label></div><h3 class="text-sm font-bold text-[#0f2040] mt-6 mb-3">Electricity Utility Bills</h3><div class="overflow-x-auto"><table class="w-full text-sm"><thead class="bg-slate-100 text-xs font-semibold"><tr><th class="p-2 text-left">Period</th><th class="p-2 text-left">Start</th><th class="p-2 text-left">End</th><th class="p-2 text-right">kWh</th><th class="p-2 text-right">Peak kW</th><th class="p-2 text-right">Cost</th><th class="p-2">Notes</th><th class="p-2 no-print"></th></tr></thead><tbody id="utility-body"></tbody></table></div><button id="add-utility" class="mt-3 text-xs font-semibold text-[#1e6fbd] no-print">＋ Add Billing Period</button><div id="energy-summary" class="grid grid-cols-2 md:grid-cols-5 gap-3 mt-5"></div></div></section>
-<section class="section-panel" data-section="9"><section-header title="Recommendations" icon="clipboard-list" index="9"></section-header><div class="card mt-3"><div class="overflow-x-auto"><table class="w-full text-sm"><thead class="bg-slate-100 text-xs font-semibold"><tr><th class="p-2">Priority</th><th class="p-2 text-left">Equipment / Area</th><th class="p-2 text-left">Recommendation</th><th class="p-2 text-right">Estimated Cost</th><th class="p-2 text-right">Annual Savings kWh</th><th class="p-2">Status</th><th class="p-2 no-print"></th></tr></thead><tbody id="recommendation-body"></tbody></table></div><button id="add-recommendation" class="mt-3 text-xs font-semibold text-[#1e6fbd] no-print">＋ Add Recommendation</button></div></section>
-<section class="section-panel" data-section="10"><section-header title="M&V Summary" icon="check-circle-2" index="10"></section-header><div class="card mt-3"><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><label class="text-xs font-semibold">Reporting Period<input data-field="reportingPeriod" class="field mt-1"></label><label class="text-xs font-semibold">Verification Method<input data-field="verificationMethod" class="field mt-1" placeholder="Utility bills, submeters, logger..."></label><label class="text-xs font-semibold md:col-span-2">Comparison Notes<textarea data-field="mvNotes" rows="5" class="field mt-1"></textarea></label></div><div id="mv-summary" class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5"></div></div></section>
-</main></div><div id="bottom-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-300 z-40 px-4 py-2 flex items-center justify-between text-xs"><span><b id="checked-count">0</b> of <b id="total-count">0</b> fields completed</span><span id="overall-status" class="font-semibold text-[#1e6fbd]"></span></div><div id="toast" class="toast">Saved</div>
-<script>
-const STORAGE='equipment-audit-sibling-v1';let state=load();let active=0;
-const sections=[['Site Information','building-2'],['Furnace','flame'],['Boiler','droplets'],['Heat Pump','refresh-cw'],['Air Conditioning','snowflake'],['Ventilation','wind'],['Appliances','refrigerator'],['Lighting','lightbulb'],['Facility Energy','bar-chart-3'],['Recommendations','clipboard-list'],['M&V Summary','check-circle-2']];
-const types=['furnace','boiler','heatPump','ac','ventilation'];
-function blank(name){return{name,location:'',quantity:1,power:'',unit:'W',load:1,hours:0,days:365,measured:'',volts:'',amps:'',pf:1,condition:'',recommendation:'',notes:''}}
-function initial(){return{auditDate:'',auditor:'',client:'',facility:'',address:'',location:'',facilityType:'',floorArea:'',areaUnit:'m²',stories:'',siteNotes:'',baselinePeriod:'',electricProvider:'',gasProvider:'',reportingPeriod:'',verificationMethod:'',mvNotes:'',equipment:{furnace:[blank('Furnace')],boiler:[blank('Boiler')],heatPump:[blank('Heat Pump')],ac:[blank('Air Conditioner')],ventilation:[blank('Air Handling Unit')],appliances:[blank('Refrigerator'),blank('Freezer'),blank('Dishwasher'),blank('Laundry Machine'),blank('Clothes Dryer')],lighting:[{area:'',fixture:'',qty:1,lamps:1,watt:0,driver:0,hours:0,days:365,measured:'',controls:'',upgrade:'',notes:''}]},utilities:[],recommendations:[]}}
-function load(){try{return JSON.parse(localStorage.getItem(STORAGE))||initial()}catch(e){return initial()}}
-function save(){localStorage.setItem(STORAGE,JSON.stringify(state));toast();updateProgress()}
-function toast(){let t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),900)}
-function esc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function n(v){let x=Number(v);return Number.isFinite(x)?x:0}function fmt(v){return n(v).toLocaleString(undefined,{maximumFractionDigits:1})}
-function estimate(r){return n(r.quantity)*n(r.power)*(r.unit==='kW'?1:0.001)*n(r.load)*n(r.hours)*n(r.days)}
-function measured(r){if(n(r.measured)>0)return n(r.measured);if(n(r.volts)>0&&n(r.amps)>0)return n(r.volts)*n(r.amps)*(n(r.pf)||1)*n(r.hours)*n(r.days)/1000;return 0}
-function header(el){let i=el.getAttribute('index');el.outerHTML=`<div class="mb-1"><h2 class="text-xl font-bold text-[#0f2040] flex items-center gap-2"><i data-lucide="${el.getAttribute('icon')}" class="w-5 h-5 text-[#1e6fbd]"></i>${el.getAttribute('title')}</h2><p id="completion-${i}" class="text-xs text-slate-500 mt-1"></p></div>`}
-function buildSidebar(){let h=sections.map((s,i)=>`<button data-sec="${i}" class="sidebar-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/70 hover:bg-[#1a3460] w-full text-left"><i data-lucide="${s[1]}" class="w-4 h-4"></i><span class="flex-1 truncate">${s[0]}</span><span class="sidebar-dot dot-grey" data-dot="${i}"></span></button>`).join('');document.getElementById('sidebar-nav').innerHTML=h;document.getElementById('mobile-nav').innerHTML=h}
-function equipmentPanel(key){let rows=state.equipment[key];let appliance=key==='appliances';return `<div class="card mt-3"><div class="flex justify-between items-center mb-3"><div class="text-xs text-slate-500">${appliance?'Add appliances as required.':'Enter nameplate ratings and operating assumptions; measured kWh overrides the estimate.'}</div><button class="text-xs font-semibold text-[#1e6fbd] no-print" data-add="${key}">＋ Add ${appliance?'Appliance':'Equipment'}</button></div><div class="overflow-x-auto"><table class="w-full text-sm"><thead class="bg-slate-100 text-xs font-semibold"><tr><th class="p-2 text-left">Name</th><th class="p-2 text-left">Location</th><th class="p-2">Qty</th><th class="p-2">Power</th><th class="p-2">Unit</th><th class="p-2">Load</th><th class="p-2">Hours/day</th><th class="p-2">Days/year</th><th class="p-2 text-right">Estimated kWh/y</th><th class="p-2">Measured kWh/y</th><th class="p-2">Condition</th><th class="p-2 text-left">Recommendation</th><th class="p-2 no-print"></th></tr></thead><tbody>${rows.map((r,i)=>equipmentRow(key,r,i)).join('')}</tbody></table></div></div>`}
-function equipmentRow(k,r,i){return `<tr class="border-t border-slate-200"><td><input class="table-input" data-eq="${k}" data-i="${i}" data-f="name" value="${esc(r.name)}"></td><td><input class="table-input" data-eq="${k}" data-i="${i}" data-f="location" value="${esc(r.location)}"></td><td><input class="table-input w-16" type="number" data-eq="${k}" data-i="${i}" data-f="quantity" value="${esc(r.quantity)}"></td><td><input class="table-input w-20" type="number" step=".01" data-eq="${k}" data-i="${i}" data-f="power" value="${esc(r.power)}"></td><td><select class="table-input" data-eq="${k}" data-i="${i}" data-f="unit"><option ${r.unit==='W'?'selected':''}>W</option><option ${r.unit==='kW'?'selected':''}>kW</option></select></td><td><input class="table-input w-16" type="number" step=".01" data-eq="${k}" data-i="${i}" data-f="load" value="${esc(r.load)}"></td><td><input class="table-input w-20" type="number" step=".1" data-eq="${k}" data-i="${i}" data-f="hours" value="${esc(r.hours)}"></td><td><input class="table-input w-20" type="number" data-eq="${k}" data-i="${i}" data-f="days" value="${esc(r.days)}"></td><td class="p-2 font-semibold text-right" data-est="${k}:${i}">${fmt(estimate(r))}</td><td><input class="table-input w-24" type="number" data-eq="${k}" data-i="${i}" data-f="measured" value="${esc(r.measured)}"></td><td><input class="table-input" data-eq="${k}" data-i="${i}" data-f="condition" value="${esc(r.condition)}"></td><td><input class="table-input" data-eq="${k}" data-i="${i}" data-f="recommendation" value="${esc(r.recommendation)}"></td><td class="p-2 no-print"><button class="text-red-600 text-xs font-bold" data-del="${k}" data-i="${i}">Delete</button></td></tr>`}
-function lightingPanel(){let rows=state.equipment.lighting;return `<div class="card mt-3"><div class="flex justify-between items-center mb-3"><div class="text-xs text-slate-500">One row per fixture group or lighting circuit.</div><button class="text-xs font-semibold text-[#1e6fbd] no-print" data-add-light>＋ Add Lighting Load</button></div><div class="overflow-x-auto"><table class="w-full text-sm"><thead class="bg-slate-100 text-xs font-semibold"><tr><th class="p-2">Area / Location</th><th class="p-2">Fixture Type</th><th class="p-2">Fixtures</th><th class="p-2">Lamps/Fixture</th><th class="p-2">Lamp W</th><th class="p-2">Driver W</th><th class="p-2">Connected W</th><th class="p-2">Hours/day</th><th class="p-2">Days/year</th><th class="p-2">Estimated kWh/y</th><th class="p-2">Measured kWh/y</th><th class="p-2">Controls</th><th class="p-2">Upgrade</th><th class="p-2 no-print"></th></tr></thead><tbody>${rows.map((r,i)=>lightingRow(r,i)).join('')}</tbody></table></div></div>`}
-function lightingRow(r,i){let connected=n(r.qty)*(n(r.lamps)*n(r.watt)+n(r.driver));let est=connected*n(r.hours)*n(r.days)/1000;return `<tr class="border-t border-slate-200"><td><input class="table-input" data-light="${i}" data-f="area" value="${esc(r.area)}"></td><td><input class="table-input" data-light="${i}" data-f="fixture" value="${esc(r.fixture)}"></td><td><input class="table-input" type="number" data-light="${i}" data-f="qty" value="${esc(r.qty)}"></td><td><input class="table-input" type="number" data-light="${i}" data-f="lamps" value="${esc(r.lamps)}"></td><td><input class="table-input" type="number" data-light="${i}" data-f="watt" value="${esc(r.watt)}"></td><td><input class="table-input" type="number" data-light="${i}" data-f="driver" value="${esc(r.driver)}"></td><td class="p-2 font-semibold" data-light-est="${i}">${fmt(connected)}</td><td><input class="table-input" type="number" data-light="${i}" data-f="hours" value="${esc(r.hours)}"></td><td><input class="table-input" type="number" data-light="${i}" data-f="days" value="${esc(r.days)}"></td><td class="p-2 font-semibold" data-light-kwh="${i}">${fmt(est)}</td><td><input class="table-input" type="number" data-light="${i}" data-f="measured" value="${esc(r.measured)}"></td><td><input class="table-input" data-light="${i}" data-f="controls" value="${esc(r.controls)}"></td><td><input class="table-input" data-light="${i}" data-f="upgrade" value="${esc(r.upgrade)}"></td><td class="p-2 no-print"><button class="text-red-600 text-xs font-bold" data-del-light="${i}">Delete</button></td></tr>`}
-function renderPanels(){types.forEach(k=>document.getElementById('panel-'+k).innerHTML=equipmentPanel(k));document.getElementById('panel-appliances').innerHTML=equipmentPanel('appliances');document.getElementById('panel-lighting').innerHTML=lightingPanel();bindDynamic()}
-function bindDynamic(){document.querySelectorAll('[data-eq]').forEach(e=>e.oninput=e.onchange=()=>{state.equipment[e.dataset.eq][e.dataset.i][e.dataset.f]=e.value;let r=state.equipment[e.dataset.eq][e.dataset.i];document.querySelector(`[data-est="${e.dataset.eq}:${e.dataset.i}"]`).textContent=fmt(estimate(r));save()});document.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{let k=b.dataset.add;state.equipment[k].push(blank(k));renderPanels();save()});document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{state.equipment[b.dataset.del].splice(b.dataset.i,1);renderPanels();save()});document.querySelectorAll('[data-light]').forEach(e=>e.oninput=()=>{let r=state.equipment.lighting[e.dataset.light];r[e.dataset.f]=e.value;renderPanels();save()});document.querySelector('[data-add-light]').onclick=()=>{state.equipment.lighting.push({area:'',fixture:'',qty:1,lamps:1,watt:0,driver:0,hours:0,days:365,measured:'',controls:'',upgrade:'',notes:''});renderPanels();save()};document.querySelectorAll('[data-del-light]').forEach(b=>b.onclick=()=>{state.equipment.lighting.splice(b.dataset.delLight,1);renderPanels();save()})}
-function utilityRows(){document.getElementById('utility-body').innerHTML=state.utilities.map((r,i)=>`<tr class="border-t border-slate-200"><td><input class="table-input" data-util="${i}" data-f="period" value="${esc(r.period)}"></td><td><input type="date" class="table-input" data-util="${i}" data-f="start" value="${esc(r.start)}"></td><td><input type="date" class="table-input" data-util="${i}" data-f="end" value="${esc(r.end)}"></td><td><input type="number" class="table-input text-right" data-util="${i}" data-f="kwh" value="${esc(r.kwh)}"></td><td><input type="number" class="table-input text-right" data-util="${i}" data-f="kw" value="${esc(r.kw)}"></td><td><input type="number" class="table-input text-right" data-util="${i}" data-f="cost" value="${esc(r.cost)}"></td><td><input class="table-input" data-util="${i}" data-f="notes" value="${esc(r.notes)}"></td><td><button class="text-red-600 text-xs font-bold" data-del-util="${i}">Delete</button></td></tr>`).join('');document.querySelectorAll('[data-util]').forEach(e=>e.oninput=()=>{state.utilities[e.dataset.util][e.dataset.f]=e.value;save();utilitySummary()});document.querySelectorAll('[data-del-util]').forEach(b=>b.onclick=()=>{state.utilities.splice(b.dataset.delUtil,1);utilityRows();utilitySummary();save()})}
-function utilitySummary(){let util=state.utilities.reduce((a,r)=>a+n(r.kwh),0);let est=Object.values(state.equipment).flat().reduce((a,r)=>a+estimate(r),0)+state.equipment.lighting.reduce((a,r)=>a+n(r.qty)*(n(r.lamps)*n(r.watt)+n(r.driver))*n(r.hours)*n(r.days)/1000,0);document.getElementById('energy-summary').innerHTML=[['Estimated equipment',est],['Utility electricity',util],['Unallocated',util-est],['Floor area',n(state.floorArea)],['Actual EUI',n(state.floorArea)?util/n(state.floorArea):0]].map(x=>`<div class="stat-card"><div class="stat-val">${fmt(x[1])}</div><div class="stat-lbl">${x[0]}</div></div>`).join('');document.getElementById('mv-summary').innerHTML=[['Estimated kWh/y',est],['Actual kWh/y',util],['Variance kWh/y',util-est],['Variance %',est?(100*(util-est)/est):0]].map(x=>`<div class="stat-card"><div class="stat-val">${fmt(x[1])}${x[0].includes('%')?'%':''}</div><div class="stat-lbl">${x[0]}</div></div>`).join('')}
-function recommendations(){document.getElementById('recommendation-body').innerHTML=state.recommendations.map((r,i)=>`<tr class="border-t border-slate-200"><td><input class="table-input w-16" data-rec="${i}" data-f="priority" value="${esc(r.priority)}"></td><td><input class="table-input" data-rec="${i}" data-f="area" value="${esc(r.area)}"></td><td><input class="table-input" data-rec="${i}" data-f="text" value="${esc(r.text)}"></td><td><input class="table-input" type="number" data-rec="${i}" data-f="cost" value="${esc(r.cost)}"></td><td><input class="table-input" type="number" data-rec="${i}" data-f="savings" value="${esc(r.savings)}"></td><td><input class="table-input" data-rec="${i}" data-f="status" value="${esc(r.status)}"></td><td><button class="text-red-600 text-xs font-bold" data-del-rec="${i}">Delete</button></td></tr>`).join('');document.querySelectorAll('[data-rec]').forEach(e=>e.oninput=()=>{state.recommendations[e.dataset.rec][e.dataset.f]=e.value;save()});document.querySelectorAll('[data-del-rec]').forEach(b=>b.onclick=()=>{state.recommendations.splice(b.dataset.delRec,1);recommendations();save()})}
-function updateProgress(){let els=[...document.querySelectorAll('[data-field]')];let done=els.filter(e=>e.value.trim()).length;document.getElementById('checked-count').textContent=done;document.getElementById('total-count').textContent=els.length;let pct=els.length?Math.round(done/els.length*100):0;document.getElementById('progress-fill').style.width=pct+'%';document.getElementById('progress-pct').textContent=pct+'%';sections.forEach((s,i)=>{let p=document.querySelector(`[data-section="${i}"]`);let f=[...p.querySelectorAll('input,select,textarea')];let d=f.filter(e=>e.value.trim()).length;let c=document.getElementById('completion-'+i);if(c)c.textContent=`Section completion: ${f.length?Math.round(d/f.length*100):0}%`;let dot=document.querySelector(`[data-dot="${i}"]`);if(dot)dot.className='sidebar-dot '+(d===f.length&&f.length?'dot-green':d?'dot-yellow':'dot-grey')})}
-function activate(i){active=i;document.querySelectorAll('.section-panel').forEach(p=>p.classList.toggle('active',Number(p.dataset.section)===i));document.querySelectorAll('.sidebar-btn').forEach(b=>b.classList.toggle('bg-[#1e6fbd]',Number(b.dataset.sec)===i));document.getElementById('mobile-overlay').classList.add('hidden')}
-function csv(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'text/csv'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='equipment-audit.csv';a.click()}
-function init(){document.querySelectorAll('section-header').forEach(header);buildSidebar();document.querySelectorAll('[data-field]').forEach(e=>{e.value=state[e.dataset.field]||'';e.oninput=()=>{state[e.dataset.field]=e.value;save();utilitySummary()}});renderPanels();utilityRows();recommendations();utilitySummary();document.querySelectorAll('.sidebar-btn').forEach(b=>b.onclick=()=>activate(Number(b.dataset.sec)));document.getElementById('add-utility').onclick=()=>{state.utilities.push({period:'',start:'',end:'',kwh:'',kw:'',cost:'',notes:''});utilityRows();save()};document.getElementById('add-recommendation').onclick=()=>{state.recommendations.push({priority:'',area:'',text:'',cost:'',savings:'',status:'Open'});recommendations();save()};document.getElementById('btn-print').onclick=()=>window.print();document.getElementById('btn-save').onclick=csv;document.getElementById('btn-reset').onclick=()=>{if(confirm('Reset all Equipment Audit data?')){localStorage.removeItem(STORAGE);location.reload()}};document.getElementById('mobile-menu').onclick=()=>document.getElementById('mobile-overlay').classList.remove('hidden');document.getElementById('mobile-close').onclick=()=>document.getElementById('mobile-overlay').classList.add('hidden');updateProgress();if(window.lucide)lucide.createIcons()};init();
-</script></body></html>
+
+  <!-- =========================================================
+       HEADER
+  ========================================================== -->
+
+  <header
+    class="fixed top-0 left-0 right-0 z-50 bg-[#0f2040] text-white shadow-lg h-[60px]"
+  >
+    <div class="flex items-center h-full px-4 gap-3">
+
+      <button
+        id="mobile-menu"
+        class="md:hidden p-2"
+        type="button"
+      >
+        <i data-lucide="menu"></i>
+      </button>
+
+      <i
+        data-lucide="plug-zap"
+        class="w-5 h-5 text-blue-300"
+      ></i>
+
+      <span class="font-bold text-sm md:text-base whitespace-nowrap">
+        Equipment Audit
+      </span>
+
+      <div class="flex-1 hidden sm:flex items-center gap-2 mx-4">
+        <div class="flex-1 bg-[#1a3460] rounded-full h-2.5 overflow-hidden">
+          <div
+            id="progress-fill"
+            class="h-full bg-[#4797e7] rounded-full"
+            style="width: 0%"
+          ></div>
+        </div>
+
+        <span
+          id="progress-pct"
+          class="text-xs font-semibold text-blue-200"
+        >
+          0%
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2 ml-auto">
+
+        <button
+          id="btn-print"
+          class="bg-[#1e6fbd] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
+          type="button"
+        >
+          <i
+            data-lucide="printer"
+            class="inline w-3.5 h-3.5"
+          ></i>
+
+          <span class="hidden sm:inline">
+            Print
+          </span>
+        </button>
+
+        <button
+          id="btn-save"
+          class="bg-[#1e6fbd] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
+          type="button"
+        >
+          <i
+            data-lucide="download"
+            class="inline w-3.5 h-3.5"
+          ></i>
+
+          <span class="hidden sm:inline">
+            Save JSON
+          </span>
+        </button>
+
+        <button
+          id="btn-open"
+          class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
+          type="button"
+        >
+          <i
+            data-lucide="upload"
+            class="inline w-3.5 h-3.5"
+          ></i>
+
+          <span class="hidden sm:inline">
+            Open JSON
+          </span>
+        </button>
+
+        <button
+          id="btn-reset"
+          class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
+          type="button"
+        >
+          <i
+            data-lucide="rotate-ccw"
+            class="inline w-3.5 h-3.5"
+          ></i>
+
+          <span class="hidden sm:inline">
+            Reset
+          </span>
+        </button>
+
+        <input
+          id="file-input"
+          type="file"
+          accept=".json,application/json"
+          hidden
+        >
+
+      </div>
+    </div>
+  </header>
+
+
+  <!-- =========================================================
+       APPLICATION LAYOUT
+  ========================================================== -->
+
+  <div class="flex flex-1 pt-[60px] min-h-screen">
+
+    <!-- Desktop sidebar -->
+
+    <aside
+      id="sidebar"
+      class="sidebar hidden md:flex flex-col w-56 lg:w-60 bg-[#0f2040] text-white fixed top-[60px] bottom-0 left-0 z-40 overflow-y-auto"
+    >
+      <nav
+        id="sidebar-nav"
+        class="flex flex-col py-3 px-2 gap-0.5"
+      ></nav>
+
+      <div
+        class="mt-auto p-4 border-t border-[#1a3460] text-[10px] text-slate-400 text-center"
+      >
+        Equipment Audit Tool<br>
+        v1.0
+      </div>
+    </aside>
+
+
+    <!-- Mobile navigation -->
+
+    <div
+      id="mobile-overlay"
+      class="fixed inset-0 bg-black/50 z-50 hidden"
+    >
+      <aside class="w-72 bg-[#0f2040] text-white h-full">
+
+        <div
+          class="flex justify-between p-4 border-b border-[#1a3460]"
+        >
+          <b>
+            Sections
+          </b>
+
+          <button
+            id="mobile-close"
+            type="button"
+          >
+            ✕
+          </button>
+        </div>
+
+        <nav
+          id="mobile-nav"
+          class="flex flex-col py-3 px-2"
+        ></nav>
+
+      </aside>
+    </div>
+
+
+    <!-- Main content -->
+
+    <main
+      id="main"
+      class="flex-1 md:ml-56 lg:ml-60 p-4 md:p-6 pb-20 overflow-y-auto"
+    >
+
+      <!-- =====================================================
+           SECTION 0: SITE INFORMATION
+      ====================================================== -->
+
+      <section
+        class="section-panel active"
+        data-section="0"
+      >
+        <div class="mb-1">
+
+          <h2
+            class="text-xl font-bold text-[#0f2040] flex items-center gap-2"
+          >
+            <i
+              data-lucide="building-2"
+              class="w-5 h-5 text-[#1e6fbd]"
+            ></i>
+
+            Site Information
+          </h2>
+
+          <p
+            id="completion-0"
+            class="text-xs text-slate-500 mt-1"
+          ></p>
+
+        </div>
+
+
+        <!-- Dashboard project information -->
+
+        <div
+          id="project-context"
+          class="card mt-3 border-l-4 border-[#1e6fbd]"
+        >
+
+          <div
+            class="flex items-center justify-between gap-3 mb-4"
+          >
+            <div>
+              <h3 class="text-sm font-bold text-[#0f2040]">
+                Dashboard Project
+              </h3>
+
+              <p
+                id="project-context-text"
+                class="text-xs text-slate-500 mt-1"
+              >
+                General project information is loaded from the project dashboard.
+              </p>
+            </div>
+
+            <span
+              id="project-status"
+              class="badge badge-good"
+            >
+              Project loaded
+            </span>
+          </div>
+
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <label class="text-xs font-semibold">
+              Site / Project ID
+
+              <input
+                data-project-field="project_id"
+                class="field mt-1"
+                readonly
+              >
+            </label>
+
+
+            <label class="text-xs font-semibold">
+              Client / Organization
+
+              <input
+                data-project-field="client"
+                class="field mt-1"
+                readonly
+              >
+            </label>
+
+
+            <label class="text-xs font-semibold">
+              Facility Name
+
+              <input
+                data-project-field="facility"
+                class="field mt-1"
+                readonly
+              >
+            </label>
+
+
+            <label class="text-xs font-semibold">
+              Auditor
+
+              <input
+                data-project-field="auditor"
+                class="field mt-1"
+                readonly
+              >
+            </label>
+
+
+            <label class="text-xs font-semibold">
+              Date of Audit
+
+              <input
+                data-project-field="audit_date"
+                type="date"
+                class="field mt-1"
+                readonly
+              >
+            </label>
+
+
+            <label class="text-xs font-semibold">
+              Building Type
+
+              <select
+                data-project-field="facility_type"
+                class="field mt-1"
+                disabled
+              >
+                <option value="">
+                  — Select —
+                </option>
+
+                <option value="Residential Single-Family">
+                  Residential Single-Family
+                </option>
+
+                <option value="Residential Multi-Unit">
+                  Residential Multi-Unit
+                </option>
+
+                <option value="Commercial">
+                  Commercial
+                </option>
+
+                <option value="Industrial">
+                  Industrial
+                </option>
+
+                <option value="Institutional">
+                  Institutional
+                </option>
+
+                <option value="Mixed-Use">
+                  Mixed-Use
+                </option>
+              </select>
+            </label>
+
+
+            <label class="text-xs font-semibold md:col-span-2">
+              Street Address
+
+              <input
+                data-project-field="address"
+                class="field mt-1"
+                readonly
+              >
+            </label>
+
+
+            <label class="text-xs font-semibold">
+              City
+
+              <input
+                data-project-field="city"
+                class="field mt-1"
+                readonly
+              >
+            </label>
+
+
+            <label class="text-xs font-semibold">
+              Province / State
+
+              <input
+                data-project-field="province"
+                class="field mt-1"
+                readonly
+              >
+            </label>
+
+
+            <label class="text-xs font-semibold">
+              Gross Floor Area
+
+              <input
+                data-project-field="floor_area"
+                type="number"
+                class="field mt-1"
+                readonly
+              >
+            </label>
+
+
+            <label class="text-xs font-semibold">
+              Area Unit
+
+              <select
+                data-project-field="area_unit"
+                class="field mt-1"
+                disabled
+              >
+                <option value="m²">
+                  m²
+                </option>
+
+                <option value="ft²">
+                  ft²
+                </option>
+              </select>
+            </label>
+
+
+            <label class="text-xs font-semibold md:col-span-2">
+              Project Notes
+
+              <textarea
+                data-project-field="notes"
+                rows="3"
+                class="field mt-1"
+                readonly
+              ></textarea>
+            </label>
+
+          </div>
+        </div>
+
+
+        <!-- Equipment-specific site information -->
+
+        <div class="card mt-3">
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <label class="text-xs font-semibold">
+              Number of Stories
+
+              <input
+                type="number"
+                data-field="stories"
+                class="field mt-1"
+              >
+            </label>
+
+
+            <label class="text-xs font-semibold md:col-span-2">
+              Equipment Audit Notes / Special Conditions
+
+              <textarea
+                data-field="siteNotes"
+                rows="3"
+                class="field mt-1"
+              ></textarea>
+            </label>
+
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           EQUIPMENT SECTIONS
+      ====================================================== -->
+
+      <section
+        class="section-panel"
+        data-section="1"
+      >
+        <section-header
+          title="Furnace"
+          icon="flame"
+          index="1"
+        ></section-header>
+
+        <div id="panel-furnace"></div>
+      </section>
+
+
+      <section
+        class="section-panel"
+        data-section="2"
+      >
+        <section-header
+          title="Boiler"
+          icon="droplets"
+          index="2"
+        ></section-header>
+
+        <div id="panel-boiler"></div>
+      </section>
+
+
+      <section
+        class="section-panel"
+        data-section="3"
+      >
+        <section-header
+          title="Heat Pump"
+          icon="refresh-cw"
+          index="3"
+        ></section-header>
+
+        <div id="panel-heatPump"></div>
+      </section>
+
+
+      <section
+        class="section-panel"
+        data-section="4"
+      >
+        <section-header
+          title="Air Conditioning"
+          icon="snowflake"
+          index="4"
+        ></section-header>
+
+        <div id="panel-ac"></div>
+      </section>
+
+
+      <section
+        class="section-panel"
+        data-section="5"
+      >
+        <section-header
+          title="Ventilation"
+          icon="wind"
+          index="5"
+        ></section-header>
+
+        <div id="panel-ventilation"></div>
+      </section>
+
+
+      <section
+        class="section-panel"
+        data-section="6"
+      >
+        <section-header
+          title="Appliances"
+          icon="refrigerator"
+          index="6"
+        ></section-header>
+
+        <div id="panel-appliances"></div>
+      </section>
+
+
+      <section
+        class="section-panel"
+        data-section="7"
+      >
+        <section-header
+          title="Lighting"
+          icon="lightbulb"
+          index="7"
+        ></section-header>
+
+        <div id="panel-lighting"></div>
+      </section>
+
+
+      <!-- =====================================================
+           SECTION 8: FACILITY ENERGY
+      ====================================================== -->
+
+      <section
+        class="section-panel"
+        data-section="8"
+      >
+        <section-header
+          title="Facility Energy"
+          icon="bar-chart-3"
+          index="8"
+        ></section-header>
+
+        <div class="card mt-3">
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+            <label class="text-xs font-semibold">
+              Baseline Period
+
+              <input
+                data-field="baselinePeriod"
+                class="field mt-1"
+                placeholder="e.g. Jan-Dec 2025"
+              >
+            </label>
+
+
+            <label class="text-xs font-semibold">
+              Electricity Utility Provider
+
+              <input
+                data-field="electricProvider"
+                class="field mt-1"
+              >
+            </label>
+
+
+            <label class="text-xs font-semibold">
+              Gas Utility Provider
+
+              <input
+                data-field="gasProvider"
+                class="field mt-1"
+              >
+            </label>
+
+          </div>
+
+
+          <h3 class="text-sm font-bold text-[#0f2040] mt-6 mb-3">
+            Electricity Utility Bills
+          </h3>
+
+
+          <div class="overflow-x-auto">
+
+            <table class="w-full text-sm">
+
+              <thead class="bg-slate-100 text-xs font-semibold">
+                <tr>
+                  <th class="p-2 text-left">
+                    Period
+                  </th>
+
+                  <th class="p-2 text-left">
+                    Start
+                  </th>
+
+                  <th class="p-2 text-left">
+                    End
+                  </th>
+
+                  <th class="p-2 text-right">
+                    kWh
+                  </th>
+
+                  <th class="p-2 text-right">
+                    Peak kW
+                  </th>
+
+                  <th class="p-2 text-right">
+                    Cost
+                  </th>
+
+                  <th class="p-2">
+                    Notes
+                  </th>
+
+                  <th class="p-2 no-print"></th>
+                </tr>
+              </thead>
+
+              <tbody id="utility-body"></tbody>
+
+            </table>
+          </div>
+
+
+          <button
+            id="add-utility"
+            class="mt-3 text-xs font-semibold text-[#1e6fbd] no-print"
+            type="button"
+          >
+            ＋ Add Billing Period
+          </button>
+
+
+          <div
+            id="energy-summary"
+            class="grid grid-cols-2 md:grid-cols-5 gap-3 mt-5"
+          ></div>
+
+        </div>
+      </section>
+
+
+      <!-- =====================================================
+           SECTION 9: RECOMMENDATIONS
+      ====================================================== -->
+
+      <section
+        class="section-panel"
+        data-section="9"
+      >
+        <section-header
+          title="Recommendations"
+          icon="clipboard-list"
+          index="9"
+        ></section-header>
+
+        <div class="card mt-3">
+
+          <div class="overflow-x-auto">
+
+            <table class="w-full text-sm">
+
+              <thead class="bg-slate-100 text-xs font-semibold">
+                <tr>
+                  <th class="p-2">
+                    Priority
+                  </th>
+
+                  <th class="p-2 text-left">
+                    Equipment / Area
+                  </th>
+
+                  <th class="p-2 text-left">
+                    Recommendation
+                  </th>
+
+                  <th class="p-2 text-right">
+                    Estimated Cost
+                  </th>
+
+                  <th class="p-2 text-right">
+                    Annual Savings kWh
+                  </th>
+
+                  <th class="p-2">
+                    Status
+                  </th>
+
+                  <th class="p-2 no-print"></th>
+                </tr>
+              </thead>
+
+              <tbody id="recommendation-body"></tbody>
+
+            </table>
+          </div>
+
+
+          <button
+            id="add-recommendation"
+            class="mt-3 text-xs font-semibold text-[#1e6fbd] no-print"
+            type="button"
+          >
+            ＋ Add Recommendation
+          </button>
+
+        </div>
+      </section>
+
+
+      <!-- =====================================================
+           SECTION 10: M&V SUMMARY
+      ====================================================== -->
+
+      <section
+        class="section-panel"
+        data-section="10"
+      >
+        <section-header
+          title="M&V Summary"
+          icon="check-circle-2"
+          index="10"
+        ></section-header>
+
+        <div class="card mt-3">
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <label class="text-xs font-semibold">
+              Reporting Period
+
+              <input
+                data-field="reportingPeriod"
+                class="field mt-1"
+              >
+            </label>
+
+
+            <label class="text-xs font-semibold">
+              Verification Method
+
+              <input
+                data-field="verificationMethod"
+                class="field mt-1"
+                placeholder="Utility bills, submeters, logger..."
+              >
+            </label>
+
+
+            <label class="text-xs font-semibold md:col-span-2">
+              Comparison Notes
+
+              <textarea
+                data-field="mvNotes"
+                rows="5"
+                class="field mt-1"
+              ></textarea>
+            </label>
+
+          </div>
+
+
+          <div
+            id="mv-summary"
+            class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5"
+          ></div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+
+  <!-- =========================================================
+       BOTTOM STATUS BAR
+  ========================================================== -->
+
+  <div
+    id="bottom-bar"
+    class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-300 z-40 px-4 py-2 flex items-center justify-between text-xs"
+  >
+    <span>
+      <b id="checked-count">0</b>
+      of
+      <b id="total-count">0</b>
+      fields completed
+    </span>
+
+    <span
+      id="overall-status"
+      class="font-semibold text-[#1e6fbd]"
+    ></span>
+  </div>
+
+
+  <!-- Toast -->
+
+  <div id="toast" class="toast">
+    Saved
+  </div>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================== -->
+
+  <script>
+
+    /* =========================================================
+       APPLICATION STATE
+    ========================================================== */
+
+    const STORAGE_KEY = 'equipment-audit-sibling-v1';
+    const DASHBOARD_STORAGE_KEY = 'audit-dashboard-v3';
+
+    const projectParams = new URLSearchParams(
+      window.location.search
+    );
+
+    const currentProjectId = projectParams.get(
+      'project'
+    );
+
+    let state = loadState();
+    let currentProject = null;
+    let activeSection = 0;
+
+
+    const sections = [
+      ['Site Information', 'building-2'],
+      ['Furnace', 'flame'],
+      ['Boiler', 'droplets'],
+      ['Heat Pump', 'refresh-cw'],
+      ['Air Conditioning', 'snowflake'],
+      ['Ventilation', 'wind'],
+      ['Appliances', 'refrigerator'],
+      ['Lighting', 'lightbulb'],
+      ['Facility Energy', 'bar-chart-3'],
+      ['Recommendations', 'clipboard-list'],
+      ['M&V Summary', 'check-circle-2']
+    ];
+
+
+    const equipmentTypes = [
+      'furnace',
+      'boiler',
+      'heatPump',
+      'ac',
+      'ventilation'
+    ];
+
+
+    /* =========================================================
+       DOM AND GENERAL HELPERS
+    ========================================================== */
+
+    function $(id) {
+      return document.getElementById(id);
+    }
+
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(
+        /[&<>"']/g,
+        character => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;'
+        }[character])
+      );
+    }
+
+
+    function numberValue(value) {
+      const number = Number(value);
+
+      return Number.isFinite(number)
+        ? number
+        : 0;
+    }
+
+
+    function formatNumber(value) {
+      return numberValue(value).toLocaleString(
+        undefined,
+        {
+          maximumFractionDigits: 1
+        }
+      );
+    }
+
+
+    function showToast(message = 'Saved') {
+      const toast = $('toast');
+
+      toast.textContent = message;
+      toast.classList.add('show');
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 900);
+    }
+
+
+    function createBlankEquipment(name) {
+      return {
+        name,
+        location: '',
+        quantity: 1,
+        power: '',
+        unit: 'W',
+        load: 1,
+        hours: 0,
+        days: 365,
+        measured: '',
+        volts: '',
+        amps: '',
+        pf: 1,
+        condition: '',
+        recommendation: '',
+        notes: ''
+      };
+    }
+
+
+    /* =========================================================
+       DEFAULT STATE AND LOCAL STORAGE
+    ========================================================== */
+
+    function createInitialState() {
+      return {
+        auditDate: '',
+        auditor: '',
+        client: '',
+        facility: '',
+
+        address: '',
+        city: '',
+        province: '',
+
+        facilityType: '',
+        floorArea: '',
+        areaUnit: 'm²',
+
+        stories: '',
+        siteNotes: '',
+
+        baselinePeriod: '',
+        electricProvider: '',
+        gasProvider: '',
+
+        reportingPeriod: '',
+        verificationMethod: '',
+        mvNotes: '',
+
+        equipment: {
+          furnace: [
+            createBlankEquipment('Furnace')
+          ],
+
+          boiler: [
+            createBlankEquipment('Boiler')
+          ],
+
+          heatPump: [
+            createBlankEquipment('Heat Pump')
+          ],
+
+          ac: [
+            createBlankEquipment('Air Conditioner')
+          ],
+
+          ventilation: [
+            createBlankEquipment('Air Handling Unit')
+          ],
+
+          appliances: [
+            createBlankEquipment('Refrigerator'),
+            createBlankEquipment('Freezer'),
+            createBlankEquipment('Dishwasher'),
+            createBlankEquipment('Laundry Machine'),
+            createBlankEquipment('Clothes Dryer')
+          ],
+
+          lighting: [
+            {
+              area: '',
+              fixture: '',
+              qty: 1,
+              lamps: 1,
+              watt: 0,
+              driver: 0,
+              hours: 0,
+              days: 365,
+              measured: '',
+              controls: '',
+              upgrade: '',
+              notes: ''
+            }
+          ]
+        },
+
+        utilities: [],
+        recommendations: []
+      };
+    }
+
+
+    function loadState() {
+      try {
+        const storedState = JSON.parse(
+          localStorage.getItem(STORAGE_KEY) || 'null'
+        );
+
+        return storedState || createInitialState();
+
+      } catch (error) {
+        console.error(
+          'Could not load equipment audit data:',
+          error
+        );
+
+        return createInitialState();
+      }
+    }
+
+
+    function saveState() {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(state)
+      );
+
+      synchronizeDashboardProject();
+      updateProgress();
+      showToast();
+    }
+
+
+    /* =========================================================
+       DASHBOARD PROJECT LOADING
+    ========================================================== */
+
+    function loadDashboardProject() {
+      if (!currentProjectId) {
+        return null;
+      }
+
+      try {
+        const projects = JSON.parse(
+          localStorage.getItem(
+            DASHBOARD_STORAGE_KEY
+          ) || '[]'
+        );
+
+        return projects.find(
+          project => project.id === currentProjectId
+        ) || null;
+
+      } catch (error) {
+        console.error(
+          'Could not load dashboard project:',
+          error
+        );
+
+        return null;
+      }
+    }
+
+
+    function populateDashboardProject(project) {
+      const fields = document.querySelectorAll(
+        '[data-project-field]'
+      );
+
+      const status = $('project-status');
+
+      if (!project) {
+        fields.forEach(field => {
+          field.value = '';
+        });
+
+        status.textContent = currentProjectId
+          ? 'Project not found'
+          : 'Opened independently';
+
+        status.className = currentProjectId
+          ? 'badge badge-poor'
+          : 'badge badge-good';
+
+        return;
+      }
+
+      fields.forEach(field => {
+        const fieldName =
+          field.dataset.projectField;
+
+        field.value =
+          project[fieldName] ||
+          (fieldName === 'area_unit'
+            ? 'm²'
+            : '');
+      });
+
+      $('project-context-text').textContent = [
+        project.project_id,
+        project.facility,
+        project.address,
+        project.city,
+        project.province,
+        project.facility_type,
+        project.floor_area
+          ? `${project.floor_area} ${project.area_unit || 'm²'}`
+          : ''
+      ]
+        .filter(Boolean)
+        .join(' • ');
+
+      status.textContent = 'Project loaded';
+      status.className = 'badge badge-good';
+    }
+
+
+    function copyProjectFieldsToState(project) {
+      if (!project) {
+        return;
+      }
+
+      state.auditDate =
+        project.audit_date ||
+        state.auditDate ||
+        '';
+
+      state.auditor =
+        project.auditor ||
+        state.auditor ||
+        '';
+
+      state.client =
+        project.client ||
+        state.client ||
+        '';
+
+      state.facility =
+        project.facility ||
+        state.facility ||
+        '';
+
+      state.address =
+        project.address ||
+        state.address ||
+        '';
+
+      state.city =
+        project.city ||
+        state.city ||
+        '';
+
+      state.province =
+        project.province ||
+        state.province ||
+        '';
+
+      state.facilityType =
+        project.facility_type ||
+        state.facilityType ||
+        '';
+
+      state.floorArea =
+        project.floor_area ||
+        state.floorArea ||
+        '';
+
+      state.areaUnit =
+        project.area_unit ||
+        state.areaUnit ||
+        'm²';
+    }
+
+
+    function synchronizeDashboardProject() {
+      if (!currentProject) {
+        return;
+      }
+
+      try {
+        const projects = JSON.parse(
+          localStorage.getItem(
+            DASHBOARD_STORAGE_KEY
+          ) || '[]'
+        );
+
+        const index = projects.findIndex(
+          project => project.id === currentProject.id
+        );
+
+        if (index === -1) {
+          return;
+        }
+
+        projects[index] = {
+          ...projects[index],
+
+          equipment_status:
+            calculateEquipmentStatus(),
+
+          equipment_data: state,
+
+          updated_at:
+            new Date().toISOString()
+        };
+
+        localStorage.setItem(
+          DASHBOARD_STORAGE_KEY,
+          JSON.stringify(projects)
+        );
+
+        currentProject = projects[index];
+
+      } catch (error) {
+        console.error(
+          'Could not synchronize dashboard project:',
+          error
+        );
+      }
+    }
+
+
+    function calculateEquipmentStatus() {
+      const fields = [
+        ...document.querySelectorAll('[data-field]')
+      ];
+
+      const completed = fields.filter(field => {
+        return String(field.value || '').trim() !== '';
+      });
+
+      if (completed.length === 0) {
+        return 'Not started';
+      }
+
+      if (completed.length === fields.length) {
+        return 'Complete';
+      }
+
+      return 'In progress';
+    }
+
+
+    /* =========================================================
+       CALCULATIONS
+    ========================================================== */
+
+    function calculateEstimatedKwh(row) {
+      return numberValue(row.quantity) *
+        numberValue(row.power) *
+        (row.unit === 'kW' ? 1 : 0.001) *
+        numberValue(row.load) *
+        numberValue(row.hours) *
+        numberValue(row.days);
+    }
+
+
+    function calculateLighting(row) {
+      const connectedWatts =
+        numberValue(row.qty) *
+        (
+          numberValue(row.lamps) *
+          numberValue(row.watt) +
+          numberValue(row.driver)
+        );
+
+      const estimatedKwh =
+        connectedWatts *
+        numberValue(row.hours) *
+        numberValue(row.days) /
+        1000;
+
+      return {
+        connectedWatts,
+        estimatedKwh
+      };
+    }
+
+
+    /* =========================================================
+       SECTION HEADERS AND SIDEBAR
+    ========================================================== */
+
+    function replaceSectionHeader(element) {
+      const index = element.getAttribute('index');
+      const title = element.getAttribute('title');
+      const icon = element.getAttribute('icon');
+
+      element.outerHTML = `
+        <div class="mb-1">
+          <h2 class="text-xl font-bold text-[#0f2040] flex items-center gap-2">
+            <i
+              data-lucide="${icon}"
+              class="w-5 h-5 text-[#1e6fbd]"
+            ></i>
+
+            ${title}
+          </h2>
+
+          <p
+            id="completion-${index}"
+            class="text-xs text-slate-500 mt-1"
+          ></p>
+        </div>
+      `;
+    }
+
+
+    function buildSidebar() {
+      const sidebarMarkup = sections.map(
+        (section, index) => `
+          <button
+            data-sec="${index}"
+            class="sidebar-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/70 hover:bg-[#1a3460] w-full text-left"
+            type="button"
+          >
+            <i
+              data-lucide="${section[1]}"
+              class="w-4 h-4"
+            ></i>
+
+            <span class="flex-1 truncate">
+              ${section[0]}
+            </span>
+
+            <span
+              class="sidebar-dot dot-grey"
+              data-dot="${index}"
+            ></span>
+          </button>
+        `
+      ).join('');
+
+      $('sidebar-nav').innerHTML = sidebarMarkup;
+      $('mobile-nav').innerHTML = sidebarMarkup;
+    }
+
+
+    function activateSection(index) {
+      activeSection = index;
+
+      document.querySelectorAll(
+        '.section-panel'
+      ).forEach(panel => {
+        panel.classList.toggle(
+          'active',
+          Number(panel.dataset.section) === index
+        );
+      });
+
+      document.querySelectorAll(
+        '.sidebar-btn'
+      ).forEach(button => {
+        button.classList.toggle(
+          'bg-[#1e6fbd]',
+          Number(button.dataset.sec) === index
+        );
+      });
+
+      $('mobile-overlay').classList.add('hidden');
+    }
+
+
+    /* =========================================================
+       EQUIPMENT TABLE RENDERING
+    ========================================================== */
+
+    function renderEquipmentPanel(key) {
+      const rows = state.equipment[key];
+      const isAppliance = key === 'appliances';
+
+      return `
+        <div class="card mt-3">
+
+          <div class="flex justify-between items-center mb-3">
+
+            <div class="text-xs text-slate-500">
+              ${
+                isAppliance
+                  ? 'Add appliances as required.'
+                  : 'Enter nameplate ratings and operating assumptions; measured kWh overrides the estimate.'
+              }
+            </div>
+
+            <button
+              class="text-xs font-semibold text-[#1e6fbd] no-print"
+              data-add-equipment="${key}"
+              type="button"
+            >
+              ＋ Add ${isAppliance ? 'Appliance' : 'Equipment'}
+            </button>
+
+          </div>
+
+
+          <div class="overflow-x-auto">
+
+            <table class="w-full text-sm">
+
+              <thead class="bg-slate-100 text-xs font-semibold">
+                <tr>
+                  <th class="p-2 text-left">
+                    Name
+                  </th>
+
+                  <th class="p-2 text-left">
+                    Location
+                  </th>
+
+                  <th class="p-2">
+                    Qty
+                  </th>
+
+                  <th class="p-2">
+                    Power
+                  </th>
+
+                  <th class="p-2">
+                    Unit
+                  </th>
+
+                  <th class="p-2">
+                    Load
+                  </th>
+
+                  <th class="p-2">
+                    Hours/day
+                  </th>
+
+                  <th class="p-2">
+                    Days/year
+                  </th>
+
+                  <th class="p-2 text-right">
+                    Estimated kWh/y
+                  </th>
+
+                  <th class="p-2">
+                    Measured kWh/y
+                  </th>
+
+                  <th class="p-2">
+                    Condition
+                  </th>
+
+                  <th class="p-2 text-left">
+                    Recommendation
+                  </th>
+
+                  <th class="p-2 no-print"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                ${
+                  rows.map(
+                    (row, index) =>
+                      renderEquipmentRow(
+                        key,
+                        row,
+                        index
+                      )
+                  ).join('')
+                }
+              </tbody>
+
+            </table>
+          </div>
+
+        </div>
+      `;
+    }
+
+
+    function renderEquipmentRow(key, row, index) {
+      return `
+        <tr class="border-t border-slate-200">
+
+          <td>
+            <input
+              class="table-input"
+              data-equipment-key="${key}"
+              data-equipment-index="${index}"
+              data-equipment-field="name"
+              value="${escapeHtml(row.name)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input"
+              data-equipment-key="${key}"
+              data-equipment-index="${index}"
+              data-equipment-field="location"
+              value="${escapeHtml(row.location)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input w-16"
+              type="number"
+              data-equipment-key="${key}"
+              data-equipment-index="${index}"
+              data-equipment-field="quantity"
+              value="${escapeHtml(row.quantity)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input w-20"
+              type="number"
+              step="0.01"
+              data-equipment-key="${key}"
+              data-equipment-index="${index}"
+              data-equipment-field="power"
+              value="${escapeHtml(row.power)}"
+            >
+          </td>
+
+          <td>
+            <select
+              class="table-input"
+              data-equipment-key="${key}"
+              data-equipment-index="${index}"
+              data-equipment-field="unit"
+            >
+              <option
+                value="W"
+                ${row.unit === 'W' ? 'selected' : ''}
+              >
+                W
+              </option>
+
+              <option
+                value="kW"
+                ${row.unit === 'kW' ? 'selected' : ''}
+              >
+                kW
+              </option>
+            </select>
+          </td>
+
+          <td>
+            <input
+              class="table-input w-16"
+              type="number"
+              step="0.01"
+              data-equipment-key="${key}"
+              data-equipment-index="${index}"
+              data-equipment-field="load"
+              value="${escapeHtml(row.load)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input w-20"
+              type="number"
+              step="0.1"
+              data-equipment-key="${key}"
+              data-equipment-index="${index}"
+              data-equipment-field="hours"
+              value="${escapeHtml(row.hours)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input w-20"
+              type="number"
+              data-equipment-key="${key}"
+              data-equipment-index="${index}"
+              data-equipment-field="days"
+              value="${escapeHtml(row.days)}"
+            >
+          </td>
+
+          <td
+            class="p-2 font-semibold text-right"
+            data-equipment-estimate="${key}:${index}"
+          >
+            ${formatNumber(calculateEstimatedKwh(row))}
+          </td>
+
+          <td>
+            <input
+              class="table-input w-24"
+              type="number"
+              data-equipment-key="${key}"
+              data-equipment-index="${index}"
+              data-equipment-field="measured"
+              value="${escapeHtml(row.measured)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input"
+              data-equipment-key="${key}"
+              data-equipment-index="${index}"
+              data-equipment-field="condition"
+              value="${escapeHtml(row.condition)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input"
+              data-equipment-key="${key}"
+              data-equipment-index="${index}"
+              data-equipment-field="recommendation"
+              value="${escapeHtml(row.recommendation)}"
+            >
+          </td>
+
+          <td class="p-2 no-print">
+            <button
+              class="text-red-600 text-xs font-bold"
+              data-delete-equipment="${key}"
+              data-equipment-index="${index}"
+              type="button"
+            >
+              Delete
+            </button>
+          </td>
+
+        </tr>
+      `;
+    }
+
+
+    function renderLightingPanel() {
+      return `
+        <div class="card mt-3">
+
+          <div class="flex justify-between items-center mb-3">
+
+            <div class="text-xs text-slate-500">
+              One row per fixture group or lighting circuit.
+            </div>
+
+            <button
+              class="text-xs font-semibold text-[#1e6fbd] no-print"
+              data-add-lighting
+              type="button"
+            >
+              ＋ Add Lighting Load
+            </button>
+
+          </div>
+
+
+          <div class="overflow-x-auto">
+
+            <table class="w-full text-sm">
+
+              <thead class="bg-slate-100 text-xs font-semibold">
+                <tr>
+                  <th class="p-2">
+                    Area / Location
+                  </th>
+
+                  <th class="p-2">
+                    Fixture Type
+                  </th>
+
+                  <th class="p-2">
+                    Fixtures
+                  </th>
+
+                  <th class="p-2">
+                    Lamps/Fixture
+                  </th>
+
+                  <th class="p-2">
+                    Lamp W
+                  </th>
+
+                  <th class="p-2">
+                    Driver W
+                  </th>
+
+                  <th class="p-2">
+                    Connected W
+                  </th>
+
+                  <th class="p-2">
+                    Hours/day
+                  </th>
+
+                  <th class="p-2">
+                    Days/year
+                  </th>
+
+                  <th class="p-2">
+                    Estimated kWh/y
+                  </th>
+
+                  <th class="p-2">
+                    Measured kWh/y
+                  </th>
+
+                  <th class="p-2">
+                    Controls
+                  </th>
+
+                  <th class="p-2">
+                    Upgrade
+                  </th>
+
+                  <th class="p-2 no-print"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                ${
+                  state.equipment.lighting
+                    .map(renderLightingRow)
+                    .join('')
+                }
+              </tbody>
+
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+
+    function renderLightingRow(row, index) {
+      const calculations =
+        calculateLighting(row);
+
+      return `
+        <tr class="border-t border-slate-200">
+
+          <td>
+            <input
+              class="table-input"
+              data-lighting-index="${index}"
+              data-lighting-field="area"
+              value="${escapeHtml(row.area)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input"
+              data-lighting-index="${index}"
+              data-lighting-field="fixture"
+              value="${escapeHtml(row.fixture)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input"
+              type="number"
+              data-lighting-index="${index}"
+              data-lighting-field="qty"
+              value="${escapeHtml(row.qty)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input"
+              type="number"
+              data-lighting-index="${index}"
+              data-lighting-field="lamps"
+              value="${escapeHtml(row.lamps)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input"
+              type="number"
+              data-lighting-index="${index}"
+              data-lighting-field="watt"
+              value="${escapeHtml(row.watt)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input"
+              type="number"
+              data-lighting-index="${index}"
+              data-lighting-field="driver"
+              value="${escapeHtml(row.driver)}"
+            >
+          </td>
+
+          <td
+            class="p-2 font-semibold"
+            data-lighting-connected="${index}"
+          >
+            ${formatNumber(calculations.connectedWatts)}
+          </td>
+
+          <td>
+            <input
+              class="table-input"
+              type="number"
+              data-lighting-index="${index}"
+              data-lighting-field="hours"
+              value="${escapeHtml(row.hours)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input"
+              type="number"
+              data-lighting-index="${index}"
+              data-lighting-field="days"
+              value="${escapeHtml(row.days)}"
+            >
+          </td>
+
+          <td
+            class="p-2 font-semibold"
+            data-lighting-estimate="${index}"
+          >
+            ${formatNumber(calculations.estimatedKwh)}
+          </td>
+
+          <td>
+            <input
+              class="table-input"
+              type="number"
+              data-lighting-index="${index}"
+              data-lighting-field="measured"
+              value="${escapeHtml(row.measured)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input"
+              data-lighting-index="${index}"
+              data-lighting-field="controls"
+              value="${escapeHtml(row.controls)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input"
+              data-lighting-index="${index}"
+              data-lighting-field="upgrade"
+              value="${escapeHtml(row.upgrade)}"
+            >
+          </td>
+
+          <td class="p-2 no-print">
+            <button
+              class="text-red-600 text-xs font-bold"
+              data-delete-lighting="${index}"
+              type="button"
+            >
+              Delete
+            </button>
+          </td>
+
+        </tr>
+      `;
+    }
+
+
+    function renderEquipmentPanels() {
+      equipmentTypes.forEach(key => {
+        $(`panel-${key}`).innerHTML =
+          renderEquipmentPanel(key);
+      });
+
+      $('panel-appliances').innerHTML =
+        renderEquipmentPanel('appliances');
+
+      $('panel-lighting').innerHTML =
+        renderLightingPanel();
+
+      bindDynamicEquipmentEvents();
+    }
+
+
+    /* =========================================================
+       EQUIPMENT EVENT HANDLERS
+    ========================================================== */
+
+    function bindDynamicEquipmentEvents() {
+      document
+        .querySelectorAll('[data-equipment-key]')
+        .forEach(element => {
+          element.addEventListener(
+            'input',
+            handleEquipmentInput
+          );
+
+          element.addEventListener(
+            'change',
+            handleEquipmentInput
+          );
+        });
+
+
+      document
+        .querySelectorAll('[data-add-equipment]')
+        .forEach(button => {
+          button.addEventListener(
+            'click',
+            () => {
+              const key =
+                button.dataset.addEquipment;
+
+              state.equipment[key].push(
+                createBlankEquipment(key)
+              );
+
+              renderEquipmentPanels();
+              saveState();
+            }
+          );
+        });
+
+
+      document
+        .querySelectorAll('[data-delete-equipment]')
+        .forEach(button => {
+          button.addEventListener(
+            'click',
+            () => {
+              const key =
+                button.dataset.deleteEquipment;
+
+              const index =
+                Number(button.dataset.equipmentIndex);
+
+              state.equipment[key].splice(
+                index,
+                1
+              );
+
+              renderEquipmentPanels();
+              saveState();
+            }
+          );
+        });
+
+
+      document
+        .querySelectorAll('[data-lighting-index]')
+        .forEach(element => {
+          element.addEventListener(
+            'input',
+            handleLightingInput
+          );
+        });
+
+
+      const addLighting =
+        document.querySelector(
+          '[data-add-lighting]'
+        );
+
+      if (addLighting) {
+        addLighting.addEventListener(
+          'click',
+          () => {
+            state.equipment.lighting.push({
+              area: '',
+              fixture: '',
+              qty: 1,
+              lamps: 1,
+              watt: 0,
+              driver: 0,
+              hours: 0,
+              days: 365,
+              measured: '',
+              controls: '',
+              upgrade: '',
+              notes: ''
+            });
+
+            renderEquipmentPanels();
+            saveState();
+          }
+        );
+      }
+
+
+      document
+        .querySelectorAll('[data-delete-lighting]')
+        .forEach(button => {
+          button.addEventListener(
+            'click',
+            () => {
+              const index =
+                Number(button.dataset.deleteLighting);
+
+              state.equipment.lighting.splice(
+                index,
+                1
+              );
+
+              renderEquipmentPanels();
+              saveState();
+            }
+          );
+        });
+    }
+
+
+    function handleEquipmentInput(event) {
+      const element = event.currentTarget;
+
+      const key =
+        element.dataset.equipmentKey;
+
+      const index =
+        Number(element.dataset.equipmentIndex);
+
+      const field =
+        element.dataset.equipmentField;
+
+      state.equipment[key][index][field] =
+        element.value;
+
+      const estimateCell =
+        document.querySelector(
+          `[data-equipment-estimate="${key}:${index}"]`
+        );
+
+      if (estimateCell) {
+        estimateCell.textContent =
+          formatNumber(
+            calculateEstimatedKwh(
+              state.equipment[key][index]
+            )
+          );
+      }
+
+      saveState();
+      updateEnergySummaries();
+    }
+
+
+    function handleLightingInput(event) {
+      const element = event.currentTarget;
+
+      const index =
+        Number(element.dataset.lightingIndex);
+
+      const field =
+        element.dataset.lightingField;
+
+      state.equipment.lighting[index][field] =
+        element.value;
+
+      renderEquipmentPanels();
+      saveState();
+      updateEnergySummaries();
+    }
+
+
+    /* =========================================================
+       UTILITY BILLING
+    ========================================================== */
+
+    function renderUtilityRows() {
+      $('utility-body').innerHTML =
+        state.utilities.map(
+          (row, index) => `
+            <tr class="border-t border-slate-200">
+
+              <td>
+                <input
+                  class="table-input"
+                  data-utility-index="${index}"
+                  data-utility-field="period"
+                  value="${escapeHtml(row.period)}"
+                >
+              </td>
+
+              <td>
+                <input
+                  type="date"
+                  class="table-input"
+                  data-utility-index="${index}"
+                  data-utility-field="start"
+                  value="${escapeHtml(row.start)}"
+                >
+              </td>
+
+              <td>
+                <input
+                  type="date"
+                  class="table-input"
+                  data-utility-index="${index}"
+                  data-utility-field="end"
+                  value="${escapeHtml(row.end)}"
+                >
+              </td>
+
+              <td>
+                <input
+                  type="number"
+                  class="table-input text-right"
+                  data-utility-index="${index}"
+                  data-utility-field="kwh"
+                  value="${escapeHtml(row.kwh)}"
+                >
+              </td>
+
+              <td>
+                <input
+                  type="number"
+                  class="table-input text-right"
+                  data-utility-index="${index}"
+                  data-utility-field="kw"
+                  value="${escapeHtml(row.kw)}"
+                >
+              </td>
+
+              <td>
+                <input
+                  type="number"
+                  class="table-input text-right"
+                  data-utility-index="${index}"
+                  data-utility-field="cost"
+                  value="${escapeHtml(row.cost)}"
+                >
+              </td>
+
+              <td>
+                <input
+                  class="table-input"
+                  data-utility-index="${index}"
+                  data-utility-field="notes"
+                  value="${escapeHtml(row.notes)}"
+                >
+              </td>
+
+              <td>
+                <button
+                  class="text-red-600 text-xs font-bold"
+                  data-delete-utility="${index}"
+                  type="button"
+                >
+                  Delete
+                </button>
+              </td>
+
+            </tr>
+          `
+        ).join('');
+
+
+      document
+        .querySelectorAll('[data-utility-index]')
+        .forEach(element => {
+          element.addEventListener(
+            'input',
+            event => {
+              const input =
+                event.currentTarget;
+
+              const index =
+                Number(input.dataset.utilityIndex);
+
+              const field =
+                input.dataset.utilityField;
+
+              state.utilities[index][field] =
+                input.value;
+
+              saveState();
+              updateEnergySummaries();
+            }
+          );
+        });
+
+
+      document
+        .querySelectorAll('[data-delete-utility]')
+        .forEach(button => {
+          button.addEventListener(
+            'click',
+            () => {
+              const index =
+                Number(button.dataset.deleteUtility);
+
+              state.utilities.splice(
+                index,
+                1
+              );
+
+              renderUtilityRows();
+              updateEnergySummaries();
+              saveState();
+            }
+          );
+        });
+    }
+
+
+    function getEstimatedEquipmentEnergy() {
+      const equipmentEnergy =
+        Object.entries(state.equipment)
+          .filter(([key]) => key !== 'lighting')
+          .flatMap(([, rows]) => rows)
+          .reduce(
+            (total, row) =>
+              total + calculateEstimatedKwh(row),
+            0
+          );
+
+      const lightingEnergy =
+        state.equipment.lighting.reduce(
+          (total, row) =>
+            total + calculateLighting(row).estimatedKwh,
+          0
+        );
+
+      return equipmentEnergy + lightingEnergy;
+    }
+
+
+    function updateEnergySummaries() {
+      const utilityEnergy =
+        state.utilities.reduce(
+          (total, row) =>
+            total + numberValue(row.kwh),
+          0
+        );
+
+      const estimatedEnergy =
+        getEstimatedEquipmentEnergy();
+
+      const floorArea =
+        numberValue(state.floorArea);
+
+      const variance =
+        utilityEnergy - estimatedEnergy;
+
+      const eui =
+        floorArea
+          ? utilityEnergy / floorArea
+          : 0;
+
+      $('energy-summary').innerHTML = [
+        ['Estimated equipment', estimatedEnergy],
+        ['Utility electricity', utilityEnergy],
+        ['Unallocated', variance],
+        ['Floor area', floorArea],
+        ['Actual EUI', eui]
+      ].map(
+        item => `
+          <div class="stat-card">
+            <div class="stat-val">
+              ${formatNumber(item[1])}
+            </div>
+
+            <div class="stat-lbl">
+              ${item[0]}
+            </div>
+          </div>
+        `
+      ).join('');
+
+
+      $('mv-summary').innerHTML = [
+        ['Estimated kWh/y', estimatedEnergy],
+        ['Actual kWh/y', utilityEnergy],
+        ['Variance kWh/y', variance],
+        [
+          'Variance %',
+          estimatedEnergy
+            ? variance / estimatedEnergy * 100
+            : 0
+        ]
+      ].map(
+        item => `
+          <div class="stat-card">
+            <div class="stat-val">
+              ${formatNumber(item[1])}${item[0].includes('%') ? '%' : ''}
+            </div>
+
+            <div class="stat-lbl">
+              ${item[0]}
+            </div>
+          </div>
+        `
+      ).join('');
+    }
+
+
+    /* =========================================================
+       RECOMMENDATIONS
+    ========================================================== */
+
+    function renderRecommendations() {
+      $('recommendation-body').innerHTML =
+        state.recommendations.map(
+          (row, index) => `
+            <tr class="border-t border-slate-200">
+
+              <td>
+                <input
+                  class="table-input w-16"
+                  data-recommendation-index="${index}"
+                  data-recommendation-field="priority"
+                  value="${escapeHtml(row.priority)}"
+                >
+              </td>
+
+              <td>
+                <input
+                  class="table-input"
+                  data-recommendation-index="${index}"
+                  data-recommendation-field="area"
+                  value="${escapeHtml(row.area)}"
+                >
+              </td>
+
+              <td>
+                <input
+                  class="table-input"
+                  data-recommendation-index="${index}"
+                  data-recommendation-field="text"
+                  value="${escapeHtml(row.text)}"
+                >
+              </td>
+
+              <td>
+                <input
+                  class="table-input"
+                  type="number"
+                  data-recommendation-index="${index}"
+                  data-recommendation-field="cost"
+                  value="${escapeHtml(row.cost)}"
+                >
+              </td>
+
+              <td>
+                <input
+                  class="table-input"
+                  type="number"
+                  data-recommendation-index="${index}"
+                  data-recommendation-field="savings"
+                  value="${escapeHtml(row.savings)}"
+                >
+              </td>
+
+              <td>
+                <input
+                  class="table-input"
+                  data-recommendation-index="${index}"
+                  data-recommendation-field="status"
+                  value="${escapeHtml(row.status)}"
+                >
+              </td>
+
+              <td>
+                <button
+                  class="text-red-600 text-xs font-bold"
+                  data-delete-recommendation="${index}"
+                  type="button"
+                >
+                  Delete
+                </button>
+              </td>
+
+            </tr>
+          `
+        ).join('');
+
+
+      document
+        .querySelectorAll('[data-recommendation-index]')
+        .forEach(element => {
+          element.addEventListener(
+            'input',
+            event => {
+              const input =
+                event.currentTarget;
+
+              const index =
+                Number(
+                  input.dataset.recommendationIndex
+                );
+
+              const field =
+                input.dataset.recommendationField;
+
+              state.recommendations[index][field] =
+                input.value;
+
+              saveState();
+            }
+          );
+        });
+
+
+      document
+        .querySelectorAll('[data-delete-recommendation]')
+        .forEach(button => {
+          button.addEventListener(
+            'click',
+            () => {
+              const index =
+                Number(
+                  button.dataset.deleteRecommendation
+                );
+
+              state.recommendations.splice(
+                index,
+                1
+              );
+
+              renderRecommendations();
+              saveState();
+            }
+          );
+        });
+    }
+
+
+    /* =========================================================
+       GENERAL FIELD BINDING
+    ========================================================== */
+
+    function bindGeneralFields() {
+      document
+        .querySelectorAll('[data-field]')
+        .forEach(field => {
+          field.value =
+            state[field.dataset.field] || '';
+
+          field.addEventListener(
+            'input',
+            event => {
+              const input =
+                event.currentTarget;
+
+              state[input.dataset.field] =
+                input.value;
+
+              saveState();
+              updateEnergySummaries();
+            }
+          );
+        });
+    }
+
+
+    /* =========================================================
+       PROGRESS AND COMPLETION
+    ========================================================== */
+
+    function updateProgress() {
+      const fields = [
+        ...document.querySelectorAll('[data-field]')
+      ];
+
+      const completed =
+        fields.filter(field => {
+          return String(
+            field.value || ''
+          ).trim() !== '';
+        }).length;
+
+      const percentage =
+        fields.length
+          ? Math.round(
+              completed / fields.length * 100
+            )
+          : 0;
+
+      $('checked-count').textContent =
+        completed;
+
+      $('total-count').textContent =
+        fields.length;
+
+      $('progress-fill').style.width =
+        `${percentage}%`;
+
+      $('progress-pct').textContent =
+        `${percentage}%`;
+
+      $('overall-status').textContent =
+        calculateEquipmentStatus();
+
+
+      sections.forEach(
+        (section, index) => {
+          const panel =
+            document.querySelector(
+              `[data-section="${index}"]`
+            );
+
+          if (!panel) {
+            return;
+          }
+
+          const panelFields = [
+            ...panel.querySelectorAll(
+              'input, select, textarea'
+            )
+          ];
+
+          const panelCompleted =
+            panelFields.filter(field => {
+              return String(
+                field.value || ''
+              ).trim() !== '';
+            }).length;
+
+          const completion =
+            document.getElementById(
+              `completion-${index}`
+            );
+
+          if (completion) {
+            completion.textContent =
+              `Section completion: ${
+                panelFields.length
+                  ? Math.round(
+                      panelCompleted /
+                      panelFields.length *
+                      100
+                    )
+                  : 0
+              }%`;
+          }
+
+          const dot =
+            document.querySelector(
+              `[data-dot="${index}"]`
+            );
+
+          if (dot) {
+            dot.className =
+              'sidebar-dot ' +
+              (
+                panelCompleted === panelFields.length &&
+                panelFields.length
+                  ? 'dot-green'
+                  : panelCompleted
+                    ? 'dot-yellow'
+                    : 'dot-grey'
+              );
+          }
+        }
+      );
+    }
+
+
+    /* =========================================================
+       IMPORT AND EXPORT
+    ========================================================== */
+
+    function exportAudit() {
+      const blob = new Blob(
+        [
+          JSON.stringify(
+            state,
+            null,
+            2
+          )
+        ],
+        {
+          type: 'application/json'
+        }
+      );
+
+      const link =
+        document.createElement('a');
+
+      const url =
+        URL.createObjectURL(blob);
+
+      link.href = url;
+      link.download = 'equipment-audit.json';
+      link.click();
+
+      URL.revokeObjectURL(url);
+    }
+
+
+    function importAudit() {
+      $('file-input').click();
+    }
+
+
+    function importAuditFile(event) {
+      const file =
+        event.target.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      const reader =
+        new FileReader();
+
+      reader.onload = () => {
+        try {
+          state =
+            JSON.parse(reader.result);
+
+          localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(state)
+          );
+
+          location.reload();
+
+        } catch (error) {
+          alert(
+            `Import failed: ${error.message}`
+          );
+        }
+
+        event.target.value = '';
+      };
+
+      reader.readAsText(file);
+    }
+
+
+    /* =========================================================
+       EVENT BINDING
+    ========================================================== */
+
+    function bindEvents() {
+      document
+        .querySelectorAll('.sidebar-btn')
+        .forEach(button => {
+          button.addEventListener(
+            'click',
+            () => {
+              activateSection(
+                Number(button.dataset.sec)
+              );
+            }
+          );
+        });
+
+
+      $('add-utility').addEventListener(
+        'click',
+        () => {
+          state.utilities.push({
+            period: '',
+            start: '',
+            end: '',
+            kwh: '',
+            kw: '',
+            cost: '',
+            notes: ''
+          });
+
+          renderUtilityRows();
+          saveState();
+        }
+      );
+
+
+      $('add-recommendation').addEventListener(
+        'click',
+        () => {
+          state.recommendations.push({
+            priority: '',
+            area: '',
+            text: '',
+            cost: '',
+            savings: '',
+            status: 'Open'
+          });
+
+          renderRecommendations();
+          saveState();
+        }
+      );
+
+
+      $('btn-print').addEventListener(
+        'click',
+        () => {
+          window.print();
+        }
+      );
+
+
+      $('btn-save').addEventListener(
+        'click',
+        exportAudit
+      );
+
+
+      $('btn-open').addEventListener(
+        'click',
+        importAudit
+      );
+
+
+      $('file-input').addEventListener(
+        'change',
+        importAuditFile
+      );
+
+
+      $('btn-reset').addEventListener(
+        'click',
+        () => {
+          if (
+            !confirm(
+              'Reset all Equipment Audit data?'
+            )
+          ) {
+            return;
+          }
+
+          localStorage.removeItem(
+            STORAGE_KEY
+          );
+
+          location.reload();
+        }
+      );
+
+
+      $('mobile-menu').addEventListener(
+        'click',
+        () => {
+          $('mobile-overlay')
+            .classList
+            .remove('hidden');
+        }
+      );
+
+
+      $('mobile-close').addEventListener(
+        'click',
+        () => {
+          $('mobile-overlay')
+            .classList
+            .add('hidden');
+        }
+      );
+    }
+
+
+    /* =========================================================
+       INITIALIZATION
+    ========================================================== */
+
+    function initializeEquipmentAudit() {
+      document
+        .querySelectorAll('section-header')
+        .forEach(replaceSectionHeader);
+
+
+      currentProject =
+        loadDashboardProject();
+
+
+      populateDashboardProject(
+        currentProject
+      );
+
+
+      copyProjectFieldsToState(
+        currentProject
+      );
+
+
+      buildSidebar();
+      bindGeneralFields();
+      renderEquipmentPanels();
+      renderUtilityRows();
+      renderRecommendations();
+      updateEnergySummaries();
+      bindEvents();
+      activateSection(0);
+      updateProgress();
+
+
+      if (
+        window.lucide &&
+        typeof lucide.createIcons === 'function'
+      ) {
+        lucide.createIcons();
+      }
+    }
+
+
+    initializeEquipmentAudit();
+
+  </script>
+
+</body>
+</html>
