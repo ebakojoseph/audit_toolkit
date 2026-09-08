@@ -1695,7 +1695,11 @@ function updateFinalStats(total, passed, failed, na, passRate) {
 
 // ===== AUTO SAVE =====
 function startAutoSave() {
-  setInterval(() => { saveState(); updateAllCalcs(); }, 2000);
+  setInterval(() => {
+    saveState(false);
+    updateAllCalcs();
+  }, 2000);
+}
 }
 
 // ===== GLOBAL EVENTS =====
@@ -1720,7 +1724,11 @@ function bindGlobalEvents() {
     if (e.target === this) this.classList.add('hidden');
   });
 //Save
-document.getElementById('btn-save-csv')?.addEventListener('click', exportStateToCsv);
+document.getElementById('btn-save-csv')?.addEventListener('click', () => {
+  saveState(true);
+  exportStateToCsv();
+});
+  ;
 
 document.getElementById('btn-open-csv')?.addEventListener('click', function() {
   document.getElementById('csv-file-input').click();
