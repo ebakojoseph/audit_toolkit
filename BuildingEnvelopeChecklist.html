@@ -89,11 +89,21 @@ input, select, textarea { font-family: inherit; }
   #mobile-nav { display: flex !important; }
 }
 
-.imported-project-field {
+.print-only-project { display: none; }
+@media print {
+  #project-context { display: none !important; }
+  .print-only-project { display: flex !important; justify-content: space-between; gap: 12px; border-bottom: 1px solid #cbd5e1; padding: 0 0 6px; margin-bottom: 10px; font-size: 9px; color: #475569; }
+}
+@media (max-width: 767px) {
+  #project-context { top: 60px; }
+}
+
+/* Dashboard-imported fields: visible but not editable */
+.dashboard-locked {
   background-color: #f1f5f9 !important;
   color: #475569 !important;
   cursor: not-allowed !important;
-  opacity: 0.9;
+  opacity: .9;
 }
 </style>
 </head>
@@ -139,11 +149,22 @@ input, select, textarea { font-family: inherit; }
   </div>
 </header>
 
+<!-- PROJECT CONTEXT: imported from index.html -->
+<div id="project-context" class="fixed top-[60px] left-0 right-0 z-30 bg-white border-b border-surface-300 shadow-sm md:pl-56 lg:pl-60">
+  <div class="px-4 md:px-6 py-2 flex flex-wrap items-center gap-x-5 gap-y-1 text-xs text-surface-600">
+    <span><strong class="text-navy-900">Project:</strong> <span data-project-context="project">—</span></span>
+    <span><strong class="text-navy-900">Address:</strong> <span data-project-context="address">—</span></span>
+    <span><strong class="text-navy-900">Inspector:</strong> <span data-project-context="inspector">—</span></span>
+    <span><strong class="text-navy-900">Inspection date:</strong> <span data-project-context="date">—</span></span>
+  </div>
+</div>
+
+
 <!-- MAIN LAYOUT -->
-<div data-id="21" class="flex flex-1 pt-[60px]" style="min-height: calc(100vh - 60px);">
+<div data-id="21" class="flex flex-1 pt-[92px]" style="min-height: calc(100vh - 60px);">
 
   <!-- SIDEBAR -->
-  <aside data-id="22" id="sidebar" class="hidden md:flex flex-col w-56 lg:w-60 bg-navy-900 text-white fixed top-[60px] bottom-0 left-0 z-40 overflow-y-auto" style="scrollbar-width:thin;">
+  <aside data-id="22" id="sidebar" class="hidden md:flex flex-col w-56 lg:w-60 bg-navy-900 text-white fixed top-[92px] bottom-0 left-0 z-40 overflow-y-auto" style="scrollbar-width:thin;">
     <nav data-id="23" class="flex flex-col py-3 px-2 gap-0.5" id="sidebar-nav">
     </nav>
     <div data-id="24" class="mt-auto p-4 border-t border-navy-700">
@@ -592,7 +613,7 @@ input, select, textarea { font-family: inherit; }
         </div>
         <div data-id="404" class="bg-white rounded-2xl p-5 shadow-sm">
           <h3 data-id="405" class="text-sm font-bold text-navy-800 mb-3">Key Findings</h3>
-          <textarea data-id="406" data-field="summary_findings" rows="5" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y" placeholder="Summarize the top findings from this inspection..."></textarea>
+          <textarea data-id="406" data-field="summary_findings" rows="5" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y" placeholder="Summarize the top findings from this inspection"></textarea>
         </div>
         <div data-id="407" class="bg-white rounded-2xl p-5 shadow-sm">
           <h3 data-id="408" class="text-sm font-bold text-navy-800 mb-3">Priority Action Items</h3>
@@ -852,7 +873,7 @@ function loadState() {
   return defaultState();
 }
 
-function saveState() {
+function saveState(showNotification = true) {
   // gather all fields
   document.querySelectorAll('[data-field]').forEach(el => {
     const k = el.dataset.field;
@@ -860,7 +881,9 @@ function saveState() {
     else state.fields[k] = el.value;
   });
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  showToast();
+  updateProjectContext();
+  updatePageProjectHeaders();
+  if (showNotification) showToast();
 }
 
 function showToast() {
@@ -1010,12 +1033,144 @@ function rebuildUIFromState() {
   buildConditionRating();
   buildDeclaration();
   restoreFields();
+  protectDashboardProjectFields();
   setActiveSection(activeSection || 0);
   updateAllCalcs();
 
   if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
     lucide.createIcons();
   }
+}
+
+
+// ===== PROJECT DATA FROM INDEX =====
+const PROJECT_CONTEXT_KEYS = {
+  project: ['projectId', 'project_id', 'buildingName', 'building', 'site_building', 'name'],
+  address: ['address', 'streetAddress', 'site_address', 'projectAddress'],
+  city: ['city', 'site_city'],
+  province: ['province', 'state', 'site_province'],
+  inspector: ['inspector', 'inspectorName', 'site_inspector'],
+  date: ['inspectionDate', 'date', 'site_date']
+};
+
+function readIndexProjectData() {
+  const sources = [];
+  const query = new URLSearchParams(window.location.search);
+  const encoded = query.get('projectData') || query.get('project');
+  if (encoded) {
+    try { sources.push(JSON.parse(encoded)); } catch (e) {
+      try { sources.push(JSON.parse(decodeURIComponent(encoded))); } catch (_) {}
+    }
+  }
+  ['indexProjectData', 'selectedProject', 'currentProject', 'projectData', 'project'].forEach(key => {
+    try {
+      const value = localStorage.getItem(key);
+      if (value) sources.push(JSON.parse(value));
+    } catch (e) {}
+  });
+  if (window.parent && window.parent !== window) {
+    try {
+      if (window.parent.projectData) sources.push(window.parent.projectData);
+      if (window.parent.currentProject) sources.push(window.parent.currentProject);
+    } catch (e) {}
+  }
+  return sources.find(value => value && typeof value === 'object') || {};
+}
+
+function getProjectValue(project, kind) {
+  const keys = PROJECT_CONTEXT_KEYS[kind] || [];
+  for (const key of keys) {
+    if (project[key] !== undefined && project[key] !== null && String(project[key]).trim()) {
+      return String(project[key]).trim();
+    }
+  }
+  return '';
+}
+
+function importProjectDataFromIndex() {
+  const project = readIndexProjectData();
+  const values = {
+    site_building: getProjectValue(project, 'project'),
+    site_address: getProjectValue(project, 'address'),
+    site_city: getProjectValue(project, 'city'),
+    site_province: getProjectValue(project, 'province'),
+    site_inspector: getProjectValue(project, 'inspector'),
+    site_date: getProjectValue(project, 'date')
+  };
+  Object.entries(values).forEach(([field, value]) => {
+    if (!value) return;
+    state.fields[field] = value;
+    const element = document.querySelector(`[data-field="${field}"]`);
+    if (element && !element.value) element.value = value;
+  });
+  updateProjectContext();
+  saveState(false);
+}
+
+
+const DASHBOARD_PROJECT_FIELDS = [
+  'site_building','site_address','site_city','site_province','site_inspector',
+  'site_date','site_btype','site_year','site_stories','site_area','site_area_unit'
+];
+
+function lockDashboardProjectFields() {
+  DASHBOARD_PROJECT_FIELDS.forEach(function(field) {
+    const el = document.querySelector('[data-field="' + field + '"]');
+    if (!el || !el.value || String(el.value).trim() === '') return;
+    el.classList.add('dashboard-locked');
+    el.dataset.dashboardLocked = 'true';
+    el.setAttribute('aria-readonly', 'true');
+    el.title = 'Copied from Dashboard Project';
+    if (el.tagName === 'SELECT') {
+      el.disabled = true;
+    } else {
+      el.readOnly = true;
+    }
+  });
+}
+
+function protectDashboardProjectFields() {
+  lockDashboardProjectFields();
+  // Reapply after project data, saved data, or dynamic UI updates are loaded.
+  window.setTimeout(lockDashboardProjectFields, 0);
+  window.setTimeout(lockDashboardProjectFields, 150);
+  window.setTimeout(lockDashboardProjectFields, 500);
+}
+
+function updateProjectContext() {
+  const get = field => document.querySelector(`[data-field="${field}"]`)?.value?.trim() || '—';
+  const values = {
+    project: get('site_building'),
+    address: [get('site_address'), get('site_city'), get('site_province')].filter(v => v !== '—').join(', ') || '—',
+    inspector: get('site_inspector'),
+    date: get('site_date')
+  };
+  document.querySelectorAll('[data-project-context]').forEach(element => {
+    element.textContent = values[element.dataset.projectContext] || '—';
+  });
+}
+
+function addPageProjectHeaders() {
+  document.querySelectorAll('.section-panel').forEach(panel => {
+    if (panel.querySelector(':scope > .page-project-header')) return;
+    const header = document.createElement('div');
+    header.className = 'page-project-header print-only-project';
+    header.innerHTML = '<strong data-page-project="project">—</strong><span data-page-project="address">—</span><span data-page-project="inspector">—</span><span data-page-project="date">—</span>';
+    panel.prepend(header);
+  });
+  updatePageProjectHeaders();
+}
+
+function updatePageProjectHeaders() {
+  const values = {
+    project: document.querySelector('[data-project-context="project"]')?.textContent || '—',
+    address: document.querySelector('[data-project-context="address"]')?.textContent || '—',
+    inspector: document.querySelector('[data-project-context="inspector"]')?.textContent || '—',
+    date: document.querySelector('[data-project-context="date"]')?.textContent || '—'
+  };
+  document.querySelectorAll('[data-page-project]').forEach(element => {
+    element.textContent = values[element.dataset.pageProject] || '—';
+  });
 }
 
 // ===== INIT =====
@@ -1031,7 +1186,10 @@ function init() {
   buildConditionRating();
   buildDeclaration();
   restoreFields();
-  lockAllImportedProjectFields();
+  protectDashboardProjectFields();
+  importProjectDataFromIndex();
+  protectDashboardProjectFields();
+  addPageProjectHeaders();
   setActiveSection(0);
   updateAllCalcs();
   startAutoSave();
@@ -1252,7 +1410,7 @@ function updateTDRSummary() {
   const box = document.getElementById('tdr-summary');
   if (vals.length === 0) { box.innerHTML = '<p class="text-xs text-surface-500 col-span-full">Enter temperature data above to see TDR summary statistics.</p>'; return; }
   const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
-  const mn = Math.min(...vals), mx = Math.max(...vals);
+  const mn = Math.min(vals), mx = Math.max(vals);
   const poor = vals.filter(v=>v<0.7).length, mod = vals.filter(v=>v>=0.7&&v<0.9).length, good = vals.filter(v=>v>=0.9).length;
   box.innerHTML = `<div class="stat-card"><div class="stat-val tabular-nums">${avg.toFixed(3)}</div><div class="stat-lbl">Avg TDR</div></div>
     <div class="stat-card"><div class="stat-val tabular-nums">${mn.toFixed(3)}</div><div class="stat-lbl">Min (Worst)</div></div>
@@ -1389,7 +1547,7 @@ function buildActionTable() { renderActionRows(); }
 function renderActionRows() {
   const tb = document.getElementById('action-tbody');
   tb.innerHTML = '';
-  const sorted = state.actionItems.map((a,i)=>({...a,_i:i})).sort((a,b)=>(parseInt(a.priority)||9)-(parseInt(b.priority)||9));
+  const sorted = state.actionItems.map((a,i)=>({a,_i:i})).sort((a,b)=>(parseInt(a.priority)||9)-(parseInt(b.priority)||9));
   sorted.forEach(row => {
     const i = row._i;
     const tr = document.createElement('tr');
@@ -1597,7 +1755,7 @@ function updateFinalStats(total, passed, failed, na, passRate) {
 
 // ===== AUTO SAVE =====
 function startAutoSave() {
-  setInterval(() => { saveState(); updateAllCalcs(); }, 2000);
+  setInterval(() => { saveState(false); updateAllCalcs(); }, 2000);
 }
 
 // ===== GLOBAL EVENTS =====
@@ -1715,21 +1873,18 @@ document.getElementById('csv-file-input')?.addEventListener('change', function(e
   const rhOut = document.querySelector('[data-field="int_rh_outdoor"]');
   if (rhIn) rhIn.addEventListener('input', () => updateDewPoint());
   if (rhOut) rhOut.addEventListener('input', () => updateDewPoint());
-
-  document.addEventListener('beforeinput', function(e) {
-    if (e.target.matches('[data-field][data-imported-project="true"]')) e.preventDefault();
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.target.matches('[data-field][data-imported-project="true"]')) e.preventDefault();
-  });
   // General input change tracking
   document.addEventListener('input', function(e) {
     if (e.target.matches('[data-field]')) {
+      updateProjectContext();
+      updatePageProjectHeaders();
       updateAllCalcs();
     }
   });
   document.addEventListener('change', function(e) {
     if (e.target.matches('[data-field]')) {
+      updateProjectContext();
+      updatePageProjectHeaders();
       updateAllCalcs();
     }
   });
