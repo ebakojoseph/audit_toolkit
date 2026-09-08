@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "project": {"client": "", "address": "", "auditDate": "", "auditor": ""},
+  "buildingEnvelope": {},
+  "equipmentAudit": {"equipment": [], "measurements": [], "recommendations": []},
+  "baseline": {"electricityBills": [], "gasBills": [], "weather": [], "occupancy": [], "operatingSchedules": []},
+  "measures": [],
+  "mv": {"baselinePeriod": "", "reportingPeriod": "", "adjustments": [], "verifiedSavings": []}
+}
