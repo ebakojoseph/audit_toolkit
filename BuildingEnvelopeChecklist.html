@@ -11,31 +11,31 @@
 <script src="https://unpkg.com/lucide@latest" defer></script>
 <script>
 tailwind.config = {
-theme: {
-extend: {
-fontFamily: {
-sans: ['Inter', 'system-ui', 'sans-serif'],
-sig: ['Dancing Script', 'cursive'],
-},
-colors: {
-navy: { 900: '#0f2040', 800: '#152a50', 700: '#1a3460', 600: '#1e3e70' },
-accent: { 50: '#e8f2fc', 100: '#d1e5f9', 200: '#a3cbf3', 300: '#75b1ed', 400: '#4797e7', 500: '#1e6fbd', 600: '#185a9a', 700: '#124577', 800: '#0c3054' },
-pass: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' },
-fail: { 50: '#fef2f2', 100: '#fee2e2', 500: '#ef4444', 600: '#dc2626', 700: '#b91c1c' },
-warn: { 50: '#fffbeb', 100: '#fef3c7', 500: '#f59e0b', 600: '#d97706', 700: '#b45309' },
-surface: { 50: '#ffffff', 100: '#f8fafc', 200: '#f1f5f9', 300: '#e2e8f0', 400: '#cbd5e1', 500: '#94a3b8', 600: '#64748b', 700: '#475569', 800: '#334155', 900: '#1e293b' }
-}
-}
-}
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sig: ['Dancing Script', 'cursive'],
+      },
+      colors: {
+        navy: { 900: '#0f2040', 800: '#152a50', 700: '#1a3460', 600: '#1e3e70' },
+        accent: { 50: '#e8f2fc', 100: '#d1e5f9', 200: '#a3cbf3', 300: '#75b1ed', 400: '#4797e7', 500: '#1e6fbd', 600: '#185a9a', 700: '#124577', 800: '#0c3054' },
+        pass: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' },
+        fail: { 50: '#fef2f2', 100: '#fee2e2', 500: '#ef4444', 600: '#dc2626', 700: '#b91c1c' },
+        warn: { 50: '#fffbeb', 100: '#fef3c7', 500: '#f59e0b', 600: '#d97706', 700: '#b45309' },
+        surface: { 50: '#ffffff', 100: '#f8fafc', 200: '#f1f5f9', 300: '#e2e8f0', 400: '#cbd5e1', 500: '#94a3b8', 600: '#64748b', 700: '#475569', 800: '#334155', 900: '#1e293b' }
+      }
+    }
+  }
 };
 </script>
 <style>
 :root {
---navy: #0f2040;
---accent: #1e6fbd;
---pass: #22c55e;
---fail: #ef4444;
---warn: #f59e0b;
+  --navy: #0f2040;
+  --accent: #1e6fbd;
+  --pass: #22c55e;
+  --fail: #ef4444;
+  --warn: #f59e0b;
 }
 * { box-sizing: border-box; }
 body { font-family: 'Inter', system-ui, sans-serif; background: #f1f5f9; margin: 0; }
@@ -73,20 +73,20 @@ input, select, textarea { font-family: inherit; }
 .sig-display { font-family: 'Dancing Script', cursive; font-size: 28px; color: #0f2040; border-bottom: 2px solid #0f2040; padding: 4px 0; min-height: 40px; }
 
 @media print {
-body { background: #fff !important; font-size: 11px; }
-#sidebar, #mobile-nav, #header-bar, #bottom-bar, .no-print, .toast, button, .pfn-toggle button { display: none !important; }
-.pfn-toggle button.active-pass, .pfn-toggle button.active-fail, .pfn-toggle button.active-na { display: inline-block !important; }
-.section-panel { display: block !important; page-break-before: always; padding: 0 !important; }
-.section-panel:first-of-type { page-break-before: avoid; }
-#main-content { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
-.print-header { display: block !important; text-align: center; padding: 12px 0; border-bottom: 2px solid #0f2040; margin-bottom: 16px; font-size: 18px; font-weight: 700; color: #0f2040; }
-.stat-card { border: 1px solid #e2e8f0; }
-table { font-size: 10px; }
-td, th { padding: 4px 6px !important; }
+  body { background: #fff !important; font-size: 11px; }
+  #sidebar, #mobile-nav, #header-bar, #bottom-bar, .no-print, .toast, button, .pfn-toggle button { display: none !important; }
+  .pfn-toggle button.active-pass, .pfn-toggle button.active-fail, .pfn-toggle button.active-na { display: inline-block !important; }
+  .section-panel { display: block !important; page-break-before: always; padding: 0 !important; }
+  .section-panel:first-of-type { page-break-before: avoid; }
+  #main-content { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
+  .print-header { display: block !important; text-align: center; padding: 12px 0; border-bottom: 2px solid #0f2040; margin-bottom: 16px; font-size: 18px; font-weight: 700; color: #0f2040; }
+  .stat-card { border: 1px solid #e2e8f0; }
+  table { font-size: 10px; }
+  td, th { padding: 4px 6px !important; }
 }
 @media (max-width: 767px) {
-#sidebar { display: none; }
-#mobile-nav { display: flex !important; }
+  #sidebar { display: none; }
+  #mobile-nav { display: flex !important; }
 }
 </style>
 </head>
@@ -96,557 +96,557 @@ td, th { padding: 4px 6px !important; }
 
 <!-- HEADER -->
 <header data-id="3" id="header-bar" class="fixed top-0 left-0 right-0 z-50 bg-navy-900 text-white shadow-lg" style="height:60px;">
-<div data-id="4" class="flex items-center h-full px-4 gap-3">
-<button data-id="5" id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-navy-700 transition">
-<i data-id="6" data-lucide="menu" class="w-5 h-5"></i>
-</button>
-<div data-id="7" class="flex items-center gap-2 mr-4 flex-shrink-0">
-<i data-id="8" data-lucide="clipboard-check" class="w-5 h-5 text-accent-300"></i>
-<span data-id="9" class="font-bold text-sm md:text-base whitespace-nowrap">Building Envelope Diagnostic Checklist</span>
-</div>
-<div data-id="10" class="flex-1 hidden sm:flex items-center gap-2 mx-4">
-<div data-id="11" class="flex-1 bg-navy-700 rounded-full h-2.5 overflow-hidden">
-<div data-id="12" id="progress-fill" class="h-full bg-accent-400 rounded-full transition-all duration-300" style="width:0%"></div>
-</div>
-<span data-id="13" id="progress-pct" class="text-xs font-semibold text-accent-200 tabular-nums whitespace-nowrap">0%</span>
-</div>
-<div data-id="14" class="flex items-center gap-2 ml-auto flex-shrink-0">
-<button data-id="15" id="btn-print" class="flex items-center gap-1.5 bg-accent-500 hover:bg-accent-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">
-<i data-id="16" data-lucide="printer" class="w-3.5 h-3.5"></i><span data-id="17" class="hidden sm:inline">Print</span>
-</button>
+  <div data-id="4" class="flex items-center h-full px-4 gap-3">
+    <button data-id="5" id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-navy-700 transition">
+      <i data-id="6" data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+    <div data-id="7" class="flex items-center gap-2 mr-4 flex-shrink-0">
+      <i data-id="8" data-lucide="clipboard-check" class="w-5 h-5 text-accent-300"></i>
+      <span data-id="9" class="font-bold text-sm md:text-base whitespace-nowrap">Building Envelope Diagnostic Checklist</span>
+    </div>
+    <div data-id="10" class="flex-1 hidden sm:flex items-center gap-2 mx-4">
+      <div data-id="11" class="flex-1 bg-navy-700 rounded-full h-2.5 overflow-hidden">
+        <div data-id="12" id="progress-fill" class="h-full bg-accent-400 rounded-full transition-all duration-300" style="width:0%"></div>
+      </div>
+      <span data-id="13" id="progress-pct" class="text-xs font-semibold text-accent-200 tabular-nums whitespace-nowrap">0%</span>
+    </div>
+    <div data-id="14" class="flex items-center gap-2 ml-auto flex-shrink-0">
+      <button data-id="15" id="btn-print" class="flex items-center gap-1.5 bg-accent-500 hover:bg-accent-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">
+        <i data-id="16" data-lucide="printer" class="w-3.5 h-3.5"></i><span data-id="17" class="hidden sm:inline">Print</span>
+      </button>
 <button id="btn-save-csv" class="flex items-center gap-1.5 bg-accent-500 hover:bg-accent-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">
-<i data-lucide="download" class="w-3.5 h-3.5"></i>
-<span class="hidden sm:inline">Save CSV</span>
+  <i data-lucide="download" class="w-3.5 h-3.5"></i>
+  <span class="hidden sm:inline">Save CSV</span>
 </button>
 
 <button id="btn-open-csv" class="flex items-center gap-1.5 bg-navy-700 hover:bg-navy-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">
-<i data-lucide="upload" class="w-3.5 h-3.5"></i>
-<span class="hidden sm:inline">Open CSV</span>
+  <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+  <span class="hidden sm:inline">Open CSV</span>
 </button>
 
 <input type="file" id="csv-file-input" accept=".csv,text/csv" class="hidden" />
-<button data-id="18" id="btn-reset" class="flex items-center gap-1.5 bg-navy-700 hover:bg-navy-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">
-<i data-id="19" data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i><span data-id="20" class="hidden sm:inline">Reset</span>
-</button>
-</div>
-</div>
+      <button data-id="18" id="btn-reset" class="flex items-center gap-1.5 bg-navy-700 hover:bg-navy-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">
+        <i data-id="19" data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i><span data-id="20" class="hidden sm:inline">Reset</span>
+      </button>
+    </div>
+  </div>
 </header>
 
 <!-- MAIN LAYOUT -->
 <div data-id="21" class="flex flex-1 pt-[60px]" style="min-height: calc(100vh - 60px);">
 
-<!-- SIDEBAR -->
-<aside data-id="22" id="sidebar" class="hidden md:flex flex-col w-56 lg:w-60 bg-navy-900 text-white fixed top-[60px] bottom-0 left-0 z-40 overflow-y-auto" style="scrollbar-width:thin;">
-<nav data-id="23" class="flex flex-col py-3 px-2 gap-0.5" id="sidebar-nav">
-</nav>
-<div data-id="24" class="mt-auto p-4 border-t border-navy-700">
-<p data-id="25" class="text-[10px] text-surface-500 text-center">v1.0 — Field Inspection Tool</p>
-</div>
-</aside>
+  <!-- SIDEBAR -->
+  <aside data-id="22" id="sidebar" class="hidden md:flex flex-col w-56 lg:w-60 bg-navy-900 text-white fixed top-[60px] bottom-0 left-0 z-40 overflow-y-auto" style="scrollbar-width:thin;">
+    <nav data-id="23" class="flex flex-col py-3 px-2 gap-0.5" id="sidebar-nav">
+    </nav>
+    <div data-id="24" class="mt-auto p-4 border-t border-navy-700">
+      <p data-id="25" class="text-[10px] text-surface-500 text-center">v1.0 — Field Inspection Tool</p>
+    </div>
+  </aside>
 
-<!-- MOBILE OVERLAY NAV -->
-<div data-id="26" id="mobile-overlay" class="fixed inset-0 bg-black/50 z-50 hidden">
-<aside data-id="27" class="w-72 bg-navy-900 text-white h-full overflow-y-auto">
-<div data-id="28" class="flex items-center justify-between p-4 border-b border-navy-700">
-<span data-id="29" class="font-bold text-sm">Sections</span>
-<button data-id="30" id="mobile-close-btn" class="p-2 rounded-lg hover:bg-navy-700">
-<i data-id="31" data-lucide="x" class="w-5 h-5"></i>
-</button>
-</div>
-<nav data-id="32" class="flex flex-col py-3 px-2 gap-0.5" id="mobile-sidebar-nav">
-</nav>
-</aside>
-</div>
+  <!-- MOBILE OVERLAY NAV -->
+  <div data-id="26" id="mobile-overlay" class="fixed inset-0 bg-black/50 z-50 hidden">
+    <aside data-id="27" class="w-72 bg-navy-900 text-white h-full overflow-y-auto">
+      <div data-id="28" class="flex items-center justify-between p-4 border-b border-navy-700">
+        <span data-id="29" class="font-bold text-sm">Sections</span>
+        <button data-id="30" id="mobile-close-btn" class="p-2 rounded-lg hover:bg-navy-700">
+          <i data-id="31" data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <nav data-id="32" class="flex flex-col py-3 px-2 gap-0.5" id="mobile-sidebar-nav">
+      </nav>
+    </aside>
+  </div>
 
-<!-- CONTENT -->
-<main data-id="33" id="main-content" class="flex-1 md:ml-56 lg:ml-60 p-4 md:p-6 pb-20 overflow-y-auto">
+  <!-- CONTENT -->
+  <main data-id="33" id="main-content" class="flex-1 md:ml-56 lg:ml-60 p-4 md:p-6 pb-20 overflow-y-auto">
 
-<!-- SECTION 0: Site Information -->
-<div data-id="34" class="section-panel active" data-section="0" id="panel-0">
-<div data-id="35" class="mb-1">
-<h2 data-id="36" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="37" data-lucide="building-2" class="w-5 h-5 text-accent-500"></i>Site Information</h2>
-<p data-id="38" class="text-xs text-surface-500 mt-1" id="completion-0"></p>
-</div>
-<div data-id="39" class="bg-white rounded-2xl p-5 md:p-6 mt-3 shadow-sm">
-<div data-id="40" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<div data-id="41">
-<label data-id="42" class="block text-xs font-semibold text-surface-700 mb-1">Date of Inspection <span data-id="43" class="text-fail-500">*</span></label>
-<input data-id="44" type="date" data-field="site_date" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none transition" />
-</div>
-<div data-id="45">
-<label data-id="46" class="block text-xs font-semibold text-surface-700 mb-1">Inspector Name <span data-id="47" class="text-fail-500">*</span></label>
-<input data-id="48" type="text" data-field="site_inspector" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" placeholder="e.g. Joseph" />
-</div>
-<div data-id="49">
-<label data-id="50" class="block text-xs font-semibold text-surface-700 mb-1">Building Name / Project ID <span data-id="51" class="text-fail-500">*</span></label>
-<input data-id="52" type="text" data-field="site_building" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" />
-</div>
-<div data-id="53">
-<label data-id="54" class="block text-xs font-semibold text-surface-700 mb-1">Street Address</label>
-<input data-id="55" type="text" data-field="site_address" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" />
-</div>
-<div data-id="56">
-<label data-id="57" class="block text-xs font-semibold text-surface-700 mb-1">City</label>
-<input data-id="58" type="text" data-field="site_city" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" placeholder="e.g. Edmonton" />
-</div>
-<div data-id="59">
-<label data-id="60" class="block text-xs font-semibold text-surface-700 mb-1">Province / State</label>
-<input data-id="61" type="text" data-field="site_province" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" placeholder="e.g. Alberta" />
-</div>
-<div data-id="62">
-<label data-id="63" class="block text-xs font-semibold text-surface-700 mb-1">Building Type</label>
-<select data-id="64" data-field="site_btype" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none bg-white">
-<option data-id="65" value="">— Select —</option>
-<option data-id="66">Residential Single-Family</option>
-<option data-id="67">Residential Multi-Unit</option>
-<option data-id="68">Commercial</option>
-<option data-id="69">Industrial</option>
-<option data-id="70">Institutional</option>
-<option data-id="71">Mixed-Use</option>
-</select>
-</div>
-<div data-id="72">
-<label data-id="73" class="block text-xs font-semibold text-surface-700 mb-1">Year Constructed</label>
-<input data-id="74" type="number" data-field="site_year" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" placeholder="e.g. 1998" />
-</div>
-<div data-id="75">
-<label data-id="76" class="block text-xs font-semibold text-surface-700 mb-1">Number of Stories</label>
-<input data-id="77" type="number" data-field="site_stories" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" />
-</div>
-<div data-id="78">
-<label data-id="79" class="block text-xs font-semibold text-surface-700 mb-1">Gross Floor Area</label>
-<div data-id="80" class="flex gap-2">
-<input data-id="81" type="number" data-field="site_area" class="flex-1 border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" />
-<select data-id="82" data-field="site_area_unit" class="border border-surface-300 rounded-xl px-2 py-2 text-sm bg-white focus:ring-2 focus:ring-accent-200 outline-none">
-<option data-id="83" value="m²">m²</option>
-<option data-id="84" value="ft²">ft²</option>
-</select>
-</div>
-</div>
-<div data-id="85">
-<label data-id="86" class="block text-xs font-semibold text-surface-700 mb-1">Weather Conditions</label>
-<select data-id="87" data-field="site_weather" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none bg-white">
-<option data-id="88" value="">— Select —</option>
-<option data-id="89">Clear</option>
-<option data-id="90">Partly Cloudy</option>
-<option data-id="91">Overcast</option>
-<option data-id="92">Rain</option>
-<option data-id="93">Snow</option>
-<option data-id="94">Fog</option>
-</select>
-</div>
-<div data-id="95">
-<label data-id="96" class="block text-xs font-semibold text-surface-700 mb-1">Outdoor Temp</label>
-<div data-id="97" class="flex gap-2">
-<input data-id="98" type="number" data-field="site_temp" class="flex-1 border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" step="0.1" />
-<select data-id="99" data-field="site_temp_unit" class="border border-surface-300 rounded-xl px-2 py-2 text-sm bg-white focus:ring-2 focus:ring-accent-200 outline-none">
-<option data-id="100" value="°C">°C</option>
-<option data-id="101" value="°F">°F</option>
-</select>
-</div>
-</div>
-<div data-id="102">
-<label data-id="103" class="block text-xs font-semibold text-surface-700 mb-1">Wind Speed</label>
-<div data-id="104" class="flex gap-2">
-<input data-id="105" type="number" data-field="site_wind" class="flex-1 border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" step="0.1" />
-<select data-id="106" data-field="site_wind_unit" class="border border-surface-300 rounded-xl px-2 py-2 text-sm bg-white focus:ring-2 focus:ring-accent-200 outline-none">
-<option data-id="107" value="km/h">km/h</option>
-<option data-id="108" value="mph">mph</option>
-</select>
-</div>
-</div>
-</div>
-<div data-id="109" class="mt-4">
-<label data-id="110" class="block text-xs font-semibold text-surface-700 mb-1">Notes / Special Conditions</label>
-<textarea data-id="111" data-field="site_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none resize-y" placeholder="Any special conditions, access restrictions, etc."></textarea>
-</div>
-</div>
-</div>
+    <!-- SECTION 0: Site Information -->
+    <div data-id="34" class="section-panel active" data-section="0" id="panel-0">
+      <div data-id="35" class="mb-1">
+        <h2 data-id="36" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="37" data-lucide="building-2" class="w-5 h-5 text-accent-500"></i>Site Information</h2>
+        <p data-id="38" class="text-xs text-surface-500 mt-1" id="completion-0"></p>
+      </div>
+      <div data-id="39" class="bg-white rounded-2xl p-5 md:p-6 mt-3 shadow-sm">
+        <div data-id="40" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div data-id="41">
+            <label data-id="42" class="block text-xs font-semibold text-surface-700 mb-1">Date of Inspection <span data-id="43" class="text-fail-500">*</span></label>
+            <input data-id="44" type="date" data-field="site_date" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none transition" />
+          </div>
+          <div data-id="45">
+            <label data-id="46" class="block text-xs font-semibold text-surface-700 mb-1">Inspector Name <span data-id="47" class="text-fail-500">*</span></label>
+            <input data-id="48" type="text" data-field="site_inspector" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" placeholder="e.g. Joseph" />
+          </div>
+          <div data-id="49">
+            <label data-id="50" class="block text-xs font-semibold text-surface-700 mb-1">Building Name / Project ID <span data-id="51" class="text-fail-500">*</span></label>
+            <input data-id="52" type="text" data-field="site_building" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" />
+          </div>
+          <div data-id="53">
+            <label data-id="54" class="block text-xs font-semibold text-surface-700 mb-1">Street Address</label>
+            <input data-id="55" type="text" data-field="site_address" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" />
+          </div>
+          <div data-id="56">
+            <label data-id="57" class="block text-xs font-semibold text-surface-700 mb-1">City</label>
+            <input data-id="58" type="text" data-field="site_city" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" placeholder="e.g. Edmonton" />
+          </div>
+          <div data-id="59">
+            <label data-id="60" class="block text-xs font-semibold text-surface-700 mb-1">Province / State</label>
+            <input data-id="61" type="text" data-field="site_province" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" placeholder="e.g. Alberta" />
+          </div>
+          <div data-id="62">
+            <label data-id="63" class="block text-xs font-semibold text-surface-700 mb-1">Building Type</label>
+            <select data-id="64" data-field="site_btype" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none bg-white">
+              <option data-id="65" value="">— Select —</option>
+              <option data-id="66">Residential Single-Family</option>
+              <option data-id="67">Residential Multi-Unit</option>
+              <option data-id="68">Commercial</option>
+              <option data-id="69">Industrial</option>
+              <option data-id="70">Institutional</option>
+              <option data-id="71">Mixed-Use</option>
+            </select>
+          </div>
+          <div data-id="72">
+            <label data-id="73" class="block text-xs font-semibold text-surface-700 mb-1">Year Constructed</label>
+            <input data-id="74" type="number" data-field="site_year" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" placeholder="e.g. 1998" />
+          </div>
+          <div data-id="75">
+            <label data-id="76" class="block text-xs font-semibold text-surface-700 mb-1">Number of Stories</label>
+            <input data-id="77" type="number" data-field="site_stories" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" />
+          </div>
+          <div data-id="78">
+            <label data-id="79" class="block text-xs font-semibold text-surface-700 mb-1">Gross Floor Area</label>
+            <div data-id="80" class="flex gap-2">
+              <input data-id="81" type="number" data-field="site_area" class="flex-1 border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" />
+              <select data-id="82" data-field="site_area_unit" class="border border-surface-300 rounded-xl px-2 py-2 text-sm bg-white focus:ring-2 focus:ring-accent-200 outline-none">
+                <option data-id="83" value="m²">m²</option>
+                <option data-id="84" value="ft²">ft²</option>
+              </select>
+            </div>
+          </div>
+          <div data-id="85">
+            <label data-id="86" class="block text-xs font-semibold text-surface-700 mb-1">Weather Conditions</label>
+            <select data-id="87" data-field="site_weather" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none bg-white">
+              <option data-id="88" value="">— Select —</option>
+              <option data-id="89">Clear</option>
+              <option data-id="90">Partly Cloudy</option>
+              <option data-id="91">Overcast</option>
+              <option data-id="92">Rain</option>
+              <option data-id="93">Snow</option>
+              <option data-id="94">Fog</option>
+            </select>
+          </div>
+          <div data-id="95">
+            <label data-id="96" class="block text-xs font-semibold text-surface-700 mb-1">Outdoor Temp</label>
+            <div data-id="97" class="flex gap-2">
+              <input data-id="98" type="number" data-field="site_temp" class="flex-1 border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" step="0.1" />
+              <select data-id="99" data-field="site_temp_unit" class="border border-surface-300 rounded-xl px-2 py-2 text-sm bg-white focus:ring-2 focus:ring-accent-200 outline-none">
+                <option data-id="100" value="°C">°C</option>
+                <option data-id="101" value="°F">°F</option>
+              </select>
+            </div>
+          </div>
+          <div data-id="102">
+            <label data-id="103" class="block text-xs font-semibold text-surface-700 mb-1">Wind Speed</label>
+            <div data-id="104" class="flex gap-2">
+              <input data-id="105" type="number" data-field="site_wind" class="flex-1 border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none" step="0.1" />
+              <select data-id="106" data-field="site_wind_unit" class="border border-surface-300 rounded-xl px-2 py-2 text-sm bg-white focus:ring-2 focus:ring-accent-200 outline-none">
+                <option data-id="107" value="km/h">km/h</option>
+                <option data-id="108" value="mph">mph</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div data-id="109" class="mt-4">
+          <label data-id="110" class="block text-xs font-semibold text-surface-700 mb-1">Notes / Special Conditions</label>
+          <textarea data-id="111" data-field="site_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 focus:border-accent-400 outline-none resize-y" placeholder="Any special conditions, access restrictions, etc."></textarea>
+        </div>
+      </div>
+    </div>
 
-<!-- SECTION 1: Exterior Conditions -->
-<div data-id="112" class="section-panel" data-section="1" id="panel-1">
-<div data-id="113" class="mb-1">
-<h2 data-id="114" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="115" data-lucide="home" class="w-5 h-5 text-accent-500"></i>Exterior Wall &amp; Facade Assessment</h2>
-<p data-id="116" class="text-surface-500 text-xs mt-1">Mark each item Pass / Fail / N/A. Add notes as needed.</p>
-<p data-id="117" class="text-xs text-surface-400 mt-0.5" id="completion-1"></p>
-</div>
-<div data-id="118" class="space-y-4 mt-3" id="checklist-1">
-<!-- Foundation & Base -->
-<div data-id="119" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="120" class="text-sm font-bold text-navy-800 mb-3 flex items-center gap-2"><i data-id="121" data-lucide="layers" class="w-4 h-4 text-accent-500"></i>Foundation &amp; Base</h3>
-<div data-id="122" class="space-y-2" id="grp-ext-foundation"></div>
-</div>
-<!-- Wall Cladding -->
-<div data-id="123" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="124" class="text-sm font-bold text-navy-800 mb-3 flex items-center gap-2"><i data-id="125" data-lucide="brick-wall" class="w-4 h-4 text-accent-500"></i>Wall Cladding / Exterior Finish</h3>
-<div data-id="126" class="space-y-2" id="grp-ext-cladding"></div>
-</div>
-<!-- Penetrations -->
-<div data-id="127" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="128" class="text-sm font-bold text-navy-800 mb-3 flex items-center gap-2"><i data-id="129" data-lucide="plug" class="w-4 h-4 text-accent-500"></i>Penetrations &amp; Openings</h3>
-<div data-id="130" class="space-y-2" id="grp-ext-penetrations"></div>
-</div>
-<!-- Roof-to-Wall -->
-<div data-id="131" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="132" class="text-sm font-bold text-navy-800 mb-3 flex items-center gap-2"><i data-id="133" data-lucide="triangle" class="w-4 h-4 text-accent-500"></i>Roof-to-Wall Transition</h3>
-<div data-id="134" class="space-y-2" id="grp-ext-roof"></div>
-</div>
-<!-- Notes -->
-<div data-id="135" class="bg-white rounded-2xl p-5 shadow-sm">
-<label data-id="136" class="block text-xs font-semibold text-surface-700 mb-1">Section Notes</label>
-<textarea data-id="137" data-field="ext_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y"></textarea>
-<label data-id="138" class="block text-xs font-semibold text-surface-700 mb-1 mt-3">Photo Reference IDs</label>
-<input data-id="139" type="text" data-field="ext_photos" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" placeholder="e.g. IMG_001, IMG_002" />
-</div>
-</div>
-</div>
+    <!-- SECTION 1: Exterior Conditions -->
+    <div data-id="112" class="section-panel" data-section="1" id="panel-1">
+      <div data-id="113" class="mb-1">
+        <h2 data-id="114" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="115" data-lucide="home" class="w-5 h-5 text-accent-500"></i>Exterior Wall &amp; Facade Assessment</h2>
+        <p data-id="116" class="text-surface-500 text-xs mt-1">Mark each item Pass / Fail / N/A. Add notes as needed.</p>
+        <p data-id="117" class="text-xs text-surface-400 mt-0.5" id="completion-1"></p>
+      </div>
+      <div data-id="118" class="space-y-4 mt-3" id="checklist-1">
+        <!-- Foundation & Base -->
+        <div data-id="119" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="120" class="text-sm font-bold text-navy-800 mb-3 flex items-center gap-2"><i data-id="121" data-lucide="layers" class="w-4 h-4 text-accent-500"></i>Foundation &amp; Base</h3>
+          <div data-id="122" class="space-y-2" id="grp-ext-foundation"></div>
+        </div>
+        <!-- Wall Cladding -->
+        <div data-id="123" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="124" class="text-sm font-bold text-navy-800 mb-3 flex items-center gap-2"><i data-id="125" data-lucide="brick-wall" class="w-4 h-4 text-accent-500"></i>Wall Cladding / Exterior Finish</h3>
+          <div data-id="126" class="space-y-2" id="grp-ext-cladding"></div>
+        </div>
+        <!-- Penetrations -->
+        <div data-id="127" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="128" class="text-sm font-bold text-navy-800 mb-3 flex items-center gap-2"><i data-id="129" data-lucide="plug" class="w-4 h-4 text-accent-500"></i>Penetrations &amp; Openings</h3>
+          <div data-id="130" class="space-y-2" id="grp-ext-penetrations"></div>
+        </div>
+        <!-- Roof-to-Wall -->
+        <div data-id="131" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="132" class="text-sm font-bold text-navy-800 mb-3 flex items-center gap-2"><i data-id="133" data-lucide="triangle" class="w-4 h-4 text-accent-500"></i>Roof-to-Wall Transition</h3>
+          <div data-id="134" class="space-y-2" id="grp-ext-roof"></div>
+        </div>
+        <!-- Notes -->
+        <div data-id="135" class="bg-white rounded-2xl p-5 shadow-sm">
+          <label data-id="136" class="block text-xs font-semibold text-surface-700 mb-1">Section Notes</label>
+          <textarea data-id="137" data-field="ext_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y"></textarea>
+          <label data-id="138" class="block text-xs font-semibold text-surface-700 mb-1 mt-3">Photo Reference IDs</label>
+          <input data-id="139" type="text" data-field="ext_photos" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" placeholder="e.g. IMG_001, IMG_002" />
+        </div>
+      </div>
+    </div>
 
-<!-- SECTION 2: Interior Conditions -->
-<div data-id="140" class="section-panel" data-section="2" id="panel-2">
-<div data-id="141" class="mb-1">
-<h2 data-id="142" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="143" data-lucide="scan-line" class="w-5 h-5 text-accent-500"></i>Interior Wall Surface &amp; Moisture Assessment</h2>
-<p data-id="144" class="text-xs text-surface-400 mt-0.5" id="completion-2"></p>
-</div>
-<div data-id="145" class="space-y-4 mt-3">
-<div data-id="146" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="147" class="text-sm font-bold text-navy-800 mb-3">Visual Inspection</h3>
-<div data-id="148" class="space-y-2" id="grp-int-visual"></div>
-</div>
-<div data-id="149" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="150" class="text-sm font-bold text-navy-800 mb-3">Moisture Meter Readings</h3>
-<div data-id="151" class="overflow-x-auto">
-<table data-id="152" class="w-full text-sm" id="moisture-table">
-<thead data-id="153" class="bg-surface-100 text-xs font-semibold text-surface-600 uppercase">
-<tr data-id="154"><th data-id="155" class="px-3 py-2 text-left">Location</th><th data-id="156" class="px-3 py-2 text-right">Reading %</th><th data-id="157" class="px-3 py-2 text-right">Reference %</th><th data-id="158" class="px-3 py-2 text-center">Status</th></tr>
-</thead>
-<tbody data-id="159" id="moisture-tbody"></tbody>
-</table>
-</div>
-</div>
-<div data-id="160" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="161" class="text-sm font-bold text-navy-800 mb-3">Relative Humidity</h3>
-<div data-id="162" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<div data-id="163">
-<label data-id="164" class="block text-xs font-semibold text-surface-700 mb-1">Indoor RH (%)</label>
-<input data-id="165" type="number" data-field="int_rh_indoor" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" step="0.1" />
-</div>
-<div data-id="166">
-<label data-id="167" class="block text-xs font-semibold text-surface-700 mb-1">Outdoor RH (%)</label>
-<input data-id="168" type="number" data-field="int_rh_outdoor" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" step="0.1" />
-</div>
-</div>
-<div data-id="169" class="mt-3 p-3 bg-surface-100 rounded-xl">
-<span data-id="170" class="text-xs font-semibold text-surface-600">Calculated Dew Point:</span>
-<span data-id="171" id="dew-point" class="text-sm font-bold text-navy-900 ml-2">—</span>
-</div>
-<div data-id="172" class="mt-2 space-y-2" id="grp-int-rh"></div>
-</div>
-<div data-id="173" class="bg-white rounded-2xl p-5 shadow-sm">
-<label data-id="174" class="block text-xs font-semibold text-surface-700 mb-1">Section Notes</label>
-<textarea data-id="175" data-field="int_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y"></textarea>
-</div>
-</div>
-</div>
+    <!-- SECTION 2: Interior Conditions -->
+    <div data-id="140" class="section-panel" data-section="2" id="panel-2">
+      <div data-id="141" class="mb-1">
+        <h2 data-id="142" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="143" data-lucide="scan-line" class="w-5 h-5 text-accent-500"></i>Interior Wall Surface &amp; Moisture Assessment</h2>
+        <p data-id="144" class="text-xs text-surface-400 mt-0.5" id="completion-2"></p>
+      </div>
+      <div data-id="145" class="space-y-4 mt-3">
+        <div data-id="146" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="147" class="text-sm font-bold text-navy-800 mb-3">Visual Inspection</h3>
+          <div data-id="148" class="space-y-2" id="grp-int-visual"></div>
+        </div>
+        <div data-id="149" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="150" class="text-sm font-bold text-navy-800 mb-3">Moisture Meter Readings</h3>
+          <div data-id="151" class="overflow-x-auto">
+            <table data-id="152" class="w-full text-sm" id="moisture-table">
+              <thead data-id="153" class="bg-surface-100 text-xs font-semibold text-surface-600 uppercase">
+                <tr data-id="154"><th data-id="155" class="px-3 py-2 text-left">Location</th><th data-id="156" class="px-3 py-2 text-right">Reading %</th><th data-id="157" class="px-3 py-2 text-right">Reference %</th><th data-id="158" class="px-3 py-2 text-center">Status</th></tr>
+              </thead>
+              <tbody data-id="159" id="moisture-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div data-id="160" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="161" class="text-sm font-bold text-navy-800 mb-3">Relative Humidity</h3>
+          <div data-id="162" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div data-id="163">
+              <label data-id="164" class="block text-xs font-semibold text-surface-700 mb-1">Indoor RH (%)</label>
+              <input data-id="165" type="number" data-field="int_rh_indoor" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" step="0.1" />
+            </div>
+            <div data-id="166">
+              <label data-id="167" class="block text-xs font-semibold text-surface-700 mb-1">Outdoor RH (%)</label>
+              <input data-id="168" type="number" data-field="int_rh_outdoor" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" step="0.1" />
+            </div>
+          </div>
+          <div data-id="169" class="mt-3 p-3 bg-surface-100 rounded-xl">
+            <span data-id="170" class="text-xs font-semibold text-surface-600">Calculated Dew Point:</span>
+            <span data-id="171" id="dew-point" class="text-sm font-bold text-navy-900 ml-2">—</span>
+          </div>
+          <div data-id="172" class="mt-2 space-y-2" id="grp-int-rh"></div>
+        </div>
+        <div data-id="173" class="bg-white rounded-2xl p-5 shadow-sm">
+          <label data-id="174" class="block text-xs font-semibold text-surface-700 mb-1">Section Notes</label>
+          <textarea data-id="175" data-field="int_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y"></textarea>
+        </div>
+      </div>
+    </div>
 
-<!-- SECTION 3: Thermal Imaging -->
-<div data-id="176" class="section-panel" data-section="3" id="panel-3">
-<div data-id="177" class="mb-1">
-<h2 data-id="178" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="179" data-lucide="thermometer" class="w-5 h-5 text-accent-500"></i>Infrared Thermography Assessment</h2>
-<p data-id="180" class="text-xs text-surface-400 mt-0.5" id="completion-3"></p>
-</div>
-<div data-id="181" class="space-y-4 mt-3">
-<div data-id="182" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="183" class="text-sm font-bold text-navy-800 mb-3">Equipment</h3>
-<div data-id="184" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<div data-id="185"><label data-id="186" class="block text-xs font-semibold text-surface-700 mb-1">Camera Make/Model</label><input data-id="187" type="text" data-field="therm_camera" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" /></div>
-<div data-id="188"><label data-id="189" class="block text-xs font-semibold text-surface-700 mb-1">Serial Number</label><input data-id="190" type="text" data-field="therm_serial" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" /></div>
-<div data-id="191"><label data-id="192" class="block text-xs font-semibold text-surface-700 mb-1">Emissivity Setting</label><input data-id="193" type="number" data-field="therm_emissivity" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" step="0.01" value="0.95" /></div>
-<div data-id="194"><label data-id="195" class="block text-xs font-semibold text-surface-700 mb-1">Lens FOV</label><input data-id="196" type="text" data-field="therm_fov" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" /></div>
-</div>
-<div data-id="197" class="mt-3 space-y-2" id="grp-therm-equip"></div>
-</div>
-<div data-id="198" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="199" class="text-sm font-bold text-navy-800 mb-3">Conditions at Time of Survey</h3>
-<div data-id="200" class="space-y-2" id="grp-therm-conditions"></div>
-</div>
-<div data-id="201" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="202" class="text-sm font-bold text-navy-800 mb-3">Anomalies Detected</h3>
-<div data-id="203" class="overflow-x-auto">
-<table data-id="204" class="w-full text-sm" id="anomaly-table">
-<thead data-id="205" class="bg-surface-100 text-xs font-semibold text-surface-600 uppercase">
-<tr data-id="206"><th data-id="207" class="px-2 py-2 text-left">Zone</th><th data-id="208" class="px-2 py-2 text-left">Type</th><th data-id="209" class="px-2 py-2 text-right">Min °C</th><th data-id="210" class="px-2 py-2 text-right">Max °C</th><th data-id="211" class="px-2 py-2 text-right">Δ</th><th data-id="212" class="px-2 py-2 text-center">Severity</th><th data-id="213" class="px-2 py-2 text-left">Notes</th><th data-id="214" class="px-2 py-2"></th></tr>
-</thead>
-<tbody data-id="215" id="anomaly-tbody"></tbody>
-</table>
-</div>
-<button data-id="216" id="btn-add-anomaly" class="mt-3 flex items-center gap-1 text-xs font-semibold text-accent-500 hover:text-accent-700 transition no-print">
-<i data-id="217" data-lucide="plus-circle" class="w-4 h-4"></i> Add Anomaly
-</button>
-</div>
-<div data-id="218" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="219" class="text-sm font-bold text-navy-800 mb-3">Thermal Image Log</h3>
-<div data-id="220" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<div data-id="221"><label data-id="222" class="block text-xs font-semibold text-surface-700 mb-1">Number of Images Captured</label><input data-id="223" type="number" data-field="therm_img_count" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" /></div>
-<div data-id="224"><label data-id="225" class="block text-xs font-semibold text-surface-700 mb-1">Image File Prefix/Location</label><input data-id="226" type="text" data-field="therm_img_prefix" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" /></div>
-</div>
-<div data-id="227" class="mt-3 space-y-2" id="grp-therm-log"></div>
-</div>
-<div data-id="228" class="bg-white rounded-2xl p-5 shadow-sm">
-<label data-id="229" class="block text-xs font-semibold text-surface-700 mb-1">Section Notes</label>
-<textarea data-id="230" data-field="therm_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y"></textarea>
-</div>
-</div>
-</div>
+    <!-- SECTION 3: Thermal Imaging -->
+    <div data-id="176" class="section-panel" data-section="3" id="panel-3">
+      <div data-id="177" class="mb-1">
+        <h2 data-id="178" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="179" data-lucide="thermometer" class="w-5 h-5 text-accent-500"></i>Infrared Thermography Assessment</h2>
+        <p data-id="180" class="text-xs text-surface-400 mt-0.5" id="completion-3"></p>
+      </div>
+      <div data-id="181" class="space-y-4 mt-3">
+        <div data-id="182" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="183" class="text-sm font-bold text-navy-800 mb-3">Equipment</h3>
+          <div data-id="184" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div data-id="185"><label data-id="186" class="block text-xs font-semibold text-surface-700 mb-1">Camera Make/Model</label><input data-id="187" type="text" data-field="therm_camera" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" /></div>
+            <div data-id="188"><label data-id="189" class="block text-xs font-semibold text-surface-700 mb-1">Serial Number</label><input data-id="190" type="text" data-field="therm_serial" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" /></div>
+            <div data-id="191"><label data-id="192" class="block text-xs font-semibold text-surface-700 mb-1">Emissivity Setting</label><input data-id="193" type="number" data-field="therm_emissivity" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" step="0.01" value="0.95" /></div>
+            <div data-id="194"><label data-id="195" class="block text-xs font-semibold text-surface-700 mb-1">Lens FOV</label><input data-id="196" type="text" data-field="therm_fov" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" /></div>
+          </div>
+          <div data-id="197" class="mt-3 space-y-2" id="grp-therm-equip"></div>
+        </div>
+        <div data-id="198" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="199" class="text-sm font-bold text-navy-800 mb-3">Conditions at Time of Survey</h3>
+          <div data-id="200" class="space-y-2" id="grp-therm-conditions"></div>
+        </div>
+        <div data-id="201" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="202" class="text-sm font-bold text-navy-800 mb-3">Anomalies Detected</h3>
+          <div data-id="203" class="overflow-x-auto">
+            <table data-id="204" class="w-full text-sm" id="anomaly-table">
+              <thead data-id="205" class="bg-surface-100 text-xs font-semibold text-surface-600 uppercase">
+                <tr data-id="206"><th data-id="207" class="px-2 py-2 text-left">Zone</th><th data-id="208" class="px-2 py-2 text-left">Type</th><th data-id="209" class="px-2 py-2 text-right">Min °C</th><th data-id="210" class="px-2 py-2 text-right">Max °C</th><th data-id="211" class="px-2 py-2 text-right">Δ</th><th data-id="212" class="px-2 py-2 text-center">Severity</th><th data-id="213" class="px-2 py-2 text-left">Notes</th><th data-id="214" class="px-2 py-2"></th></tr>
+              </thead>
+              <tbody data-id="215" id="anomaly-tbody"></tbody>
+            </table>
+          </div>
+          <button data-id="216" id="btn-add-anomaly" class="mt-3 flex items-center gap-1 text-xs font-semibold text-accent-500 hover:text-accent-700 transition no-print">
+            <i data-id="217" data-lucide="plus-circle" class="w-4 h-4"></i> Add Anomaly
+          </button>
+        </div>
+        <div data-id="218" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="219" class="text-sm font-bold text-navy-800 mb-3">Thermal Image Log</h3>
+          <div data-id="220" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div data-id="221"><label data-id="222" class="block text-xs font-semibold text-surface-700 mb-1">Number of Images Captured</label><input data-id="223" type="number" data-field="therm_img_count" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" /></div>
+            <div data-id="224"><label data-id="225" class="block text-xs font-semibold text-surface-700 mb-1">Image File Prefix/Location</label><input data-id="226" type="text" data-field="therm_img_prefix" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" /></div>
+          </div>
+          <div data-id="227" class="mt-3 space-y-2" id="grp-therm-log"></div>
+        </div>
+        <div data-id="228" class="bg-white rounded-2xl p-5 shadow-sm">
+          <label data-id="229" class="block text-xs font-semibold text-surface-700 mb-1">Section Notes</label>
+          <textarea data-id="230" data-field="therm_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y"></textarea>
+        </div>
+      </div>
+    </div>
 
-<!-- SECTION 4: Temperature Measurements -->
-<div data-id="231" class="section-panel" data-section="4" id="panel-4">
-<div data-id="232" class="mb-1">
-<h2 data-id="233" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="234" data-lucide="gauge" class="w-5 h-5 text-accent-500"></i>Temperature Data Collection</h2>
-<p data-id="235" class="text-xs text-surface-400 mt-0.5" id="completion-4"></p>
-</div>
-<div data-id="236" class="space-y-4 mt-3">
-<div data-id="237" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="238" class="text-sm font-bold text-navy-800 mb-3">Instruments Used</h3>
-<div data-id="239" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<div data-id="240"><label data-id="241" class="block text-xs font-semibold text-surface-700 mb-1">Thermocouple / Thermometer Make/Model</label><input data-id="242" type="text" data-field="temp_instrument" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" /></div>
-<div data-id="243"><label data-id="244" class="block text-xs font-semibold text-surface-700 mb-1">Calibration Date</label><input data-id="245" type="date" data-field="temp_cal_date" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" /></div>
-</div>
-<div data-id="246" class="mt-3 space-y-2" id="grp-temp-instruments"></div>
-</div>
-<div data-id="247" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="248" class="text-sm font-bold text-navy-800 mb-3">Measurement Grid</h3>
-<div data-id="249" class="overflow-x-auto">
-<table data-id="250" class="w-full text-sm" id="temp-table">
-<thead data-id="251" class="bg-surface-100 text-xs font-semibold text-surface-600 uppercase">
-<tr data-id="252"><th data-id="253" class="px-2 py-2 text-left">Point</th><th data-id="254" class="px-2 py-2 text-left">Location</th><th data-id="255" class="px-2 py-2 text-right">Ti (°C)</th><th data-id="256" class="px-2 py-2 text-right">To (°C)</th><th data-id="257" class="px-2 py-2 text-right">Ts (°C)</th><th data-id="258" class="px-2 py-2 text-right">TDR</th><th data-id="259" class="px-2 py-2 text-center">Rating</th><th data-id="260" class="px-2 py-2 text-left">Notes</th><th data-id="261" class="px-2 py-2 no-print"></th></tr>
-</thead>
-<tbody data-id="262" id="temp-tbody"></tbody>
-</table>
-</div>
-<button data-id="263" id="btn-add-temp" class="mt-3 flex items-center gap-1 text-xs font-semibold text-accent-500 hover:text-accent-700 transition no-print"><i data-id="264" data-lucide="plus-circle" class="w-4 h-4"></i> Add Row</button>
-<div data-id="265" class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3" id="tdr-summary"></div>
-<div data-id="266" class="callout mt-4">
-<strong data-id="267">TDR (Temperature Difference Ratio)</strong> = (Ti − Ts) / (Ti − To). Values ≥ 0.90 indicate good envelope performance. Values &lt; 0.70 indicate significant heat loss.
-</div>
-</div>
-<div data-id="268" class="bg-white rounded-2xl p-5 shadow-sm">
-<label data-id="269" class="block text-xs font-semibold text-surface-700 mb-1">Section Notes</label>
-<textarea data-id="270" data-field="temp_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y"></textarea>
-</div>
-</div>
-</div>
+    <!-- SECTION 4: Temperature Measurements -->
+    <div data-id="231" class="section-panel" data-section="4" id="panel-4">
+      <div data-id="232" class="mb-1">
+        <h2 data-id="233" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="234" data-lucide="gauge" class="w-5 h-5 text-accent-500"></i>Temperature Data Collection</h2>
+        <p data-id="235" class="text-xs text-surface-400 mt-0.5" id="completion-4"></p>
+      </div>
+      <div data-id="236" class="space-y-4 mt-3">
+        <div data-id="237" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="238" class="text-sm font-bold text-navy-800 mb-3">Instruments Used</h3>
+          <div data-id="239" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div data-id="240"><label data-id="241" class="block text-xs font-semibold text-surface-700 mb-1">Thermocouple / Thermometer Make/Model</label><input data-id="242" type="text" data-field="temp_instrument" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" /></div>
+            <div data-id="243"><label data-id="244" class="block text-xs font-semibold text-surface-700 mb-1">Calibration Date</label><input data-id="245" type="date" data-field="temp_cal_date" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" /></div>
+          </div>
+          <div data-id="246" class="mt-3 space-y-2" id="grp-temp-instruments"></div>
+        </div>
+        <div data-id="247" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="248" class="text-sm font-bold text-navy-800 mb-3">Measurement Grid</h3>
+          <div data-id="249" class="overflow-x-auto">
+            <table data-id="250" class="w-full text-sm" id="temp-table">
+              <thead data-id="251" class="bg-surface-100 text-xs font-semibold text-surface-600 uppercase">
+                <tr data-id="252"><th data-id="253" class="px-2 py-2 text-left">Point</th><th data-id="254" class="px-2 py-2 text-left">Location</th><th data-id="255" class="px-2 py-2 text-right">Ti (°C)</th><th data-id="256" class="px-2 py-2 text-right">To (°C)</th><th data-id="257" class="px-2 py-2 text-right">Ts (°C)</th><th data-id="258" class="px-2 py-2 text-right">TDR</th><th data-id="259" class="px-2 py-2 text-center">Rating</th><th data-id="260" class="px-2 py-2 text-left">Notes</th><th data-id="261" class="px-2 py-2 no-print"></th></tr>
+              </thead>
+              <tbody data-id="262" id="temp-tbody"></tbody>
+            </table>
+          </div>
+          <button data-id="263" id="btn-add-temp" class="mt-3 flex items-center gap-1 text-xs font-semibold text-accent-500 hover:text-accent-700 transition no-print"><i data-id="264" data-lucide="plus-circle" class="w-4 h-4"></i> Add Row</button>
+          <div data-id="265" class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3" id="tdr-summary"></div>
+          <div data-id="266" class="callout mt-4">
+            <strong data-id="267">TDR (Temperature Difference Ratio)</strong> = (Ti − Ts) / (Ti − To). Values ≥ 0.90 indicate good envelope performance. Values &lt; 0.70 indicate significant heat loss.
+          </div>
+        </div>
+        <div data-id="268" class="bg-white rounded-2xl p-5 shadow-sm">
+          <label data-id="269" class="block text-xs font-semibold text-surface-700 mb-1">Section Notes</label>
+          <textarea data-id="270" data-field="temp_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y"></textarea>
+        </div>
+      </div>
+    </div>
 
-<!-- SECTION 5: R-Value -->
-<div data-id="271" class="section-panel" data-section="5" id="panel-5">
-<div data-id="272" class="mb-1">
-<h2 data-id="273" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="274" data-lucide="layers" class="w-5 h-5 text-accent-500"></i>Thermal Resistance (R-Value) Calculations</h2>
-<p data-id="275" class="text-xs text-surface-400 mt-0.5" id="completion-5"></p>
-</div>
-<div data-id="276" class="space-y-4 mt-3">
-<div data-id="277" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="278" class="text-sm font-bold text-navy-800 mb-3">Known Construction Assembly</h3>
-<label data-id="279" class="block text-xs font-semibold text-surface-700 mb-1">Assembly Description</label>
-<textarea data-id="280" data-field="rval_assembly" rows="2" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y" placeholder='e.g. 2x6 wood stud, R-20 batt, 1.5" XPS exterior'></textarea>
-</div>
-<div data-id="281" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="282" class="text-sm font-bold text-navy-800 mb-3">Layer-by-Layer R-Value Table</h3>
-<div data-id="283" class="flex items-center gap-2 mb-3">
-<label data-id="284" class="text-xs font-semibold text-surface-700">Thickness Unit:</label>
-<select data-id="285" id="rval-unit-toggle" class="border border-surface-300 rounded-lg px-2 py-1 text-xs bg-white focus:ring-2 focus:ring-accent-200 outline-none">
-<option data-id="286" value="in">inches</option>
-<option data-id="287" value="mm">mm</option>
-</select>
-</div>
-<div data-id="288" class="overflow-x-auto">
-<table data-id="289" class="w-full text-sm" id="rval-table">
-<thead data-id="290" class="bg-surface-100 text-xs font-semibold text-surface-600 uppercase">
-<tr data-id="291"><th data-id="292" class="px-2 py-2 text-center">#</th><th data-id="293" class="px-2 py-2 text-left">Material</th><th data-id="294" class="px-2 py-2 text-right">Thickness</th><th data-id="295" class="px-2 py-2 text-right">R/inch</th><th data-id="296" class="px-2 py-2 text-right">Total R</th><th data-id="297" class="px-2 py-2 text-left">Notes</th><th data-id="298" class="px-2 py-2 no-print"></th></tr>
-</thead>
-<tbody data-id="299" id="rval-tbody"></tbody>
-</table>
-</div>
-<button data-id="300" id="btn-add-layer" class="mt-3 flex items-center gap-1 text-xs font-semibold text-accent-500 hover:text-accent-700 transition no-print"><i data-id="301" data-lucide="plus-circle" class="w-4 h-4"></i> Add Layer</button>
-</div>
-<div data-id="302" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="303" class="text-sm font-bold text-navy-800 mb-3">Summary Calculations</h3>
-<div data-id="304" class="grid grid-cols-2 md:grid-cols-4 gap-3" id="rval-summary"></div>
-<div data-id="305" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-<div data-id="306">
-<label data-id="307" class="block text-xs font-semibold text-surface-700 mb-1">Code Required R-Value</label>
-<input data-id="308" type="number" data-field="rval_code_req" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" step="0.1" />
-</div>
-<div data-id="309" class="flex items-end">
-<div data-id="310" id="rval-compliance" class="p-3 rounded-xl text-center w-full"></div>
-</div>
-</div>
-</div>
-<div data-id="311" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="312" class="text-sm font-bold text-navy-800 mb-3">Measured vs. Calculated Comparison</h3>
-<div data-id="313" class="callout mb-3">TDR-derived R requires heat flux meter data. Enter heat flux Q (W/m²) if available.</div>
-<div data-id="314" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<div data-id="315"><label data-id="316" class="block text-xs font-semibold text-surface-700 mb-1">Heat Flux Q (W/m²)</label><input data-id="317" type="number" data-field="rval_heatflux" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" step="0.01" /></div>
-<div data-id="318" class="flex items-end"><div data-id="319" id="rval-measured" class="p-3 bg-surface-100 rounded-xl w-full text-sm"></div></div>
-</div>
-</div>
-<div data-id="320" class="bg-white rounded-2xl p-5 shadow-sm">
-<label data-id="321" class="block text-xs font-semibold text-surface-700 mb-1">Section Notes</label>
-<textarea data-id="322" data-field="rval_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y"></textarea>
-</div>
-</div>
-</div>
+    <!-- SECTION 5: R-Value -->
+    <div data-id="271" class="section-panel" data-section="5" id="panel-5">
+      <div data-id="272" class="mb-1">
+        <h2 data-id="273" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="274" data-lucide="layers" class="w-5 h-5 text-accent-500"></i>Thermal Resistance (R-Value) Calculations</h2>
+        <p data-id="275" class="text-xs text-surface-400 mt-0.5" id="completion-5"></p>
+      </div>
+      <div data-id="276" class="space-y-4 mt-3">
+        <div data-id="277" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="278" class="text-sm font-bold text-navy-800 mb-3">Known Construction Assembly</h3>
+          <label data-id="279" class="block text-xs font-semibold text-surface-700 mb-1">Assembly Description</label>
+          <textarea data-id="280" data-field="rval_assembly" rows="2" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y" placeholder='e.g. 2x6 wood stud, R-20 batt, 1.5" XPS exterior'></textarea>
+        </div>
+        <div data-id="281" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="282" class="text-sm font-bold text-navy-800 mb-3">Layer-by-Layer R-Value Table</h3>
+          <div data-id="283" class="flex items-center gap-2 mb-3">
+            <label data-id="284" class="text-xs font-semibold text-surface-700">Thickness Unit:</label>
+            <select data-id="285" id="rval-unit-toggle" class="border border-surface-300 rounded-lg px-2 py-1 text-xs bg-white focus:ring-2 focus:ring-accent-200 outline-none">
+              <option data-id="286" value="in">inches</option>
+              <option data-id="287" value="mm">mm</option>
+            </select>
+          </div>
+          <div data-id="288" class="overflow-x-auto">
+            <table data-id="289" class="w-full text-sm" id="rval-table">
+              <thead data-id="290" class="bg-surface-100 text-xs font-semibold text-surface-600 uppercase">
+                <tr data-id="291"><th data-id="292" class="px-2 py-2 text-center">#</th><th data-id="293" class="px-2 py-2 text-left">Material</th><th data-id="294" class="px-2 py-2 text-right">Thickness</th><th data-id="295" class="px-2 py-2 text-right">R/inch</th><th data-id="296" class="px-2 py-2 text-right">Total R</th><th data-id="297" class="px-2 py-2 text-left">Notes</th><th data-id="298" class="px-2 py-2 no-print"></th></tr>
+              </thead>
+              <tbody data-id="299" id="rval-tbody"></tbody>
+            </table>
+          </div>
+          <button data-id="300" id="btn-add-layer" class="mt-3 flex items-center gap-1 text-xs font-semibold text-accent-500 hover:text-accent-700 transition no-print"><i data-id="301" data-lucide="plus-circle" class="w-4 h-4"></i> Add Layer</button>
+        </div>
+        <div data-id="302" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="303" class="text-sm font-bold text-navy-800 mb-3">Summary Calculations</h3>
+          <div data-id="304" class="grid grid-cols-2 md:grid-cols-4 gap-3" id="rval-summary"></div>
+          <div data-id="305" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div data-id="306">
+              <label data-id="307" class="block text-xs font-semibold text-surface-700 mb-1">Code Required R-Value</label>
+              <input data-id="308" type="number" data-field="rval_code_req" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" step="0.1" />
+            </div>
+            <div data-id="309" class="flex items-end">
+              <div data-id="310" id="rval-compliance" class="p-3 rounded-xl text-center w-full"></div>
+            </div>
+          </div>
+        </div>
+        <div data-id="311" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="312" class="text-sm font-bold text-navy-800 mb-3">Measured vs. Calculated Comparison</h3>
+          <div data-id="313" class="callout mb-3">TDR-derived R requires heat flux meter data. Enter heat flux Q (W/m²) if available.</div>
+          <div data-id="314" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div data-id="315"><label data-id="316" class="block text-xs font-semibold text-surface-700 mb-1">Heat Flux Q (W/m²)</label><input data-id="317" type="number" data-field="rval_heatflux" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" step="0.01" /></div>
+            <div data-id="318" class="flex items-end"><div data-id="319" id="rval-measured" class="p-3 bg-surface-100 rounded-xl w-full text-sm"></div></div>
+          </div>
+        </div>
+        <div data-id="320" class="bg-white rounded-2xl p-5 shadow-sm">
+          <label data-id="321" class="block text-xs font-semibold text-surface-700 mb-1">Section Notes</label>
+          <textarea data-id="322" data-field="rval_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y"></textarea>
+        </div>
+      </div>
+    </div>
 
-<!-- SECTION 6: Window Assessment -->
-<div data-id="323" class="section-panel" data-section="6" id="panel-6">
-<div data-id="324" class="mb-1">
-<h2 data-id="325" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="326" data-lucide="app-window" class="w-5 h-5 text-accent-500"></i>Fenestration &amp; Glazing Assessment</h2>
-<p data-id="327" class="text-xs text-surface-400 mt-0.5" id="completion-6"></p>
-</div>
-<div data-id="328" class="space-y-4 mt-3">
-<div data-id="329" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="330" class="text-sm font-bold text-navy-800 mb-3">Window Inventory</h3>
-<div data-id="331" class="overflow-x-auto">
-<table data-id="332" class="w-full text-sm" id="window-table">
-<thead data-id="333" class="bg-surface-100 text-xs font-semibold text-surface-600 uppercase">
-<tr data-id="334"><th data-id="335" class="px-2 py-2 text-left">ID</th><th data-id="336" class="px-2 py-2 text-left">Location</th><th data-id="337" class="px-2 py-2 text-left">Frame</th><th data-id="338" class="px-2 py-2 text-left">Glazing</th><th data-id="339" class="px-2 py-2 text-left">W×H</th><th data-id="340" class="px-2 py-2 text-right">U-val</th><th data-id="341" class="px-2 py-2 text-center">Condition</th><th data-id="342" class="px-2 py-2 text-left">Defects</th><th data-id="343" class="px-2 py-2 no-print"></th></tr>
-</thead>
-<tbody data-id="344" id="window-tbody"></tbody>
-</table>
-</div>
-<button data-id="345" id="btn-add-window" class="mt-3 flex items-center gap-1 text-xs font-semibold text-accent-500 hover:text-accent-700 transition no-print"><i data-id="346" data-lucide="plus-circle" class="w-4 h-4"></i> Add Window</button>
-</div>
-<div data-id="347" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="348" class="text-sm font-bold text-navy-800 mb-3">Per-Window Checklist</h3>
-<div data-id="349" class="space-y-2" id="grp-win-checklist"></div>
-</div>
-<div data-id="350" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="351" class="text-sm font-bold text-navy-800 mb-3">Window Performance Summary</h3>
-<div data-id="352" class="grid grid-cols-2 md:grid-cols-4 gap-3" id="win-summary"></div>
-</div>
-<div data-id="353" class="bg-white rounded-2xl p-5 shadow-sm">
-<label data-id="354" class="block text-xs font-semibold text-surface-700 mb-1">Section Notes</label>
-<textarea data-id="355" data-field="win_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y"></textarea>
-</div>
-</div>
-</div>
+    <!-- SECTION 6: Window Assessment -->
+    <div data-id="323" class="section-panel" data-section="6" id="panel-6">
+      <div data-id="324" class="mb-1">
+        <h2 data-id="325" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="326" data-lucide="app-window" class="w-5 h-5 text-accent-500"></i>Fenestration &amp; Glazing Assessment</h2>
+        <p data-id="327" class="text-xs text-surface-400 mt-0.5" id="completion-6"></p>
+      </div>
+      <div data-id="328" class="space-y-4 mt-3">
+        <div data-id="329" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="330" class="text-sm font-bold text-navy-800 mb-3">Window Inventory</h3>
+          <div data-id="331" class="overflow-x-auto">
+            <table data-id="332" class="w-full text-sm" id="window-table">
+              <thead data-id="333" class="bg-surface-100 text-xs font-semibold text-surface-600 uppercase">
+                <tr data-id="334"><th data-id="335" class="px-2 py-2 text-left">ID</th><th data-id="336" class="px-2 py-2 text-left">Location</th><th data-id="337" class="px-2 py-2 text-left">Frame</th><th data-id="338" class="px-2 py-2 text-left">Glazing</th><th data-id="339" class="px-2 py-2 text-left">W×H</th><th data-id="340" class="px-2 py-2 text-right">U-val</th><th data-id="341" class="px-2 py-2 text-center">Condition</th><th data-id="342" class="px-2 py-2 text-left">Defects</th><th data-id="343" class="px-2 py-2 no-print"></th></tr>
+              </thead>
+              <tbody data-id="344" id="window-tbody"></tbody>
+            </table>
+          </div>
+          <button data-id="345" id="btn-add-window" class="mt-3 flex items-center gap-1 text-xs font-semibold text-accent-500 hover:text-accent-700 transition no-print"><i data-id="346" data-lucide="plus-circle" class="w-4 h-4"></i> Add Window</button>
+        </div>
+        <div data-id="347" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="348" class="text-sm font-bold text-navy-800 mb-3">Per-Window Checklist</h3>
+          <div data-id="349" class="space-y-2" id="grp-win-checklist"></div>
+        </div>
+        <div data-id="350" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="351" class="text-sm font-bold text-navy-800 mb-3">Window Performance Summary</h3>
+          <div data-id="352" class="grid grid-cols-2 md:grid-cols-4 gap-3" id="win-summary"></div>
+        </div>
+        <div data-id="353" class="bg-white rounded-2xl p-5 shadow-sm">
+          <label data-id="354" class="block text-xs font-semibold text-surface-700 mb-1">Section Notes</label>
+          <textarea data-id="355" data-field="win_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y"></textarea>
+        </div>
+      </div>
+    </div>
 
-<!-- SECTION 7: Wall Assembly -->
-<div data-id="356" class="section-panel" data-section="7" id="panel-7">
-<div data-id="357" class="mb-1">
-<h2 data-id="358" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="359" data-lucide="shield" class="w-5 h-5 text-accent-500"></i>Wall System Structural &amp; Continuity Assessment</h2>
-<p data-id="360" class="text-xs text-surface-400 mt-0.5" id="completion-7"></p>
-</div>
-<div data-id="361" class="space-y-4 mt-3">
-<div data-id="362" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="363" class="text-sm font-bold text-navy-800 mb-3">Air Barrier Continuity</h3>
-<div data-id="364" class="space-y-2" id="grp-wall-air"></div>
-</div>
-<div data-id="365" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="366" class="text-sm font-bold text-navy-800 mb-3">Vapour Control Layer</h3>
-<div data-id="367" class="space-y-2" id="grp-wall-vapour"></div>
-</div>
-<div data-id="368" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="369" class="text-sm font-bold text-navy-800 mb-3">Insulation Continuity</h3>
-<div data-id="370" class="space-y-2" id="grp-wall-insulation"></div>
-</div>
-<div data-id="371" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="372" class="text-sm font-bold text-navy-800 mb-3">Drainage Plane</h3>
-<div data-id="373" class="space-y-2" id="grp-wall-drainage"></div>
-</div>
-<div data-id="374" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="375" class="text-sm font-bold text-navy-800 mb-3">Structural Observations</h3>
-<div data-id="376" class="space-y-2" id="grp-wall-structural"></div>
-</div>
-<div data-id="377" class="bg-white rounded-2xl p-5 shadow-sm">
-<label data-id="378" class="block text-xs font-semibold text-surface-700 mb-1">Section Notes</label>
-<textarea data-id="379" data-field="wall_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y"></textarea>
-</div>
-</div>
-</div>
+    <!-- SECTION 7: Wall Assembly -->
+    <div data-id="356" class="section-panel" data-section="7" id="panel-7">
+      <div data-id="357" class="mb-1">
+        <h2 data-id="358" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="359" data-lucide="shield" class="w-5 h-5 text-accent-500"></i>Wall System Structural &amp; Continuity Assessment</h2>
+        <p data-id="360" class="text-xs text-surface-400 mt-0.5" id="completion-7"></p>
+      </div>
+      <div data-id="361" class="space-y-4 mt-3">
+        <div data-id="362" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="363" class="text-sm font-bold text-navy-800 mb-3">Air Barrier Continuity</h3>
+          <div data-id="364" class="space-y-2" id="grp-wall-air"></div>
+        </div>
+        <div data-id="365" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="366" class="text-sm font-bold text-navy-800 mb-3">Vapour Control Layer</h3>
+          <div data-id="367" class="space-y-2" id="grp-wall-vapour"></div>
+        </div>
+        <div data-id="368" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="369" class="text-sm font-bold text-navy-800 mb-3">Insulation Continuity</h3>
+          <div data-id="370" class="space-y-2" id="grp-wall-insulation"></div>
+        </div>
+        <div data-id="371" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="372" class="text-sm font-bold text-navy-800 mb-3">Drainage Plane</h3>
+          <div data-id="373" class="space-y-2" id="grp-wall-drainage"></div>
+        </div>
+        <div data-id="374" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="375" class="text-sm font-bold text-navy-800 mb-3">Structural Observations</h3>
+          <div data-id="376" class="space-y-2" id="grp-wall-structural"></div>
+        </div>
+        <div data-id="377" class="bg-white rounded-2xl p-5 shadow-sm">
+          <label data-id="378" class="block text-xs font-semibold text-surface-700 mb-1">Section Notes</label>
+          <textarea data-id="379" data-field="wall_notes" rows="3" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y"></textarea>
+        </div>
+      </div>
+    </div>
 
-<!-- SECTION 8: Final Summary -->
-<div data-id="380" class="section-panel" data-section="8" id="panel-8">
-<div data-id="381" class="mb-1">
-<h2 data-id="382" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="383" data-lucide="file-check-2" class="w-5 h-5 text-accent-500"></i>Inspection Summary &amp; Action Plan</h2>
-<p data-id="384" class="text-xs text-surface-400 mt-0.5" id="completion-8"></p>
-</div>
-<div data-id="385" class="space-y-4 mt-3">
-<div data-id="386" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="387" class="text-sm font-bold text-navy-800 mb-3">Overall Condition Rating</h3>
-<div data-id="388" class="flex flex-wrap gap-2" id="condition-rating-group">
-<button data-id="389" class="condition-btn" data-rating="satisfactory">🟢 Satisfactory<br data-id="390"><span data-id="391" class="text-[10px] font-normal">No significant deficiencies</span></button>
-<button data-id="392" class="condition-btn" data-rating="minor">🟡 Minor<br data-id="393"><span data-id="394" class="text-[10px] font-normal">Monitor / low-priority repairs</span></button>
-<button data-id="395" class="condition-btn" data-rating="moderate">🟠 Moderate<br data-id="396"><span data-id="397" class="text-[10px] font-normal">Repairs within 12 months</span></button>
-<button data-id="398" class="condition-btn" data-rating="critical">🔴 Critical<br data-id="399"><span data-id="400" class="text-[10px] font-normal">Immediate action required</span></button>
-</div>
-</div>
-<div data-id="401" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="402" class="text-sm font-bold text-navy-800 mb-3">Auto-Generated Statistics</h3>
-<div data-id="403" class="grid grid-cols-2 md:grid-cols-3 gap-3" id="final-stats"></div>
-</div>
-<div data-id="404" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="405" class="text-sm font-bold text-navy-800 mb-3">Key Findings</h3>
-<textarea data-id="406" data-field="summary_findings" rows="5" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y" placeholder="Summarize the top findings from this inspection..."></textarea>
-</div>
-<div data-id="407" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="408" class="text-sm font-bold text-navy-800 mb-3">Priority Action Items</h3>
-<div data-id="409" class="overflow-x-auto">
-<table data-id="410" class="w-full text-sm" id="action-table">
-<thead data-id="411" class="bg-surface-100 text-xs font-semibold text-surface-600 uppercase">
-<tr data-id="412"><th data-id="413" class="px-2 py-2 text-center">Priority</th><th data-id="414" class="px-2 py-2 text-left">Description</th><th data-id="415" class="px-2 py-2 text-left">Responsible</th><th data-id="416" class="px-2 py-2 text-left">Target Date</th><th data-id="417" class="px-2 py-2 text-right">Est. Cost</th><th data-id="418" class="px-2 py-2 text-center">Status</th><th data-id="419" class="px-2 py-2 no-print"></th></tr>
-</thead>
-<tbody data-id="420" id="action-tbody"></tbody>
-</table>
-</div>
-<button data-id="421" id="btn-add-action" class="mt-3 flex items-center gap-1 text-xs font-semibold text-accent-500 hover:text-accent-700 transition no-print"><i data-id="422" data-lucide="plus-circle" class="w-4 h-4"></i> Add Item</button>
-</div>
-<div data-id="423" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="424" class="text-sm font-bold text-navy-800 mb-3">Recommended Follow-Up Actions</h3>
-<div data-id="425" class="space-y-2" id="grp-followup"></div>
-</div>
-<div data-id="426" class="bg-white rounded-2xl p-5 shadow-sm">
-<h3 data-id="427" class="text-sm font-bold text-navy-800 mb-3">Inspector Sign-Off</h3>
-<div data-id="428" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<div data-id="429">
-<label data-id="430" class="block text-xs font-semibold text-surface-700 mb-1">Inspector Signature (type name)</label>
-<input data-id="431" type="text" data-field="sign_name" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" placeholder="Full Name" />
-<div data-id="432" class="sig-display mt-2" id="sig-preview"></div>
-</div>
-<div data-id="433">
-<label data-id="434" class="block text-xs font-semibold text-surface-700 mb-1">Professional Designation / Cert #</label>
-<input data-id="435" type="text" data-field="sign_cert" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" />
-</div>
-<div data-id="436">
-<label data-id="437" class="block text-xs font-semibold text-surface-700 mb-1">Report Date</label>
-<input data-id="438" type="date" data-field="sign_date" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" />
-</div>
-<div data-id="439">
-<label data-id="440" class="block text-xs font-semibold text-surface-700 mb-1">Inspector Company / Firm</label>
-<input data-id="441" type="text" data-field="sign_company" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" />
-</div>
-<div data-id="442" class="md:col-span-2">
-<label data-id="443" class="block text-xs font-semibold text-surface-700 mb-1">Client / Recipient Name</label>
-<input data-id="444" type="text" data-field="sign_client" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" />
-</div>
-</div>
-<div data-id="445" class="mt-4 p-3 bg-surface-100 rounded-xl" id="grp-declaration"></div>
-</div>
-<div data-id="446" class="flex justify-center mt-4 no-print">
-<button data-id="447" id="btn-gen-print" class="flex items-center gap-2 bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-xl font-semibold transition shadow-lg">
-<i data-id="448" data-lucide="printer" class="w-5 h-5"></i> Generate Print Report
-</button>
-</div>
-</div>
-</div>
+    <!-- SECTION 8: Final Summary -->
+    <div data-id="380" class="section-panel" data-section="8" id="panel-8">
+      <div data-id="381" class="mb-1">
+        <h2 data-id="382" class="text-xl font-bold text-navy-900 flex items-center gap-2"><i data-id="383" data-lucide="file-check-2" class="w-5 h-5 text-accent-500"></i>Inspection Summary &amp; Action Plan</h2>
+        <p data-id="384" class="text-xs text-surface-400 mt-0.5" id="completion-8"></p>
+      </div>
+      <div data-id="385" class="space-y-4 mt-3">
+        <div data-id="386" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="387" class="text-sm font-bold text-navy-800 mb-3">Overall Condition Rating</h3>
+          <div data-id="388" class="flex flex-wrap gap-2" id="condition-rating-group">
+            <button data-id="389" class="condition-btn" data-rating="satisfactory">🟢 Satisfactory<br data-id="390"><span data-id="391" class="text-[10px] font-normal">No significant deficiencies</span></button>
+            <button data-id="392" class="condition-btn" data-rating="minor">🟡 Minor<br data-id="393"><span data-id="394" class="text-[10px] font-normal">Monitor / low-priority repairs</span></button>
+            <button data-id="395" class="condition-btn" data-rating="moderate">🟠 Moderate<br data-id="396"><span data-id="397" class="text-[10px] font-normal">Repairs within 12 months</span></button>
+            <button data-id="398" class="condition-btn" data-rating="critical">🔴 Critical<br data-id="399"><span data-id="400" class="text-[10px] font-normal">Immediate action required</span></button>
+          </div>
+        </div>
+        <div data-id="401" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="402" class="text-sm font-bold text-navy-800 mb-3">Auto-Generated Statistics</h3>
+          <div data-id="403" class="grid grid-cols-2 md:grid-cols-3 gap-3" id="final-stats"></div>
+        </div>
+        <div data-id="404" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="405" class="text-sm font-bold text-navy-800 mb-3">Key Findings</h3>
+          <textarea data-id="406" data-field="summary_findings" rows="5" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none resize-y" placeholder="Summarize the top findings from this inspection"></textarea>
+        </div>
+        <div data-id="407" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="408" class="text-sm font-bold text-navy-800 mb-3">Priority Action Items</h3>
+          <div data-id="409" class="overflow-x-auto">
+            <table data-id="410" class="w-full text-sm" id="action-table">
+              <thead data-id="411" class="bg-surface-100 text-xs font-semibold text-surface-600 uppercase">
+                <tr data-id="412"><th data-id="413" class="px-2 py-2 text-center">Priority</th><th data-id="414" class="px-2 py-2 text-left">Description</th><th data-id="415" class="px-2 py-2 text-left">Responsible</th><th data-id="416" class="px-2 py-2 text-left">Target Date</th><th data-id="417" class="px-2 py-2 text-right">Est. Cost</th><th data-id="418" class="px-2 py-2 text-center">Status</th><th data-id="419" class="px-2 py-2 no-print"></th></tr>
+              </thead>
+              <tbody data-id="420" id="action-tbody"></tbody>
+            </table>
+          </div>
+          <button data-id="421" id="btn-add-action" class="mt-3 flex items-center gap-1 text-xs font-semibold text-accent-500 hover:text-accent-700 transition no-print"><i data-id="422" data-lucide="plus-circle" class="w-4 h-4"></i> Add Item</button>
+        </div>
+        <div data-id="423" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="424" class="text-sm font-bold text-navy-800 mb-3">Recommended Follow-Up Actions</h3>
+          <div data-id="425" class="space-y-2" id="grp-followup"></div>
+        </div>
+        <div data-id="426" class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 data-id="427" class="text-sm font-bold text-navy-800 mb-3">Inspector Sign-Off</h3>
+          <div data-id="428" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div data-id="429">
+              <label data-id="430" class="block text-xs font-semibold text-surface-700 mb-1">Inspector Signature (type name)</label>
+              <input data-id="431" type="text" data-field="sign_name" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" placeholder="Full Name" />
+              <div data-id="432" class="sig-display mt-2" id="sig-preview"></div>
+            </div>
+            <div data-id="433">
+              <label data-id="434" class="block text-xs font-semibold text-surface-700 mb-1">Professional Designation / Cert #</label>
+              <input data-id="435" type="text" data-field="sign_cert" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" />
+            </div>
+            <div data-id="436">
+              <label data-id="437" class="block text-xs font-semibold text-surface-700 mb-1">Report Date</label>
+              <input data-id="438" type="date" data-field="sign_date" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" />
+            </div>
+            <div data-id="439">
+              <label data-id="440" class="block text-xs font-semibold text-surface-700 mb-1">Inspector Company / Firm</label>
+              <input data-id="441" type="text" data-field="sign_company" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" />
+            </div>
+            <div data-id="442" class="md:col-span-2">
+              <label data-id="443" class="block text-xs font-semibold text-surface-700 mb-1">Client / Recipient Name</label>
+              <input data-id="444" type="text" data-field="sign_client" class="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-accent-200 outline-none" />
+            </div>
+          </div>
+          <div data-id="445" class="mt-4 p-3 bg-surface-100 rounded-xl" id="grp-declaration"></div>
+        </div>
+        <div data-id="446" class="flex justify-center mt-4 no-print">
+          <button data-id="447" id="btn-gen-print" class="flex items-center gap-2 bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-xl font-semibold transition shadow-lg">
+            <i data-id="448" data-lucide="printer" class="w-5 h-5"></i> Generate Print Report
+          </button>
+        </div>
+      </div>
+    </div>
 
-</main>
+  </main>
 </div>
 
 <!-- BOTTOM STATUS BAR -->
 <div data-id="449" id="bottom-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t border-surface-300 z-40 px-4 py-2 flex items-center justify-between text-xs">
-<div data-id="450" class="flex items-center gap-4 md:ml-56 lg:ml-60">
-<span data-id="451" class="text-surface-600"><span data-id="452" id="stat-checked" class="font-bold text-navy-900">0</span> checked of <span data-id="453" id="stat-total" class="font-bold text-navy-900">0</span> items</span>
-</div>
-<div data-id="454" id="overall-badge"></div>
+  <div data-id="450" class="flex items-center gap-4 md:ml-56 lg:ml-60">
+    <span data-id="451" class="text-surface-600"><span data-id="452" id="stat-checked" class="font-bold text-navy-900">0</span> checked of <span data-id="453" id="stat-total" class="font-bold text-navy-900">0</span> items</span>
+  </div>
+  <div data-id="454" id="overall-badge"></div>
 </div>
 
 <!-- MOBILE BOTTOM NAV -->
@@ -658,1176 +658,1010 @@ td, th { padding: 4px 6px !important; }
 
 <!-- RESET MODAL -->
 <div data-id="458" id="reset-modal" class="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center hidden">
-<div data-id="459" class="bg-white rounded-2xl p-6 max-w-sm mx-4 shadow-2xl">
-<h3 data-id="460" class="text-lg font-bold text-navy-900 mb-2">Reset All Data?</h3>
-<p data-id="461" class="text-sm text-surface-600 mb-4">This will permanently erase all inspection data. This action cannot be undone.</p>
-<div data-id="462" class="flex gap-3 justify-end">
-<button data-id="463" id="reset-cancel" class="px-4 py-2 rounded-xl text-sm font-semibold text-surface-700 bg-surface-200 hover:bg-surface-300 transition">Cancel</button>
-<button data-id="464" id="reset-confirm" class="px-4 py-2 rounded-xl text-sm font-semibold text-white bg-fail-500 hover:bg-fail-600 transition">Reset Everything</button>
-</div>
-</div>
+  <div data-id="459" class="bg-white rounded-2xl p-6 max-w-sm mx-4 shadow-2xl">
+    <h3 data-id="460" class="text-lg font-bold text-navy-900 mb-2">Reset All Data?</h3>
+    <p data-id="461" class="text-sm text-surface-600 mb-4">This will permanently erase all inspection data. This action cannot be undone.</p>
+    <div data-id="462" class="flex gap-3 justify-end">
+      <button data-id="463" id="reset-cancel" class="px-4 py-2 rounded-xl text-sm font-semibold text-surface-700 bg-surface-200 hover:bg-surface-300 transition">Cancel</button>
+      <button data-id="464" id="reset-confirm" class="px-4 py-2 rounded-xl text-sm font-semibold text-white bg-fail-500 hover:bg-fail-600 transition">Reset Everything</button>
+    </div>
+  </div>
 </div>
 
 <footer data-id="465" class="py-6 mt-auto text-center no-print md:ml-56 lg:ml-60">
-<p data-id="466" class="text-xs text-surface-500">Made by Copilot</p>
+  <p data-id="466" class="text-xs text-surface-500">Made by Copilot</p>
 </footer>
 
 <script>
 // ===== DATA DEFINITIONS =====
 const STORAGE_KEY = 'building_envelope_checklist';
 const SECTIONS = [
-{ id: 0, title: 'Site Information', icon: 'building-2' },
-{ id: 1, title: 'Exterior Conditions', icon: 'home' },
-{ id: 2, title: 'Interior Conditions', icon: 'scan-line' },
-{ id: 3, title: 'Thermal Imaging', icon: 'thermometer' },
-{ id: 4, title: 'Temperature Measurements', icon: 'gauge' },
-{ id: 5, title: 'R-Value & Thermal Resistance', icon: 'layers' },
-{ id: 6, title: 'Window Assessment', icon: 'app-window' },
-{ id: 7, title: 'Wall Assembly', icon: 'shield' },
-{ id: 8, title: 'Final Summary', icon: 'file-check-2' }
+  { id: 0, title: 'Site Information', icon: 'building-2' },
+  { id: 1, title: 'Exterior Conditions', icon: 'home' },
+  { id: 2, title: 'Interior Conditions', icon: 'scan-line' },
+  { id: 3, title: 'Thermal Imaging', icon: 'thermometer' },
+  { id: 4, title: 'Temperature Measurements', icon: 'gauge' },
+  { id: 5, title: 'R-Value & Thermal Resistance', icon: 'layers' },
+  { id: 6, title: 'Window Assessment', icon: 'app-window' },
+  { id: 7, title: 'Wall Assembly', icon: 'shield' },
+  { id: 8, title: 'Final Summary', icon: 'file-check-2' }
 ];
 
 // PFN = Pass/Fail/NA checklist items
 const PFN_GROUPS = {
-'grp-ext-foundation': [
-'No visible cracks in foundation walls',
-'No signs of efflorescence or moisture staining at base',
-'Grade slopes away from building (min 6:12 slope over 10 ft)',
-'No standing water or ponding near foundation'
-],
-'grp-ext-cladding': [
-'Cladding is intact — no missing, damaged, or loose panels',
-'No visible gaps, voids, or open joints in cladding',
-'No signs of delamination or bubbling in paint/coating',
-'Caulking/sealant at joints is intact and adhered',
-'No biological growth (mold, algae, moss) on cladding',
-'Flashing at horizontal transitions is present and sealed'
-],
-'grp-ext-penetrations': [
-'All pipe/conduit penetrations are sealed',
-'Electrical box penetrations are sealed',
-'HVAC penetrations are weatherproofed',
-'Vents and louvers have intact screens/dampers'
-],
-'grp-ext-roof': [
-'Parapet walls/cap flashing are intact',
-'Counterflashing at roof-wall junction is secured',
-'No open laps or lifted edges at roof edge'
-],
-'grp-int-visual': [
-'No visible water stains on interior walls or ceiling',
-'No active leaks or drips observed',
-'No peeling paint or wallpaper (moisture indicator)',
-'No visible mold or mildew on wall surfaces',
-'No condensation on interior glazing or frames',
-'Baseboard area is free of moisture damage',
-'No buckling or warping of wall finishes'
-],
-'grp-int-rh': [
-'RH within acceptable range (30–55%)'
-],
-'grp-therm-equip': [
-'Pre-inspection equipment calibration verified'
-],
-'grp-therm-conditions': [
-'Delta-T between interior and exterior ≥ 10°C (15°F)',
-'No direct solar loading on surfaces being scanned',
-'Heating/cooling system running for ≥ 4 hours prior'
-],
-'grp-therm-log': [
-'Images stored and labeled per ASTM C1060 standard'
-],
-'grp-temp-instruments': [
-'Contact probe used',
-'Non-contact IR thermometer used'
-],
-'grp-win-checklist': [
-'Frames are plumb, level, and square',
-'No cracked, broken, or fogged glazing units',
-'No visible failed seals (fogging between panes)',
-'Weatherstripping is present and in good condition',
-'Operable windows close and latch fully',
-'No visible gaps between frame and rough opening',
-'All perimeter sealant is intact and adhered',
-'Head flashing is present and correctly lapped',
-'Sill pan flashing or sloped sill present',
-'Interior trim is free of moisture staining',
-'Condensation resistance is adequate for climate zone'
-],
-'grp-wall-air': [
-'Continuous air barrier is identified and documented',
-'Air barrier transitions at floor lines are sealed',
-'Air barrier transitions at roof line are sealed',
-'Penetrations through air barrier are sealed',
-'No visible gaps or tears in air barrier membrane',
-'Service penetration backs are sealed (electrical boxes, plumbing)'
-],
-'grp-wall-vapour': [
-'Vapour retarder/barrier is present on correct side for climate',
-'Vapour retarder is continuous with no tears or gaps',
-'Laps in vapour retarder are taped/sealed',
-'No penetrations through vapour retarder left unsealed'
-],
-'grp-wall-insulation': [
-'No visible voids or gaps in insulation',
-'Insulation is correct type/thickness as specified',
-'Insulation is free of compression, settling, or displacement',
-'Thermal bridging at structural members is addressed',
-'Insulation maintains continuity at rough openings'
-],
-'grp-wall-drainage': [
-'Drainage plane/WRB is present behind cladding',
-'WRB laps shed water correctly (shingle fashion)',
-'No penetrations through WRB left unsealed',
-'Drainage mat or gap present between WRB and cladding (if required)'
-],
-'grp-wall-structural': [
-'No visible cracking in structural elements',
-'No signs of differential settlement',
-'No signs of spalling or corrosion of structural members'
-],
-'grp-followup': [
-'Re-inspect after repairs',
-'Detailed blower door / air leakage test recommended',
-'Additional thermal imaging in heating season recommended',
-'Invasive investigation of suspected moisture areas',
-'Structural engineer review recommended',
-'Energy audit recommended',
-'Window replacement program recommended',
-'Immediate waterproofing repair required',
-'Immediate roof repair required'
-],
+  'grp-ext-foundation': [
+    'No visible cracks in foundation walls',
+    'No signs of efflorescence or moisture staining at base',
+    'Grade slopes away from building (min 6:12 slope over 10 ft)',
+    'No standing water or ponding near foundation'
+  ],
+  'grp-ext-cladding': [
+    'Cladding is intact — no missing, damaged, or loose panels',
+    'No visible gaps, voids, or open joints in cladding',
+    'No signs of delamination or bubbling in paint/coating',
+    'Caulking/sealant at joints is intact and adhered',
+    'No biological growth (mold, algae, moss) on cladding',
+    'Flashing at horizontal transitions is present and sealed'
+  ],
+  'grp-ext-penetrations': [
+    'All pipe/conduit penetrations are sealed',
+    'Electrical box penetrations are sealed',
+    'HVAC penetrations are weatherproofed',
+    'Vents and louvers have intact screens/dampers'
+  ],
+  'grp-ext-roof': [
+    'Parapet walls/cap flashing are intact',
+    'Counterflashing at roof-wall junction is secured',
+    'No open laps or lifted edges at roof edge'
+  ],
+  'grp-int-visual': [
+    'No visible water stains on interior walls or ceiling',
+    'No active leaks or drips observed',
+    'No peeling paint or wallpaper (moisture indicator)',
+    'No visible mold or mildew on wall surfaces',
+    'No condensation on interior glazing or frames',
+    'Baseboard area is free of moisture damage',
+    'No buckling or warping of wall finishes'
+  ],
+  'grp-int-rh': [
+    'RH within acceptable range (30–55%)'
+  ],
+  'grp-therm-equip': [
+    'Pre-inspection equipment calibration verified'
+  ],
+  'grp-therm-conditions': [
+    'Delta-T between interior and exterior ≥ 10°C (15°F)',
+    'No direct solar loading on surfaces being scanned',
+    'Heating/cooling system running for ≥ 4 hours prior'
+  ],
+  'grp-therm-log': [
+    'Images stored and labeled per ASTM C1060 standard'
+  ],
+  'grp-temp-instruments': [
+    'Contact probe used',
+    'Non-contact IR thermometer used'
+  ],
+  'grp-win-checklist': [
+    'Frames are plumb, level, and square',
+    'No cracked, broken, or fogged glazing units',
+    'No visible failed seals (fogging between panes)',
+    'Weatherstripping is present and in good condition',
+    'Operable windows close and latch fully',
+    'No visible gaps between frame and rough opening',
+    'All perimeter sealant is intact and adhered',
+    'Head flashing is present and correctly lapped',
+    'Sill pan flashing or sloped sill present',
+    'Interior trim is free of moisture staining',
+    'Condensation resistance is adequate for climate zone'
+  ],
+  'grp-wall-air': [
+    'Continuous air barrier is identified and documented',
+    'Air barrier transitions at floor lines are sealed',
+    'Air barrier transitions at roof line are sealed',
+    'Penetrations through air barrier are sealed',
+    'No visible gaps or tears in air barrier membrane',
+    'Service penetration backs are sealed (electrical boxes, plumbing)'
+  ],
+  'grp-wall-vapour': [
+    'Vapour retarder/barrier is present on correct side for climate',
+    'Vapour retarder is continuous with no tears or gaps',
+    'Laps in vapour retarder are taped/sealed',
+    'No penetrations through vapour retarder left unsealed'
+  ],
+  'grp-wall-insulation': [
+    'No visible voids or gaps in insulation',
+    'Insulation is correct type/thickness as specified',
+    'Insulation is free of compression, settling, or displacement',
+    'Thermal bridging at structural members is addressed',
+    'Insulation maintains continuity at rough openings'
+  ],
+  'grp-wall-drainage': [
+    'Drainage plane/WRB is present behind cladding',
+    'WRB laps shed water correctly (shingle fashion)',
+    'No penetrations through WRB left unsealed',
+    'Drainage mat or gap present between WRB and cladding (if required)'
+  ],
+  'grp-wall-structural': [
+    'No visible cracking in structural elements',
+    'No signs of differential settlement',
+    'No signs of spalling or corrosion of structural members'
+  ],
+  'grp-followup': [
+    'Re-inspect after repairs',
+    'Detailed blower door / air leakage test recommended',
+    'Additional thermal imaging in heating season recommended',
+    'Invasive investigation of suspected moisture areas',
+    'Structural engineer review recommended',
+    'Energy audit recommended',
+    'Window replacement program recommended',
+    'Immediate waterproofing repair required',
+    'Immediate roof repair required'
+  ],
 };
 
 // ===== STATE =====
 let state = loadState();
 let activeSection = 0;
-let currentProject = null;
 
 function defaultState() {
-return {
-fields: {},
-pfn: {},
-moisture: [
-{ loc: 'Wall A – Center', reading: '', ref: '' },
-{ loc: 'Wall B – Corner', reading: '', ref: '' },
-{ loc: 'Ceiling – Center', reading: '', ref: '' },
-{ loc: 'Floor Edge – N', reading: '', ref: '' },
-{ loc: 'Floor Edge – S', reading: '', ref: '' },
-],
-anomalies: [],
-tempRows: Array.from({length:10},(_,i)=>({id:'P'+(i+1),loc:'',ti:'',to:'',ts:'',notes:''})),
-rvalLayers: [
-{mat:'Interior Gypsum Board',thick:'0.5',rpi:'0.45',notes:''},
-{mat:'Batt Insulation',thick:'',rpi:'',notes:''},
-{mat:'Structural Wall',thick:'',rpi:'',notes:''},
-{mat:'Exterior Insulation',thick:'',rpi:'',notes:''},
-{mat:'Sheathing',thick:'',rpi:'',notes:''},
-{mat:'Cladding Air Gap',thick:'',rpi:'',notes:''},
-{mat:'Cladding',thick:'',rpi:'',notes:''},
-],
-windows: [
-{id:'W1',loc:'',frame:'',glaze:'',dim:'',uval:'',cond:'',defects:''},
-{id:'W2',loc:'',frame:'',glaze:'',dim:'',uval:'',cond:'',defects:''},
-{id:'W3',loc:'',frame:'',glaze:'',dim:'',uval:'',cond:'',defects:''},
-],
-winFailedSeals: '',
-actionItems: [],
-conditionRating: '',
-declaration: false,
-};
+  return {
+    fields: {},
+    pfn: {},
+    moisture: [
+      { loc: 'Wall A – Center', reading: '', ref: '' },
+      { loc: 'Wall B – Corner', reading: '', ref: '' },
+      { loc: 'Ceiling – Center', reading: '', ref: '' },
+      { loc: 'Floor Edge – N', reading: '', ref: '' },
+      { loc: 'Floor Edge – S', reading: '', ref: '' },
+    ],
+    anomalies: [],
+    tempRows: Array.from({length:10},(_,i)=>({id:'P'+(i+1),loc:'',ti:'',to:'',ts:'',notes:''})),
+    rvalLayers: [
+      {mat:'Interior Gypsum Board',thick:'0.5',rpi:'0.45',notes:''},
+      {mat:'Batt Insulation',thick:'',rpi:'',notes:''},
+      {mat:'Structural Wall',thick:'',rpi:'',notes:''},
+      {mat:'Exterior Insulation',thick:'',rpi:'',notes:''},
+      {mat:'Sheathing',thick:'',rpi:'',notes:''},
+      {mat:'Cladding Air Gap',thick:'',rpi:'',notes:''},
+      {mat:'Cladding',thick:'',rpi:'',notes:''},
+    ],
+    windows: [
+      {id:'W1',loc:'',frame:'',glaze:'',dim:'',uval:'',cond:'',defects:''},
+      {id:'W2',loc:'',frame:'',glaze:'',dim:'',uval:'',cond:'',defects:''},
+      {id:'W3',loc:'',frame:'',glaze:'',dim:'',uval:'',cond:'',defects:''},
+    ],
+    winFailedSeals: '',
+    actionItems: [],
+    conditionRating: '',
+    declaration: false,
+  };
 }
-async function loadProjectFromDashboard() {
-  const projectId = new URLSearchParams(window.location.search).get('project');
 
-  if (!projectId) return;
-
-  try {
-    const localProjects = JSON.parse(
-      localStorage.getItem('audit-dashboard-v3') || '[]'
-    );
-
-    const project = localProjects.find(p => p.id === projectId);
-
-    if (!project) return;
-
-    currentProject = project;
-
-    const info = {
-      site_building: project.project_id || '',
-      site_inspector: project.auditor || '',
-      site_date: project.audit_date || '',
-      site_address: project.address || '',
-      site_city: project.city || '',
-      site_province: project.province || '',
-      site_btype: project.facility_type || '',
-      site_area: project.floor_area || '',
-      site_area_unit: project.area_unit || 'm²',
-      site_notes: project.notes || ''
-    };
-
-    state.fields = {
-      ...(state.fields || {}),
-      ...info
-    };
-
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch (error) {
-    console.error('Could not load project:', error);
-  }
-}
-  
 function loadState() {
-try {
-const s = localStorage.getItem(STORAGE_KEY);
-if (s) return JSON.parse(s);
-} catch(e) {}
-return defaultState();
+  try {
+    const s = localStorage.getItem(STORAGE_KEY);
+    if (s) return JSON.parse(s);
+  } catch(e) {}
+  return defaultState();
 }
 
-function saveState() {
-// gather all fields
-document.querySelectorAll('[data-field]').forEach(el => {
-const k = el.dataset.field;
-if (el.type === 'checkbox') state.fields[k] = el.checked;
-else state.fields[k] = el.value;
-});
-localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  updateProjectHeader();
-showToast();
+function saveState(showNotification = true) {
+  // gather all fields
+  document.querySelectorAll('[data-field]').forEach(el => {
+    const k = el.dataset.field;
+    if (el.type === 'checkbox') state.fields[k] = el.checked;
+    else state.fields[k] = el.value;
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  if (showNotification) showToast();
 }
 
 function showToast() {
-const t = document.getElementById('save-toast');
-t.classList.add('show');
-clearTimeout(t._to);
-t._to = setTimeout(() => t.classList.remove('show'), 1500);
+  const t = document.getElementById('save-toast');
+  t.classList.add('show');
+  clearTimeout(t._to);
+  t._to = setTimeout(() => t.classList.remove('show'), 1500);
 }
 function csvEscape(value) {
-const s = String(value ?? '');
-if (s.includes('"') || s.includes(',') || s.includes('\n')) {
-return '"' + s.replace(/"/g, '""') + '"';
+  const s = String(value ?? '');
+  if (s.includes('"') || s.includes(',') || s.includes('\n')) {
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+  return s;
 }
-return s;
-}
-
-function buildExportState() {
-saveState();
-return state;
-}
-
-function exportStateToCsv() {
-const data = buildExportState();
-const rows = [['key', 'value']];
-
-Object.keys(data).forEach(key => {
-rows.push([key, JSON.stringify(data[key])]);
-});
-
-const csv = rows.map(row => row.map(csvEscape).join(',')).join('\n');
-const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-const a = document.createElement('a');
-a.href = URL.createObjectURL(blob);
 
 function sanitizeFilePart(value) {
-return String(value || "")
-.trim()
-.replace(/[^a-zA-Z0-9_-]+/g, "-")
-.replace(/-+/g, "-")
-.replace(/^-|-$/g, "");
+  return String(value || '')
+    .trim()
+    .replace(/[^a-zA-Z0-9_-]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
 }
 
 function getExportFileName() {
-const projectId =
-document.querySelector('[data-field="site_building"]')?.value || "";
-
-const inspectionDate =
-document.querySelector('[data-field="site_date"]')?.value || "";
-
-const inspector =
-document.querySelector('[data-field="site_inspector"]')?.value || "";
-
-const now = new Date();
-const hh = String(now.getHours()).padStart(2, "0");
-const mm = String(now.getMinutes()).padStart(2, "0");
-const ss = String(now.getSeconds()).padStart(2, "0");
-const saveTime = `${hh}${mm}${ss}`;
-
-const safeProject = sanitizeFilePart(projectId) || "project";
-const safeDate = inspectionDate ? inspectionDate.replace(/-/g, "") : "nodate";
-const safeInspector = sanitizeFilePart(inspector);
-
-return safeInspector
-? `${safeProject}_${safeDate}_${saveTime}_${safeInspector}.csv`
-: `${safeProject}_${safeDate}_${saveTime}.csv`;
+  const projectId = document.querySelector('[data-field="site_building"]')?.value || '';
+  const inspectionDate = document.querySelector('[data-field="site_date"]')?.value || '';
+  const inspector = document.querySelector('[data-field="site_inspector"]')?.value || '';
+  const now = new Date();
+  const saveTime = [now.getHours(), now.getMinutes(), now.getSeconds()]
+    .map(v => String(v).padStart(2, '0')).join('');
+  const safeProject = sanitizeFilePart(projectId) || 'project';
+  const safeDate = inspectionDate ? inspectionDate.replace(/-/g, '') : 'nodate';
+  const safeInspector = sanitizeFilePart(inspector);
+  return safeInspector
+    ? `${safeProject}_${safeDate}_${saveTime}_${safeInspector}.csv`
+    : `${safeProject}_${safeDate}_${saveTime}.csv`;
 }
-a.download = getExportFileName();
-a.click();
 
-URL.revokeObjectURL(a.href);
+function buildExportState() {
+  saveState(false);
+  return state;
+}
+
+function exportStateToCsv() {
+  const data = buildExportState();
+  const rows = [['key', 'value']];
+  Object.keys(data).forEach(key => rows.push([key, JSON.stringify(data[key])]));
+  const csv = rows.map(row => row.map(csvEscape).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.href = url;
+  link.download = getExportFileName();
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 function parseCsvLine(line) {
-const out = [];
-let cur = '';
-let inQuotes = false;
+  const out = [];
+  let cur = '';
+  let inQuotes = false;
 
-for (let i = 0; i < line.length; i++) {
-const ch = line[i];
-const next = line[i + 1];
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    const next = line[i + 1];
 
-if (ch === '"') {
-if (inQuotes && next === '"') {
-cur += '"';
-i++;
-} else {
-inQuotes = !inQuotes;
-}
-} else if (ch === ',' && !inQuotes) {
-out.push(cur);
-cur = '';
-} else {
-cur += ch;
-}
-}
+    if (ch === '"') {
+      if (inQuotes && next === '"') {
+        cur += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (ch === ',' && !inQuotes) {
+      out.push(cur);
+      cur = '';
+    } else {
+      cur += ch;
+    }
+  }
 
-out.push(cur);
-return out;
+  out.push(cur);
+  return out;
 }
 
 function importStateFromCsvText(csvText) {
-const lines = csvText.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n').filter(Boolean);
-if (lines.length < 2) {
-alert('CSV file is empty or invalid.');
-return;
-}
+  const lines = csvText.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n').filter(Boolean);
+  if (lines.length < 2) {
+    alert('CSV file is empty or invalid.');
+    return;
+  }
 
-const nextState = defaultState();
+  const nextState = defaultState();
 
-for (let i = 1; i < lines.length; i++) {
-const [key, value] = parseCsvLine(lines[i]);
-if (!key) continue;
+  for (let i = 1; i < lines.length; i++) {
+    const [key, value] = parseCsvLine(lines[i]);
+    if (!key) continue;
 
-try {
-nextState[key] = JSON.parse(value);
-} catch (err) {
-nextState[key] = value;
-}
-}
+    try {
+      nextState[key] = JSON.parse(value);
+    } catch (err) {
+      nextState[key] = value;
+    }
+  }
 
-state = nextState;
-localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-rebuildUIFromState();
-showToast();
+  state = nextState;
+  localStorage.setItem(STORAGEKEY, JSON.stringify(state));
+  rebuildUIFromState();
+  showToast();
 }
 
 function rebuildUIFromState() {
-document.querySelectorAll('[data-field]').forEach(el => {
-const k = el.dataset.field;
-if (!(k in state.fields)) return;
+  document.querySelectorAll('[data-field]').forEach(el => {
+    const k = el.dataset.field;
+    if (!(k in state.fields)) return;
 
-if (el.type === 'checkbox') el.checked = !!state.fields[k];
-else el.value = state.fields[k] ?? '';
-});
+    if (el.type === 'checkbox') el.checked = !!state.fields[k];
+    else el.value = state.fields[k] ?? '';
+  });
 
-document.getElementById('sidebar-nav').innerHTML = '';
-document.getElementById('mobile-sidebar-nav').innerHTML = '';
+  document.getElementById('sidebar-nav').innerHTML = '';
+  document.getElementById('mobile-sidebar-nav').innerHTML = '';
 
-buildSidebar();
-buildPFNGroups();
-renderMoistureRows();
-renderAnomalyRows();
-renderTempRows();
-renderRvalRows();
-renderWindowRows();
-renderActionRows();
-buildConditionRating();
-buildDeclaration();
-restoreFields();
-setActiveSection(activeSection || 0);
-updateAllCalcs();
+  buildSidebar();
+  buildPFNGroups();
+  renderMoistureRows();
+  renderAnomalyRows();
+  renderTempRows();
+  renderRvalRows();
+  renderWindowRows();
+  renderActionRows();
+  buildConditionRating();
+  buildDeclaration();
+  restoreFields();
+  setActiveSection(activeSection || 0);
+  updateAllCalcs();
 
-if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
-lucide.createIcons();
-}
+  if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+    lucide.createIcons();
+  }
 }
 
 // ===== INIT =====
 function init() {
-  loadProjectFromDashboard().then(() => {
-buildSidebar();
-buildPFNGroups();
-buildMoistureTable();
-buildAnomalyTable();
-buildTempTable();
-buildRvalTable();
-buildWindowTable();
-buildActionTable();
-buildConditionRating();
-buildDeclaration();
-restoreFields();
-setActiveSection(0);
-updateAllCalcs();
-startAutoSave();
-bindGlobalEvents();
-// default date
-const dateField = document.querySelector('[data-field="site_date"]');
-if (dateField && !dateField.value) dateField.value = '2026-09-03';
-const signDate = document.querySelector('[data-field="sign_date"]');
-if (signDate && !signDate.value) signDate.value = '2026-09-03';
-// Re-create icons
-    addProjectHeader();
-if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
-lucide.createIcons();
+  buildSidebar();
+  buildPFNGroups();
+  buildMoistureTable();
+  buildAnomalyTable();
+  buildTempTable();
+  buildRvalTable();
+  buildWindowTable();
+  buildActionTable();
+  buildConditionRating();
+  buildDeclaration();
+  restoreFields();
+  setActiveSection(0);
+  updateAllCalcs();
+  startAutoSave();
+  bindGlobalEvents();
+  // default date
+  const dateField = document.querySelector('[data-field="site_date"]');
+  if (dateField && !dateField.value) dateField.value = new Date().toISOString().slice(0, 10);
+  const signDate = document.querySelector('[data-field="sign_date"]');
+  if (signDate && !signDate.value) signDate.value = new Date().toISOString().slice(0, 10);
+  // Re-create icons
+  if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+    lucide.createIcons();
+  }
 }
-}
-      
-  });
-}                                
 
 // ===== SIDEBAR =====
 function buildSidebar() {
-const nav1 = document.getElementById('sidebar-nav');
-const nav2 = document.getElementById('mobile-sidebar-nav');
-SECTIONS.forEach(s => {
-const html = `<button class="sidebar-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition w-full text-left" data-sec="${s.id}">
-     <i data-lucide="${s.icon}" class="w-4 h-4 flex-shrink-0"></i>
-     <span class="flex-1 truncate">${s.title}</span>
-     <span class="sidebar-dot dot-grey" data-dot="${s.id}"></span>
-   </button>`;
-nav1.insertAdjacentHTML('beforeend', html);
-nav2.insertAdjacentHTML('beforeend', html);
-});
-}
-function addProjectHeader() {
-  document.querySelectorAll('.section-panel').forEach((panel, index) => {
-    if (index === 0) return;
-
-    const heading = panel.querySelector('.mb-1');
-    if (!heading) return;
-
-    if (heading.querySelector('.project-context')) return;
-
-    const box = document.createElement('div');
-    box.className =
-      'project-context bg-accent-50 border border-accent-200 rounded-xl p-3 mb-4 text-xs text-surface-700 leading-relaxed';
-
-    heading.insertAdjacentElement('afterend', box);
-  });
-
-  updateProjectHeader();
-}
-
-function updateProjectHeader() {
-  const get = key => {
-    const field = document.querySelector(`[data-field="${key}"]`);
-    return field ? field.value.trim() : '';
-  };
-
-  const project = get('site_building') || '—';
-  const inspector = get('site_inspector') || '—';
-  const date = get('site_date') || '—';
-
-  const address = [
-    get('site_address'),
-    get('site_city'),
-    get('site_province')
-  ].filter(Boolean).join(', ') || '—';
-
-  document.querySelectorAll('.project-context').forEach(box => {
-    box.innerHTML = `
-      <div><strong>Project:</strong> ${project}</div>
-      <div><strong>Address:</strong> ${address}</div>
-      <div><strong>Inspector:</strong> ${inspector}</div>
-      <div><strong>Inspection date:</strong> ${date}</div>
-    `;
+  const nav1 = document.getElementById('sidebar-nav');
+  const nav2 = document.getElementById('mobile-sidebar-nav');
+  SECTIONS.forEach(s => {
+    const html = `<button class="sidebar-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition w-full text-left" data-sec="${s.id}">
+      <i data-lucide="${s.icon}" class="w-4 h-4 flex-shrink-0"></i>
+      <span class="flex-1 truncate">${s.title}</span>
+      <span class="sidebar-dot dot-grey" data-dot="${s.id}"></span>
+    </button>`;
+    nav1.insertAdjacentHTML('beforeend', html);
+    nav2.insertAdjacentHTML('beforeend', html);
   });
 }
-function setActiveSection(idx) {
-activeSection = idx;
-document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
-const panel = document.getElementById('panel-' + idx);
-if (panel) panel.classList.add('active');
-document.querySelectorAll('.sidebar-btn').forEach(b => {
-const s = parseInt(b.dataset.sec);
-if (s === idx) {
-b.classList.add('bg-accent-500/20', 'text-white');
-b.classList.remove('text-white/60', 'hover:bg-navy-700');
-} else {
-b.classList.remove('bg-accent-500/20');
-b.classList.add('text-white/60', 'hover:bg-navy-700');
-}
-});
-updateAllCalcs();
+
+function setActiveSection(index) {
+  const section = Number(index);
+  if (!Number.isInteger(section) || !document.getElementById(`panel-${section}`)) return;
+  activeSection = section;
+  document.querySelectorAll('.section-panel').forEach(panel => panel.classList.toggle('active', panel.id === `panel-${section}`));
+  document.querySelectorAll('.sidebar-btn').forEach(button => {
+    const active = Number(button.dataset.sec) === section;
+    button.classList.toggle('bg-accent-500/20', active);
+    button.classList.toggle('text-white', active);
+    button.classList.toggle('text-white/60', !active);
+    button.classList.toggle('hover:bg-navy-700', !active);
+    button.setAttribute('aria-current', active ? 'page' : 'false');
+  });
+  const main = document.getElementById('main-content');
+  if (main) main.scrollTop = 0;
+  updateAllCalcs();
 }
 
 // ===== PFN GROUPS =====
 function buildPFNGroups() {
-Object.keys(PFN_GROUPS).forEach(grpId => {
-const container = document.getElementById(grpId);
-if (!container) return;
-const items = PFN_GROUPS[grpId];
-// For followup, use simple checkboxes
-const isFollowup = grpId === 'grp-followup';
-items.forEach((label, i) => {
-const key = grpId + '_' + i;
-if (isFollowup) {
-const div = document.createElement('div');
-div.className = 'flex items-start gap-3 py-1.5';
-div.innerHTML = `<input type="checkbox" class="mt-0.5 w-4 h-4 rounded accent-accent-500 flex-shrink-0" data-pfn-follow="${key}" ${state.pfn[key]==='checked'?'checked':''} />
-         <span class="text-sm text-surface-800">${label}</span>`;
-container.appendChild(div);
-div.querySelector('input').addEventListener('change', function() {
-state.pfn[key] = this.checked ? 'checked' : '';
-});
-} else {
-const div = document.createElement('div');
-div.className = 'flex items-center gap-3 py-1.5 flex-wrap';
-const cur = state.pfn[key] || '';
-div.innerHTML = `<div class="pfn-toggle flex-shrink-0">
-         <button data-val="pass" class="${cur==='pass'?'active-pass':''}" data-key="${key}">P</button>
-         <button data-val="fail" class="${cur==='fail'?'active-fail':''}" data-key="${key}">F</button>
-         <button data-val="na" class="${cur==='na'?'active-na':''}" data-key="${key}">N/A</button>
-       </div>
-       <span class="text-sm text-surface-800 flex-1 min-w-0">${label}</span>`;
-container.appendChild(div);
-}
-});
-});
-// Delegate PFN toggle clicks
-document.addEventListener('click', function (e) {
-const btn = e.target.closest('.pfn-toggle button');
-if (!btn) return;
-
-const key = btn.dataset.key;
-const val = btn.dataset.val;
-const toggle = btn.closest('.pfn-toggle');
-if (!toggle || !key || !val) return;
-
-state.pfn[key] = val;
-
-toggle.querySelectorAll('button').forEach(b => {
-b.classList.remove('active-pass', 'active-fail', 'active-na');
-});
-
-if (val === 'pass') btn.classList.add('active-pass');
-else if (val === 'fail') btn.classList.add('active-fail');
-else btn.classList.add('active-na');
-
-saveState();
-updateAllCalcs();
-});
-}
-
-// ===== MOISTURE TABLE =====
-function buildMoistureTable() {
-renderMoistureRows();
-}
-function renderMoistureRows() {
-const tb = document.getElementById('moisture-tbody');
-tb.innerHTML = '';
-state.moisture.forEach((row, i) => {
-const reading = parseFloat(row.reading);
-let statusHtml = '<span class="badge" style="background:#e2e8f0;color:#64748b;">—</span>';
-if (!isNaN(reading)) {
-if (reading < 16) statusHtml = '<span class="badge badge-good">Good</span>';
-else if (reading <= 20) statusHtml = '<span class="badge badge-elevated">Elevated</span>';
-else statusHtml = '<span class="badge badge-high">High</span>';
-}
-const tr = document.createElement('tr');
-tr.className = 'border-t border-surface-200';
-tr.innerHTML = `<td class="px-3 py-2"><input type="text" value="${row.loc}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-moisture="${i}" data-mf="loc" /></td>
-     <td class="px-3 py-2 text-right"><input type="number" value="${row.reading}" class="w-20 text-right border border-surface-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-accent-200 outline-none" data-moisture="${i}" data-mf="reading" step="0.1" /></td>
-     <td class="px-3 py-2 text-right"><input type="number" value="${row.ref}" class="w-20 text-right border border-surface-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-accent-200 outline-none" data-moisture="${i}" data-mf="ref" step="0.1" /></td>
-     <td class="px-3 py-2 text-center">${statusHtml}</td>`;
-tb.appendChild(tr);
-});
-tb.querySelectorAll('[data-moisture]').forEach(inp => {
-inp.addEventListener('input', function() {
-const idx = parseInt(this.dataset.moisture);
-const field = this.dataset.mf;
-state.moisture[idx][field] = this.value;
-renderMoistureRows();
-});
-});
-}
-
-// ===== ANOMALY TABLE =====
-function buildAnomalyTable() { renderAnomalyRows(); }
-function renderAnomalyRows() {
-const tb = document.getElementById('anomaly-tbody');
-tb.innerHTML = '';
-state.anomalies.forEach((row, i) => {
-const mn = parseFloat(row.minT), mx = parseFloat(row.maxT);
-const delta = (!isNaN(mn) && !isNaN(mx)) ? (mx - mn).toFixed(1) : '';
-const tr = document.createElement('tr');
-tr.className = 'border-t border-surface-200';
-tr.innerHTML = `<td class="px-2 py-1"><input type="text" value="${row.zone||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-anom="${i}" data-af="zone" /></td>
-     <td class="px-2 py-1"><select class="text-xs border border-surface-300 rounded-lg px-1 py-1 bg-white" data-anom="${i}" data-af="type">
-       <option value="">—</option><option ${row.type==='Air Leakage'?'selected':''}>Air Leakage</option><option ${row.type==='Moisture Intrusion'?'selected':''}>Moisture Intrusion</option><option ${row.type==='Missing Insulation'?'selected':''}>Missing Insulation</option><option ${row.type==='Thermal Bridge'?'selected':''}>Thermal Bridge</option><option ${row.type==='Structural Anomaly'?'selected':''}>Structural Anomaly</option><option ${row.type==='Other'?'selected':''}>Other</option>
-     </select></td>
-     <td class="px-2 py-1 text-right"><input type="number" value="${row.minT||''}" class="w-16 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-anom="${i}" data-af="minT" step="0.1" /></td>
-     <td class="px-2 py-1 text-right"><input type="number" value="${row.maxT||''}" class="w-16 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-anom="${i}" data-af="maxT" step="0.1" /></td>
-     <td class="px-2 py-1 text-right font-semibold tabular-nums text-sm">${delta}</td>
-     <td class="px-2 py-1 text-center"><select class="text-xs border border-surface-300 rounded-lg px-1 py-1 bg-white" data-anom="${i}" data-af="severity">
-       <option value="">—</option><option ${row.severity==='Low'?'selected':''}>Low</option><option ${row.severity==='Medium'?'selected':''}>Medium</option><option ${row.severity==='High'?'selected':''}>High</option>
-     </select></td>
-     <td class="px-2 py-1"><input type="text" value="${row.notes||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-anom="${i}" data-af="notes" /></td>
-     <td class="px-2 py-1 no-print"><button class="text-fail-500 hover:text-fail-700 text-xs font-bold" data-del-anom="${i}">✕</button></td>`;
-tb.appendChild(tr);
-});
-
-tb.querySelectorAll('[data-anom]').forEach(el => {
-el.addEventListener('input', function() { state.anomalies[parseInt(this.dataset.anom)][this.dataset.af] = this.value; });
-el.addEventListener('change', function() { state.anomalies[parseInt(this.dataset.anom)][this.dataset.af] = this.value; });
-});
-tb.querySelectorAll('[data-del-anom]').forEach(b => {
-b.addEventListener('click', function() { state.anomalies.splice(parseInt(this.dataset.delAnom), 1); renderAnomalyRows(); });
-});
+  Object.keys(PFN_GROUPS).forEach(grpId => {
+    const container = document.getElementById(grpId);
+    if (!container) return;
+    const items = PFN_GROUPS[grpId];
+    // For followup, use simple checkboxes
+    const isFollowup = grpId === 'grp-followup';
+    items.forEach((label, i) => {
+      const key = grpId + '_' + i;
+      if (isFollowup) {
+        const div = document.createElement('div');
+        div.className = 'flex items-start gap-3 py-1.5';
+        div.innerHTML = `<input type="checkbox" class="mt-0.5 w-4 h-4 rounded accent-accent-500 flex-shrink-0" data-pfn-follow="${key}" ${state.pfn[key]==='checked'?'checked':''} />
+          <span class="text-sm text-surface-800">${label}</span>`;
+        container.appendChild(div);
+        div.querySelector('input').addEventListener('change', function() {
+          state.pfn[key] = this.checked ? 'checked' : '';
+        });
+      } else {
+        const div = document.createElement('div');
+        div.className = 'flex items-center gap-3 py-1.5 flex-wrap';
+        const cur = state.pfn[key] || '';
+        div.innerHTML = `<div class="pfn-toggle flex-shrink-0">
+          <button data-val="pass" class="${cur==='pass'?'active-pass':''}" data-key="${key}">P</button>
+          <button data-val="fail" class="${cur==='fail'?'active-fail':''}" data-key="${key}">F</button>
+          <button data-val="na" class="${cur==='na'?'active-na':''}" data-key="${key}">N/A</button>
+        </div>
+        <span class="text-sm text-surface-800 flex-1 min-w-0">${label}</span>`;
+        container.appendChild(div);
+      }
+    });
+  });
 }
 
 // ===== TEMP TABLE =====
 function buildTempTable() { renderTempRows(); }
 function renderTempRows() {
-const tb = document.getElementById('temp-tbody');
-tb.innerHTML = '';
-state.tempRows.forEach((row, i) => {
-const ti = parseFloat(row.ti), to = parseFloat(row.to), ts = parseFloat(row.ts);
-let tdr = '', rating = '';
-if (!isNaN(ti) && !isNaN(to) && !isNaN(ts) && (ti - to) !== 0) {
-const v = (ti - ts) / (ti - to);
-tdr = v.toFixed(3);
-if (v >= 0.9) rating = '<span class="badge badge-good">Good</span>';
-else if (v >= 0.7) rating = '<span class="badge badge-moderate">Moderate</span>';
-else rating = '<span class="badge badge-poor">Poor</span>';
-}
-const tr = document.createElement('tr');
-tr.className = 'border-t border-surface-200';
-tr.innerHTML = `<td class="px-2 py-1"><input type="text" value="${row.id||''}" class="w-12 border-0 bg-transparent text-sm font-semibold focus:outline-none" data-temp="${i}" data-tf="id" /></td>
-     <td class="px-2 py-1"><input type="text" value="${row.loc||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-temp="${i}" data-tf="loc" /></td>
-     <td class="px-2 py-1 text-right"><input type="number" value="${row.ti||''}" class="w-16 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-temp="${i}" data-tf="ti" step="0.1" /></td>
-     <td class="px-2 py-1 text-right"><input type="number" value="${row.to||''}" class="w-16 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-temp="${i}" data-tf="to" step="0.1" /></td>
-     <td class="px-2 py-1 text-right"><input type="number" value="${row.ts||''}" class="w-16 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-temp="${i}" data-tf="ts" step="0.1" /></td>
-     <td class="px-2 py-1 text-right font-semibold tabular-nums text-sm">${tdr}</td>
-     <td class="px-2 py-1 text-center">${rating}</td>
-     <td class="px-2 py-1"><input type="text" value="${row.notes||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-temp="${i}" data-tf="notes" /></td>
-     <td class="px-2 py-1 no-print"><button class="text-fail-500 hover:text-fail-700 text-xs font-bold" data-del-temp="${i}">✕</button></td>`;
-tb.appendChild(tr);
-});
-
+  const tb = document.getElementById('temp-tbody');
+  tb.innerHTML = '';
+  state.tempRows.forEach((row, i) => {
+    const ti = parseFloat(row.ti), to = parseFloat(row.to), ts = parseFloat(row.ts);
+    let tdr = '', rating = '';
+    if (!isNaN(ti) && !isNaN(to) && !isNaN(ts) && (ti - to) !== 0) {
+      const v = (ti - ts) / (ti - to);
+      tdr = v.toFixed(3);
+      if (v >= 0.9) rating = '<span class="badge badge-good">Good</span>';
+      else if (v >= 0.7) rating = '<span class="badge badge-moderate">Moderate</span>';
+      else rating = '<span class="badge badge-poor">Poor</span>';
+    }
+    const tr = document.createElement('tr');
+    tr.className = 'border-t border-surface-200';
+    tr.innerHTML = `<td class="px-2 py-1"><input type="text" value="${row.id||''}" class="w-12 border-0 bg-transparent text-sm font-semibold focus:outline-none" data-temp="${i}" data-tf="id" /></td>
+      <td class="px-2 py-1"><input type="text" value="${row.loc||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-temp="${i}" data-tf="loc" /></td>
+      <td class="px-2 py-1 text-right"><input type="number" value="${row.ti||''}" class="w-16 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-temp="${i}" data-tf="ti" step="0.1" /></td>
+      <td class="px-2 py-1 text-right"><input type="number" value="${row.to||''}" class="w-16 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-temp="${i}" data-tf="to" step="0.1" /></td>
+      <td class="px-2 py-1 text-right"><input type="number" value="${row.ts||''}" class="w-16 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-temp="${i}" data-tf="ts" step="0.1" /></td>
+      <td class="px-2 py-1 text-right font-semibold tabular-nums text-sm">${tdr}</td>
+      <td class="px-2 py-1 text-center">${rating}</td>
+      <td class="px-2 py-1"><input type="text" value="${row.notes||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-temp="${i}" data-tf="notes" /></td>
+      <td class="px-2 py-1 no-print"><button class="text-fail-500 hover:text-fail-700 text-xs font-bold" data-del-temp="${i}">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+  
 tb.querySelectorAll('[data-temp]').forEach(el => {
-el.addEventListener('input', function() {
-const rowIndex = parseInt(this.dataset.temp, 10);
-const field = this.dataset.tf;
+  el.addEventListener('input', function() {
+    const rowIndex = parseInt(this.dataset.temp, 10);
+    const field = this.dataset.tf;
 
-state.tempRows[rowIndex][field] = this.value;
-updateTDRSummary();
-});
+    state.tempRows[rowIndex][field] = this.value;
+    updateTDRSummary();
+  });
 });
 
 
-tb.querySelectorAll('[data-del-temp]').forEach(b => {
-b.addEventListener('click', function() { state.tempRows.splice(parseInt(this.dataset.delTemp), 1); renderTempRows(); updateTDRSummary(); });
-});
-updateTDRSummary();
+  tb.querySelectorAll('[data-del-temp]').forEach(b => {
+    b.addEventListener('click', function() { state.tempRows.splice(parseInt(this.dataset.delTemp), 1); renderTempRows(); updateTDRSummary(); });
+  });
+  updateTDRSummary();
 }
 function updateTDRSummary() {
-const vals = [];
-state.tempRows.forEach(r => {
-const ti=parseFloat(r.ti),to=parseFloat(r.to),ts=parseFloat(r.ts);
-if (!isNaN(ti)&&!isNaN(to)&&!isNaN(ts)&&(ti-to)!==0) vals.push((ti-ts)/(ti-to));
-});
-const box = document.getElementById('tdr-summary');
-if (vals.length === 0) { box.innerHTML = '<p class="text-xs text-surface-500 col-span-full">Enter temperature data above to see TDR summary statistics.</p>'; return; }
-const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
-const mn = Math.min(...vals), mx = Math.max(...vals);
-const poor = vals.filter(v=>v<0.7).length, mod = vals.filter(v=>v>=0.7&&v<0.9).length, good = vals.filter(v=>v>=0.9).length;
-box.innerHTML = `<div class="stat-card"><div class="stat-val tabular-nums">${avg.toFixed(3)}</div><div class="stat-lbl">Avg TDR</div></div>
-   <div class="stat-card"><div class="stat-val tabular-nums">${mn.toFixed(3)}</div><div class="stat-lbl">Min (Worst)</div></div>
-   <div class="stat-card"><div class="stat-val tabular-nums">${mx.toFixed(3)}</div><div class="stat-lbl">Max (Best)</div></div>
-   <div class="stat-card"><div class="stat-val tabular-nums" style="font-size:14px"><span style="color:#15803d">${good}G</span> / <span style="color:#b45309">${mod}M</span> / <span style="color:#b91c1c">${poor}P</span></div><div class="stat-lbl">Ratings</div></div>`;
+  const vals = [];
+  state.tempRows.forEach(r => {
+    const ti=parseFloat(r.ti),to=parseFloat(r.to),ts=parseFloat(r.ts);
+    if (!isNaN(ti)&&!isNaN(to)&&!isNaN(ts)&&(ti-to)!==0) vals.push((ti-ts)/(ti-to));
+  });
+  const box = document.getElementById('tdr-summary');
+  if (vals.length === 0) { box.innerHTML = '<p class="text-xs text-surface-500 col-span-full">Enter temperature data above to see TDR summary statistics.</p>'; return; }
+  const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
+  const mn = Math.min(vals), mx = Math.max(vals);
+  const poor = vals.filter(v=>v<0.7).length, mod = vals.filter(v=>v>=0.7&&v<0.9).length, good = vals.filter(v=>v>=0.9).length;
+  box.innerHTML = `<div class="stat-card"><div class="stat-val tabular-nums">${avg.toFixed(3)}</div><div class="stat-lbl">Avg TDR</div></div>
+    <div class="stat-card"><div class="stat-val tabular-nums">${mn.toFixed(3)}</div><div class="stat-lbl">Min (Worst)</div></div>
+    <div class="stat-card"><div class="stat-val tabular-nums">${mx.toFixed(3)}</div><div class="stat-lbl">Max (Best)</div></div>
+    <div class="stat-card"><div class="stat-val tabular-nums" style="font-size:14px"><span style="color:#15803d">${good}G</span> / <span style="color:#b45309">${mod}M</span> / <span style="color:#b91c1c">${poor}P</span></div><div class="stat-lbl">Ratings</div></div>`;
 }
 
 // ===== R-VALUE TABLE =====
 function buildRvalTable() { renderRvalRows(); }
 function renderRvalRows() {
-const tb = document.getElementById('rval-tbody');
-tb.innerHTML = '';
-const unit = document.getElementById('rval-unit-toggle').value;
-state.rvalLayers.forEach((row, i) => {
-let thick = parseFloat(row.thick), rpi = parseFloat(row.rpi);
-let thickIn = thick;
-if (unit === 'mm' && !isNaN(thick)) thickIn = thick / 25.4;
-let totalR = (!isNaN(thickIn) && !isNaN(rpi)) ? (thickIn * rpi).toFixed(2) : '';
-const tr = document.createElement('tr');
-tr.className = 'border-t border-surface-200';
-tr.innerHTML = `<td class="px-2 py-1 text-center text-xs font-semibold text-surface-500">${i+1}</td>
-     <td class="px-2 py-1"><input type="text" value="${row.mat||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-rval="${i}" data-rf="mat" /></td>
-     <td class="px-2 py-1 text-right"><input type="number" value="${row.thick||''}" class="w-20 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-rval="${i}" data-rf="thick" step="0.01" /></td>
-     <td class="px-2 py-1 text-right"><input type="number" value="${row.rpi||''}" class="w-20 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-rval="${i}" data-rf="rpi" step="0.01" /></td>
-     <td class="px-2 py-1 text-right font-semibold tabular-nums text-sm">${totalR}</td>
-     <td class="px-2 py-1"><input type="text" value="${row.notes||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-rval="${i}" data-rf="notes" /></td>
-     <td class="px-2 py-1 no-print"><button class="text-fail-500 hover:text-fail-700 text-xs font-bold" data-del-rval="${i}">✕</button></td>`;
-tb.appendChild(tr);
-});
-tb.querySelectorAll('[data-rval]').forEach(el => {
-el.addEventListener('input', function() { state.rvalLayers[parseInt(this.dataset.rval)][this.dataset.rf] = this.value; renderRvalRows(); updateRvalSummary(); });
-});
-tb.querySelectorAll('[data-del-rval]').forEach(b => {
-b.addEventListener('click', function() { state.rvalLayers.splice(parseInt(this.dataset.delRval), 1); renderRvalRows(); updateRvalSummary(); });
-});
-updateRvalSummary();
+  const tb = document.getElementById('rval-tbody');
+  tb.innerHTML = '';
+  const unit = document.getElementById('rval-unit-toggle').value;
+  state.rvalLayers.forEach((row, i) => {
+    let thick = parseFloat(row.thick), rpi = parseFloat(row.rpi);
+    let thickIn = thick;
+    if (unit === 'mm' && !isNaN(thick)) thickIn = thick / 25.4;
+    let totalR = (!isNaN(thickIn) && !isNaN(rpi)) ? (thickIn * rpi).toFixed(2) : '';
+    const tr = document.createElement('tr');
+    tr.className = 'border-t border-surface-200';
+    tr.innerHTML = `<td class="px-2 py-1 text-center text-xs font-semibold text-surface-500">${i+1}</td>
+      <td class="px-2 py-1"><input type="text" value="${row.mat||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-rval="${i}" data-rf="mat" /></td>
+      <td class="px-2 py-1 text-right"><input type="number" value="${row.thick||''}" class="w-20 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-rval="${i}" data-rf="thick" step="0.01" /></td>
+      <td class="px-2 py-1 text-right"><input type="number" value="${row.rpi||''}" class="w-20 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-rval="${i}" data-rf="rpi" step="0.01" /></td>
+      <td class="px-2 py-1 text-right font-semibold tabular-nums text-sm">${totalR}</td>
+      <td class="px-2 py-1"><input type="text" value="${row.notes||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-rval="${i}" data-rf="notes" /></td>
+      <td class="px-2 py-1 no-print"><button class="text-fail-500 hover:text-fail-700 text-xs font-bold" data-del-rval="${i}">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+  tb.querySelectorAll('[data-rval]').forEach(el => {
+    el.addEventListener('input', function() { state.rvalLayers[parseInt(this.dataset.rval)][this.dataset.rf] = this.value; renderRvalRows(); updateRvalSummary(); });
+  });
+  tb.querySelectorAll('[data-del-rval]').forEach(b => {
+    b.addEventListener('click', function() { state.rvalLayers.splice(parseInt(this.dataset.delRval), 1); renderRvalRows(); updateRvalSummary(); });
+  });
+  updateRvalSummary();
 }
 function updateRvalSummary() {
-const unit = document.getElementById('rval-unit-toggle').value;
-let totalR = 0;
-state.rvalLayers.forEach(row => {
-let thick = parseFloat(row.thick), rpi = parseFloat(row.rpi);
-if (unit === 'mm' && !isNaN(thick)) thick = thick / 25.4;
-if (!isNaN(thick) && !isNaN(rpi)) totalR += thick * rpi;
-});
-const rsi = (totalR * 0.1761).toFixed(3);
-const uval = totalR > 0 ? (1/totalR).toFixed(4) : '—';
-const box = document.getElementById('rval-summary');
-box.innerHTML = `<div class="stat-card"><div class="stat-val tabular-nums">${totalR.toFixed(2)}</div><div class="stat-lbl">Total R-Value</div></div>
-   <div class="stat-card"><div class="stat-val tabular-nums">${rsi}</div><div class="stat-lbl">RSI (m²·K/W)</div></div>
-   <div class="stat-card"><div class="stat-val tabular-nums">${uval}</div><div class="stat-lbl">U-Value</div></div>
-   <div class="stat-card" id="rval-code-card"><div class="stat-val tabular-nums">—</div><div class="stat-lbl">Compliance</div></div>`;
-// Compliance check
-const codeReq = parseFloat((document.querySelector('[data-field="rval_code_req"]')||{}).value);
-const card = document.getElementById('rval-code-card');
-if (!isNaN(codeReq) && codeReq > 0) {
-if (totalR >= codeReq) card.innerHTML = '<div class="stat-val"><span class="badge badge-compliant" style="font-size:14px">✓ Compliant</span></div><div class="stat-lbl">R-'+totalR.toFixed(1)+' ≥ R-'+codeReq+'</div>';
-else card.innerHTML = '<div class="stat-val"><span class="badge badge-noncompliant" style="font-size:14px">✗ Non-Compliant</span></div><div class="stat-lbl">R-'+totalR.toFixed(1)+' < R-'+codeReq+'</div>';
-}
-document.getElementById('rval-compliance').innerHTML = '';
-// Measured R
-const Q = parseFloat((document.querySelector('[data-field="rval_heatflux"]')||{}).value);
-const measDiv = document.getElementById('rval-measured');
-if (!isNaN(Q) && Q > 0) {
-// Use average Ti and To from temp section if available
-let tiAvg = 0, toAvg = 0, cnt = 0;
-state.tempRows.forEach(r => {
-const ti=parseFloat(r.ti),to=parseFloat(r.to);
-if (!isNaN(ti)&&!isNaN(to)) { tiAvg+=ti; toAvg+=to; cnt++; }
-});
-if (cnt > 0) {
-tiAvg/=cnt; toAvg/=cnt;
-const Rm = (tiAvg - toAvg) / Q;
-measDiv.innerHTML = `<span class="text-xs font-semibold text-surface-600">R<sub>measured</sub> = ΔT / Q = (${tiAvg.toFixed(1)} − ${toAvg.toFixed(1)}) / ${Q} = </span><span class="font-bold text-navy-900">${Rm.toFixed(2)}</span>`;
-} else {
-measDiv.innerHTML = '<span class="text-xs text-surface-500">Enter temperature data in Section 4 to compute R<sub>measured</sub>.</span>';
-}
-} else {
-measDiv.innerHTML = '<span class="text-xs text-surface-500">Enter heat flux Q to compute measured R-value.</span>';
-}
+  const unit = document.getElementById('rval-unit-toggle').value;
+  let totalR = 0;
+  state.rvalLayers.forEach(row => {
+    let thick = parseFloat(row.thick), rpi = parseFloat(row.rpi);
+    if (unit === 'mm' && !isNaN(thick)) thick = thick / 25.4;
+    if (!isNaN(thick) && !isNaN(rpi)) totalR += thick * rpi;
+  });
+  const rsi = (totalR * 0.1761).toFixed(3);
+  const uval = totalR > 0 ? (1/totalR).toFixed(4) : '—';
+  const box = document.getElementById('rval-summary');
+  box.innerHTML = `<div class="stat-card"><div class="stat-val tabular-nums">${totalR.toFixed(2)}</div><div class="stat-lbl">Total R-Value</div></div>
+    <div class="stat-card"><div class="stat-val tabular-nums">${rsi}</div><div class="stat-lbl">RSI (m²·K/W)</div></div>
+    <div class="stat-card"><div class="stat-val tabular-nums">${uval}</div><div class="stat-lbl">U-Value</div></div>
+    <div class="stat-card" id="rval-code-card"><div class="stat-val tabular-nums">—</div><div class="stat-lbl">Compliance</div></div>`;
+  // Compliance check
+  const codeReq = parseFloat((document.querySelector('[data-field="rval_code_req"]')||{}).value);
+  const card = document.getElementById('rval-code-card');
+  if (!isNaN(codeReq) && codeReq > 0) {
+    if (totalR >= codeReq) card.innerHTML = '<div class="stat-val"><span class="badge badge-compliant" style="font-size:14px">✓ Compliant</span></div><div class="stat-lbl">R-'+totalR.toFixed(1)+' ≥ R-'+codeReq+'</div>';
+    else card.innerHTML = '<div class="stat-val"><span class="badge badge-noncompliant" style="font-size:14px">✗ Non-Compliant</span></div><div class="stat-lbl">R-'+totalR.toFixed(1)+' < R-'+codeReq+'</div>';
+  }
+  document.getElementById('rval-compliance').innerHTML = '';
+  // Measured R
+  const Q = parseFloat((document.querySelector('[data-field="rval_heatflux"]')||{}).value);
+  const measDiv = document.getElementById('rval-measured');
+  if (!isNaN(Q) && Q > 0) {
+    // Use average Ti and To from temp section if available
+    let tiAvg = 0, toAvg = 0, cnt = 0;
+    state.tempRows.forEach(r => {
+      const ti=parseFloat(r.ti),to=parseFloat(r.to);
+      if (!isNaN(ti)&&!isNaN(to)) { tiAvg+=ti; toAvg+=to; cnt++; }
+    });
+    if (cnt > 0) {
+      tiAvg/=cnt; toAvg/=cnt;
+      const Rm = (tiAvg - toAvg) / Q;
+      measDiv.innerHTML = `<span class="text-xs font-semibold text-surface-600">R<sub>measured</sub> = ΔT / Q = (${tiAvg.toFixed(1)} − ${toAvg.toFixed(1)}) / ${Q} = </span><span class="font-bold text-navy-900">${Rm.toFixed(2)}</span>`;
+    } else {
+      measDiv.innerHTML = '<span class="text-xs text-surface-500">Enter temperature data in Section 4 to compute R<sub>measured</sub>.</span>';
+    }
+  } else {
+    measDiv.innerHTML = '<span class="text-xs text-surface-500">Enter heat flux Q to compute measured R-value.</span>';
+  }
 }
 
 // ===== WINDOW TABLE =====
 function buildWindowTable() { renderWindowRows(); }
 function renderWindowRows() {
-const tb = document.getElementById('window-tbody');
-tb.innerHTML = '';
-const frames = ['','Aluminum','Vinyl','Wood','Fibreglass','Composite'];
-const glazes = ['','Single','Double','Triple','Low-E Double','Low-E Triple'];
-const conds = ['','Good','Fair','Poor'];
-state.windows.forEach((row, i) => {
-const tr = document.createElement('tr');
-tr.className = 'border-t border-surface-200';
-tr.innerHTML = `<td class="px-2 py-1"><input type="text" value="${row.id||''}" class="w-12 border-0 bg-transparent text-sm font-semibold focus:outline-none" data-win="${i}" data-wf="id" /></td>
-     <td class="px-2 py-1"><input type="text" value="${row.loc||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-win="${i}" data-wf="loc" /></td>
-     <td class="px-2 py-1"><select class="text-xs border border-surface-300 rounded-lg px-1 py-1 bg-white" data-win="${i}" data-wf="frame">${frames.map(f=>`<option ${row.frame===f?'selected':''}>${f||'—'}</option>`).join('')}</select></td>
-     <td class="px-2 py-1"><select class="text-xs border border-surface-300 rounded-lg px-1 py-1 bg-white" data-win="${i}" data-wf="glaze">${glazes.map(g=>`<option ${row.glaze===g?'selected':''}>${g||'—'}</option>`).join('')}</select></td>
-     <td class="px-2 py-1"><input type="text" value="${row.dim||''}" class="w-20 border-0 bg-transparent text-sm focus:outline-none" data-win="${i}" data-wf="dim" placeholder="W×H" /></td>
-     <td class="px-2 py-1 text-right"><input type="number" value="${row.uval||''}" class="w-16 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-win="${i}" data-wf="uval" step="0.01" /></td>
-     <td class="px-2 py-1 text-center"><select class="text-xs border border-surface-300 rounded-lg px-1 py-1 bg-white" data-win="${i}" data-wf="cond">${conds.map(c=>`<option ${row.cond===c?'selected':''}>${c||'—'}</option>`).join('')}</select></td>
-     <td class="px-2 py-1"><input type="text" value="${row.defects||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-win="${i}" data-wf="defects" /></td>
-     <td class="px-2 py-1 no-print"><button class="text-fail-500 hover:text-fail-700 text-xs font-bold" data-del-win="${i}">✕</button></td>`;
-tb.appendChild(tr);
-});
-tb.querySelectorAll('[data-win]').forEach(el => {
-el.addEventListener('input', function() { state.windows[parseInt(this.dataset.win)][this.dataset.wf] = this.value; updateWinSummary(); });
-el.addEventListener('change', function() { state.windows[parseInt(this.dataset.win)][this.dataset.wf] = this.value; updateWinSummary(); });
-});
-tb.querySelectorAll('[data-del-win]').forEach(b => {
-b.addEventListener('click', function() { state.windows.splice(parseInt(this.dataset.delWin), 1); renderWindowRows(); updateWinSummary(); });
-});
-updateWinSummary();
+  const tb = document.getElementById('window-tbody');
+  tb.innerHTML = '';
+  const frames = ['','Aluminum','Vinyl','Wood','Fibreglass','Composite'];
+  const glazes = ['','Single','Double','Triple','Low-E Double','Low-E Triple'];
+  const conds = ['','Good','Fair','Poor'];
+  state.windows.forEach((row, i) => {
+    const tr = document.createElement('tr');
+    tr.className = 'border-t border-surface-200';
+    tr.innerHTML = `<td class="px-2 py-1"><input type="text" value="${row.id||''}" class="w-12 border-0 bg-transparent text-sm font-semibold focus:outline-none" data-win="${i}" data-wf="id" /></td>
+      <td class="px-2 py-1"><input type="text" value="${row.loc||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-win="${i}" data-wf="loc" /></td>
+      <td class="px-2 py-1"><select class="text-xs border border-surface-300 rounded-lg px-1 py-1 bg-white" data-win="${i}" data-wf="frame">${frames.map(f=>`<option ${row.frame===f?'selected':''}>${f||'—'}</option>`).join('')}</select></td>
+      <td class="px-2 py-1"><select class="text-xs border border-surface-300 rounded-lg px-1 py-1 bg-white" data-win="${i}" data-wf="glaze">${glazes.map(g=>`<option ${row.glaze===g?'selected':''}>${g||'—'}</option>`).join('')}</select></td>
+      <td class="px-2 py-1"><input type="text" value="${row.dim||''}" class="w-20 border-0 bg-transparent text-sm focus:outline-none" data-win="${i}" data-wf="dim" placeholder="W×H" /></td>
+      <td class="px-2 py-1 text-right"><input type="number" value="${row.uval||''}" class="w-16 text-right border border-surface-300 rounded-lg px-1 py-1 text-sm" data-win="${i}" data-wf="uval" step="0.01" /></td>
+      <td class="px-2 py-1 text-center"><select class="text-xs border border-surface-300 rounded-lg px-1 py-1 bg-white" data-win="${i}" data-wf="cond">${conds.map(c=>`<option ${row.cond===c?'selected':''}>${c||'—'}</option>`).join('')}</select></td>
+      <td class="px-2 py-1"><input type="text" value="${row.defects||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-win="${i}" data-wf="defects" /></td>
+      <td class="px-2 py-1 no-print"><button class="text-fail-500 hover:text-fail-700 text-xs font-bold" data-del-win="${i}">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+  tb.querySelectorAll('[data-win]').forEach(el => {
+    el.addEventListener('input', function() { state.windows[parseInt(this.dataset.win)][this.dataset.wf] = this.value; updateWinSummary(); });
+    el.addEventListener('change', function() { state.windows[parseInt(this.dataset.win)][this.dataset.wf] = this.value; updateWinSummary(); });
+  });
+  tb.querySelectorAll('[data-del-win]').forEach(b => {
+    b.addEventListener('click', function() { state.windows.splice(parseInt(this.dataset.delWin), 1); renderWindowRows(); updateWinSummary(); });
+  });
+  updateWinSummary();
 }
 function updateWinSummary() {
-const box = document.getElementById('win-summary');
-const total = state.windows.length;
-const good = state.windows.filter(w=>w.cond==='Good').length;
-const fair = state.windows.filter(w=>w.cond==='Fair').length;
-const poor = state.windows.filter(w=>w.cond==='Poor').length;
-let overall = '—';
-if (total > 0) {
-if (good >= fair && good >= poor) overall = '<span class="badge badge-good">Good</span>';
-else if (fair >= poor) overall = '<span class="badge badge-moderate">Fair</span>';
-else overall = '<span class="badge badge-poor">Poor</span>';
-}
-box.innerHTML = `<div class="stat-card"><div class="stat-val tabular-nums">${total}</div><div class="stat-lbl">Total Inspected</div></div>
-   <div class="stat-card"><div class="stat-val tabular-nums" style="font-size:14px"><span style="color:#15803d">${good}G</span> / <span style="color:#b45309">${fair}F</span> / <span style="color:#b91c1c">${poor}P</span></div><div class="stat-lbl">Condition Breakdown</div></div>
-   <div class="stat-card"><div class="stat-val tabular-nums">${state.winFailedSeals||'—'}</div><div class="stat-lbl">Failed Seals</div></div>
-   <div class="stat-card"><div class="stat-val">${overall}</div><div class="stat-lbl">Overall</div></div>`;
+  const box = document.getElementById('win-summary');
+  const total = state.windows.length;
+  const good = state.windows.filter(w=>w.cond==='Good').length;
+  const fair = state.windows.filter(w=>w.cond==='Fair').length;
+  const poor = state.windows.filter(w=>w.cond==='Poor').length;
+  let overall = '—';
+  if (total > 0) {
+    if (good >= fair && good >= poor) overall = '<span class="badge badge-good">Good</span>';
+    else if (fair >= poor) overall = '<span class="badge badge-moderate">Fair</span>';
+    else overall = '<span class="badge badge-poor">Poor</span>';
+  }
+  box.innerHTML = `<div class="stat-card"><div class="stat-val tabular-nums">${total}</div><div class="stat-lbl">Total Inspected</div></div>
+    <div class="stat-card"><div class="stat-val tabular-nums" style="font-size:14px"><span style="color:#15803d">${good}G</span> / <span style="color:#b45309">${fair}F</span> / <span style="color:#b91c1c">${poor}P</span></div><div class="stat-lbl">Condition Breakdown</div></div>
+    <div class="stat-card"><div class="stat-val tabular-nums">${state.winFailedSeals||'—'}</div><div class="stat-lbl">Failed Seals</div></div>
+    <div class="stat-card"><div class="stat-val">${overall}</div><div class="stat-lbl">Overall</div></div>`;
 }
 
 // ===== ACTION TABLE =====
 function buildActionTable() { renderActionRows(); }
 function renderActionRows() {
-const tb = document.getElementById('action-tbody');
-tb.innerHTML = '';
-const sorted = state.actionItems.map((a,i)=>({...a,_i:i})).sort((a,b)=>(parseInt(a.priority)||9)-(parseInt(b.priority)||9));
-sorted.forEach(row => {
-const i = row._i;
-const tr = document.createElement('tr');
-tr.className = 'border-t border-surface-200';
-tr.innerHTML = `<td class="px-2 py-1 text-center"><select class="text-xs border border-surface-300 rounded-lg px-1 py-1 bg-white" data-act="${i}" data-actf="priority"><option value="">—</option><option ${row.priority==='1'?'selected':''}>1</option><option ${row.priority==='2'?'selected':''}>2</option><option ${row.priority==='3'?'selected':''}>3</option></select></td>
-     <td class="px-2 py-1"><input type="text" value="${row.desc||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-act="${i}" data-actf="desc" /></td>
-     <td class="px-2 py-1"><input type="text" value="${row.responsible||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-act="${i}" data-actf="responsible" /></td>
-     <td class="px-2 py-1"><input type="date" value="${row.targetDate||''}" class="text-xs border border-surface-300 rounded-lg px-1 py-1" data-act="${i}" data-actf="targetDate" /></td>
-     <td class="px-2 py-1 text-right"><input type="text" value="${row.cost||''}" class="w-20 text-right border-0 bg-transparent text-sm focus:outline-none" data-act="${i}" data-actf="cost" placeholder="$" /></td>
-     <td class="px-2 py-1 text-center"><select class="text-xs border border-surface-300 rounded-lg px-1 py-1 bg-white" data-act="${i}" data-actf="status"><option value="">—</option><option ${row.status==='Open'?'selected':''}>Open</option><option ${row.status==='In Progress'?'selected':''}>In Progress</option><option ${row.status==='Complete'?'selected':''}>Complete</option></select></td>
-     <td class="px-2 py-1 no-print"><button class="text-fail-500 hover:text-fail-700 text-xs font-bold" data-del-act="${i}">✕</button></td>`;
-tb.appendChild(tr);
-});
-tb.querySelectorAll('[data-act]').forEach(el => {
-const handler = function() { state.actionItems[parseInt(this.dataset.act)][this.dataset.actf] = this.value; };
-el.addEventListener('input', handler);
-el.addEventListener('change', handler);
-});
-tb.querySelectorAll('[data-del-act]').forEach(b => {
-b.addEventListener('click', function() { state.actionItems.splice(parseInt(this.dataset.delAct), 1); renderActionRows(); });
-});
+  const tb = document.getElementById('action-tbody');
+  tb.innerHTML = '';
+  const sorted = state.actionItems.map((a,i)=>({a,_i:i})).sort((a,b)=>(parseInt(a.priority)||9)-(parseInt(b.priority)||9));
+  sorted.forEach(row => {
+    const i = row._i;
+    const tr = document.createElement('tr');
+    tr.className = 'border-t border-surface-200';
+    tr.innerHTML = `<td class="px-2 py-1 text-center"><select class="text-xs border border-surface-300 rounded-lg px-1 py-1 bg-white" data-act="${i}" data-actf="priority"><option value="">—</option><option ${row.priority==='1'?'selected':''}>1</option><option ${row.priority==='2'?'selected':''}>2</option><option ${row.priority==='3'?'selected':''}>3</option></select></td>
+      <td class="px-2 py-1"><input type="text" value="${row.desc||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-act="${i}" data-actf="desc" /></td>
+      <td class="px-2 py-1"><input type="text" value="${row.responsible||''}" class="w-full border-0 bg-transparent text-sm focus:outline-none" data-act="${i}" data-actf="responsible" /></td>
+      <td class="px-2 py-1"><input type="date" value="${row.targetDate||''}" class="text-xs border border-surface-300 rounded-lg px-1 py-1" data-act="${i}" data-actf="targetDate" /></td>
+      <td class="px-2 py-1 text-right"><input type="text" value="${row.cost||''}" class="w-20 text-right border-0 bg-transparent text-sm focus:outline-none" data-act="${i}" data-actf="cost" placeholder="$" /></td>
+      <td class="px-2 py-1 text-center"><select class="text-xs border border-surface-300 rounded-lg px-1 py-1 bg-white" data-act="${i}" data-actf="status"><option value="">—</option><option ${row.status==='Open'?'selected':''}>Open</option><option ${row.status==='In Progress'?'selected':''}>In Progress</option><option ${row.status==='Complete'?'selected':''}>Complete</option></select></td>
+      <td class="px-2 py-1 no-print"><button class="text-fail-500 hover:text-fail-700 text-xs font-bold" data-del-act="${i}">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+  tb.querySelectorAll('[data-act]').forEach(el => {
+    const handler = function() { state.actionItems[parseInt(this.dataset.act)][this.dataset.actf] = this.value; };
+    el.addEventListener('input', handler);
+    el.addEventListener('change', handler);
+  });
+  tb.querySelectorAll('[data-del-act]').forEach(b => {
+    b.addEventListener('click', function() { state.actionItems.splice(parseInt(this.dataset.delAct), 1); renderActionRows(); });
+  });
 }
 
 // ===== CONDITION RATING =====
 function buildConditionRating() {
-const btns = document.querySelectorAll('#condition-rating-group .condition-btn');
-btns.forEach(btn => {
-if (state.conditionRating === btn.dataset.rating) {
-const cls = {satisfactory:'sel-green',minor:'sel-yellow',moderate:'sel-orange',critical:'sel-red'}[btn.dataset.rating];
-btn.classList.add(cls);
-}
-});
+  const btns = document.querySelectorAll('#condition-rating-group .condition-btn');
+  btns.forEach(btn => {
+    if (state.conditionRating === btn.dataset.rating) {
+      const cls = {satisfactory:'sel-green',minor:'sel-yellow',moderate:'sel-orange',critical:'sel-red'}[btn.dataset.rating];
+      btn.classList.add(cls);
+    }
+  });
 }
 
 // ===== DECLARATION =====
 function buildDeclaration() {
-const box = document.getElementById('grp-declaration');
-box.innerHTML = `<label class="flex items-start gap-3 cursor-pointer">
-   <input type="checkbox" class="mt-0.5 w-4 h-4 rounded accent-accent-500 flex-shrink-0" id="decl-check" ${state.declaration?'checked':''} />
-   <span class="text-xs text-surface-700 leading-relaxed">I certify that this inspection was conducted in accordance with applicable standards and that the findings recorded herein are accurate to the best of my knowledge.</span>
- </label>`;
-document.getElementById('decl-check').addEventListener('change', function() { state.declaration = this.checked; });
+  const box = document.getElementById('grp-declaration');
+  box.innerHTML = `<label class="flex items-start gap-3 cursor-pointer">
+    <input type="checkbox" class="mt-0.5 w-4 h-4 rounded accent-accent-500 flex-shrink-0" id="decl-check" ${state.declaration?'checked':''} />
+    <span class="text-xs text-surface-700 leading-relaxed">I certify that this inspection was conducted in accordance with applicable standards and that the findings recorded herein are accurate to the best of my knowledge.</span>
+  </label>`;
+  document.getElementById('decl-check').addEventListener('change', function() { state.declaration = this.checked; });
 }
 
 // ===== RESTORE =====
 function restoreFields() {
-document.querySelectorAll('[data-field]').forEach(el => {
-const k = el.dataset.field;
-if (state.fields[k] !== undefined) {
-if (el.type === 'checkbox') el.checked = state.fields[k];
-else el.value = state.fields[k];
-}
-});
+  document.querySelectorAll('[data-field]').forEach(el => {
+    const k = el.dataset.field;
+    if (state.fields[k] !== undefined) {
+      if (el.type === 'checkbox') el.checked = state.fields[k];
+      else el.value = state.fields[k];
+    }
+  });
 }
 
 // ===== PROGRESS & STATS =====
 function getAllPFNKeys() {
-const keys = [];
-Object.keys(PFN_GROUPS).forEach(grpId => {
-if (grpId === 'grp-followup') return; // not counted as PFN
-PFN_GROUPS[grpId].forEach((_, i) => keys.push(grpId + '_' + i));
-});
-return keys;
+  const keys = [];
+  Object.keys(PFN_GROUPS).forEach(grpId => {
+    if (grpId === 'grp-followup') return; // not counted as PFN
+    PFN_GROUPS[grpId].forEach((_, i) => keys.push(grpId + '_' + i));
+  });
+  return keys;
 }
 function updateAllCalcs() {
-const allKeys = getAllPFNKeys();
-const total = allKeys.length;
-let passed = 0, failed = 0, na = 0, answered = 0;
-allKeys.forEach(k => {
-const v = state.pfn[k];
-if (v === 'pass') { passed++; answered++; }
-else if (v === 'fail') { failed++; answered++; }
-else if (v === 'na') { na++; answered++; }
-});
-// Count filled fields for progress
-const fieldEls = document.querySelectorAll('[data-field]');
-let filledFields = 0, totalFields = 0;
-fieldEls.forEach(el => {
-totalFields++;
-if (el.type === 'checkbox') { if (el.checked) filledFields++; }
-else if (el.value && el.value.trim()) filledFields++;
-});
-const totalTrackable = total + totalFields;
-const completedTrackable = answered + filledFields;
-const pct = totalTrackable > 0 ? Math.round((completedTrackable / totalTrackable) * 100) : 0;
-document.getElementById('progress-fill').style.width = pct + '%';
-document.getElementById('progress-pct').textContent = pct + '%';
-document.getElementById('stat-checked').textContent = answered;
-document.getElementById('stat-total').textContent = total;
-// Pass rate
-const applicable = passed + failed;
-const passRate = applicable > 0 ? Math.round((passed / applicable) * 100) : 0;
-const ob = document.getElementById('overall-badge');
-if (applicable > 0) {
-let cls = 'badge-good', txt = 'Pass Rate: ' + passRate + '%';
-if (passRate < 70) cls = 'badge-poor';
-else if (passRate < 90) cls = 'badge-moderate';
-ob.innerHTML = `<span class="badge ${cls}">${txt}</span>`;
-} else { ob.innerHTML = ''; }
-// Section dots
-updateSectionDots();
-// Section completions
-updateSectionCompletions();
-// Dew point
-updateDewPoint();
-// Final stats
-updateFinalStats(total, passed, failed, na, passRate);
-// Signature preview
-const sigInput = document.querySelector('[data-field="sign_name"]');
-const sigPreview = document.getElementById('sig-preview');
-if (sigInput && sigPreview) sigPreview.textContent = sigInput.value || '';
+  const allKeys = getAllPFNKeys();
+  const total = allKeys.length;
+  let passed = 0, failed = 0, na = 0, answered = 0;
+  allKeys.forEach(k => {
+    const v = state.pfn[k];
+    if (v === 'pass') { passed++; answered++; }
+    else if (v === 'fail') { failed++; answered++; }
+    else if (v === 'na') { na++; answered++; }
+  });
+  // Count filled fields for progress
+  const fieldEls = document.querySelectorAll('[data-field]');
+  let filledFields = 0, totalFields = 0;
+  fieldEls.forEach(el => {
+    totalFields++;
+    if (el.type === 'checkbox') { if (el.checked) filledFields++; }
+    else if (el.value && el.value.trim()) filledFields++;
+  });
+  const totalTrackable = total + totalFields;
+  const completedTrackable = answered + filledFields;
+  const pct = totalTrackable > 0 ? Math.round((completedTrackable / totalTrackable) * 100) : 0;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('stat-checked').textContent = answered;
+  document.getElementById('stat-total').textContent = total;
+  // Pass rate
+  const applicable = passed + failed;
+  const passRate = applicable > 0 ? Math.round((passed / applicable) * 100) : 0;
+  const ob = document.getElementById('overall-badge');
+  if (applicable > 0) {
+    let cls = 'badge-good', txt = 'Pass Rate: ' + passRate + '%';
+    if (passRate < 70) cls = 'badge-poor';
+    else if (passRate < 90) cls = 'badge-moderate';
+    ob.innerHTML = `<span class="badge ${cls}">${txt}</span>`;
+  } else { ob.innerHTML = ''; }
+  // Section dots
+  updateSectionDots();
+  // Section completions
+  updateSectionCompletions();
+  // Dew point
+  updateDewPoint();
+  // Final stats
+  updateFinalStats(total, passed, failed, na, passRate);
+  // Signature preview
+  const sigInput = document.querySelector('[data-field="sign_name"]');
+  const sigPreview = document.getElementById('sig-preview');
+  if (sigInput && sigPreview) sigPreview.textContent = sigInput.value || '';
 }
 function updateSectionDots() {
-// Map sections to PFN groups
-const sectionGroups = {
-0: [], 1: ['grp-ext-foundation','grp-ext-cladding','grp-ext-penetrations','grp-ext-roof'],
-2: ['grp-int-visual','grp-int-rh'], 3: ['grp-therm-equip','grp-therm-conditions','grp-therm-log'],
-4: ['grp-temp-instruments'], 5: [], 6: ['grp-win-checklist'],
-7: ['grp-wall-air','grp-wall-vapour','grp-wall-insulation','grp-wall-drainage','grp-wall-structural'],
-8: ['grp-followup']
-};
-SECTIONS.forEach(s => {
-const grps = sectionGroups[s.id] || [];
-let total = 0, answered = 0;
-grps.forEach(g => {
-if (!PFN_GROUPS[g]) return;
-PFN_GROUPS[g].forEach((_, i) => {
-total++;
-const v = state.pfn[g + '_' + i];
-if (v) answered++;
-});
-});
-// Also count fields in this section
-const panel = document.getElementById('panel-' + s.id);
-if (panel) {
-panel.querySelectorAll('[data-field]').forEach(el => {
-total++;
-if (el.type === 'checkbox') { if (el.checked) answered++; }
-else if (el.value && el.value.trim()) answered++;
-});
-}
-const dots = document.querySelectorAll(`[data-dot="${s.id}"]`);
-dots.forEach(dot => {
-dot.className = 'sidebar-dot';
-if (total === 0) dot.classList.add('dot-grey');
-else if (answered === 0) dot.classList.add('dot-grey');
-else if (answered >= total) dot.classList.add('dot-green');
-else dot.classList.add('dot-yellow');
-});
-});
+  // Map sections to PFN groups
+  const sectionGroups = {
+    0: [], 1: ['grp-ext-foundation','grp-ext-cladding','grp-ext-penetrations','grp-ext-roof'],
+    2: ['grp-int-visual','grp-int-rh'], 3: ['grp-therm-equip','grp-therm-conditions','grp-therm-log'],
+    4: ['grp-temp-instruments'], 5: [], 6: ['grp-win-checklist'],
+    7: ['grp-wall-air','grp-wall-vapour','grp-wall-insulation','grp-wall-drainage','grp-wall-structural'],
+    8: ['grp-followup']
+  };
+  SECTIONS.forEach(s => {
+    const grps = sectionGroups[s.id] || [];
+    let total = 0, answered = 0;
+    grps.forEach(g => {
+      if (!PFN_GROUPS[g]) return;
+      PFN_GROUPS[g].forEach((_, i) => {
+        total++;
+        const v = state.pfn[g + '_' + i];
+        if (v) answered++;
+      });
+    });
+    // Also count fields in this section
+    const panel = document.getElementById('panel-' + s.id);
+    if (panel) {
+      panel.querySelectorAll('[data-field]').forEach(el => {
+        total++;
+        if (el.type === 'checkbox') { if (el.checked) answered++; }
+        else if (el.value && el.value.trim()) answered++;
+      });
+    }
+    const dots = document.querySelectorAll(`[data-dot="${s.id}"]`);
+    dots.forEach(dot => {
+      dot.className = 'sidebar-dot';
+      if (total === 0) dot.classList.add('dot-grey');
+      else if (answered === 0) dot.classList.add('dot-grey');
+      else if (answered >= total) dot.classList.add('dot-green');
+      else dot.classList.add('dot-yellow');
+    });
+  });
 }
 function updateSectionCompletions() {
-const sectionGroups = {
-0: [], 1: ['grp-ext-foundation','grp-ext-cladding','grp-ext-penetrations','grp-ext-roof'],
-2: ['grp-int-visual','grp-int-rh'], 3: ['grp-therm-equip','grp-therm-conditions','grp-therm-log'],
-4: ['grp-temp-instruments'], 5: [], 6: ['grp-win-checklist'],
-7: ['grp-wall-air','grp-wall-vapour','grp-wall-insulation','grp-wall-drainage','grp-wall-structural'],
-8: ['grp-followup']
-};
-for (let i = 0; i <= 8; i++) {
-const el = document.getElementById('completion-' + i);
-if (!el) continue;
-const grps = sectionGroups[i] || [];
-let total = 0, answered = 0;
-grps.forEach(g => {
-if (!PFN_GROUPS[g]) return;
-PFN_GROUPS[g].forEach((_, j) => { total++; if (state.pfn[g+'_'+j]) answered++; });
-});
-const panel = document.getElementById('panel-' + i);
-if (panel) {
-panel.querySelectorAll('[data-field]').forEach(f => {
-total++;
-if (f.type==='checkbox') { if (f.checked) answered++; }
-else if (f.value && f.value.trim()) answered++;
-});
-}
-if (total > 0) el.textContent = `Section completion: ${Math.round((answered/total)*100)}% (${answered}/${total} items)`;
-else el.textContent = '';
-}
+  const sectionGroups = {
+    0: [], 1: ['grp-ext-foundation','grp-ext-cladding','grp-ext-penetrations','grp-ext-roof'],
+    2: ['grp-int-visual','grp-int-rh'], 3: ['grp-therm-equip','grp-therm-conditions','grp-therm-log'],
+    4: ['grp-temp-instruments'], 5: [], 6: ['grp-win-checklist'],
+    7: ['grp-wall-air','grp-wall-vapour','grp-wall-insulation','grp-wall-drainage','grp-wall-structural'],
+    8: ['grp-followup']
+  };
+  for (let i = 0; i <= 8; i++) {
+    const el = document.getElementById('completion-' + i);
+    if (!el) continue;
+    const grps = sectionGroups[i] || [];
+    let total = 0, answered = 0;
+    grps.forEach(g => {
+      if (!PFN_GROUPS[g]) return;
+      PFN_GROUPS[g].forEach((_, j) => { total++; if (state.pfn[g+'_'+j]) answered++; });
+    });
+    const panel = document.getElementById('panel-' + i);
+    if (panel) {
+      panel.querySelectorAll('[data-field]').forEach(f => {
+        total++;
+        if (f.type==='checkbox') { if (f.checked) answered++; }
+        else if (f.value && f.value.trim()) answered++;
+      });
+    }
+    if (total > 0) el.textContent = `Section completion: ${Math.round((answered/total)*100)}% (${answered}/${total} items)`;
+    else el.textContent = '';
+  }
 }
 function updateDewPoint() {
-const ti = parseFloat((document.querySelector('[data-field="int_rh_indoor"]')||{}).value);
-const tempEl = document.querySelector('[data-field="site_temp"]');
-const temp = parseFloat(tempEl ? tempEl.value : '');
-const dp = document.getElementById('dew-point');
-if (!isNaN(ti) && !isNaN(temp)) {
-// Magnus formula approximation
-const a = 17.27, b = 237.7;
-const gamma = (a * temp) / (b + temp) + Math.log(ti / 100);
-const dewPt = (b * gamma) / (a - gamma);
-dp.textContent = dewPt.toFixed(1) + ' °C';
-} else { dp.textContent = '—'; }
+  const ti = parseFloat((document.querySelector('[data-field="int_rh_indoor"]')||{}).value);
+  const tempEl = document.querySelector('[data-field="site_temp"]');
+  const temp = parseFloat(tempEl ? tempEl.value : '');
+  const dp = document.getElementById('dew-point');
+  if (!isNaN(ti) && !isNaN(temp)) {
+    // Magnus formula approximation
+    const a = 17.27, b = 237.7;
+    const gamma = (a * temp) / (b + temp) + Math.log(ti / 100);
+    const dewPt = (b * gamma) / (a - gamma);
+    dp.textContent = dewPt.toFixed(1) + ' °C';
+  } else { dp.textContent = '—'; }
 }
 function updateFinalStats(total, passed, failed, na, passRate) {
-const box = document.getElementById('final-stats');
-if (!box) return;
-const anomCount = state.anomalies.length;
-box.innerHTML = `<div class="stat-card"><div class="stat-val tabular-nums">${total}</div><div class="stat-lbl">Total Checklist Items</div></div>
-   <div class="stat-card"><div class="stat-val tabular-nums" style="color:#15803d">${passed}</div><div class="stat-lbl">Items Passed</div></div>
-   <div class="stat-card"><div class="stat-val tabular-nums" style="color:#b91c1c">${failed}</div><div class="stat-lbl">Items Failed</div></div>
-   <div class="stat-card"><div class="stat-val tabular-nums" style="color:#64748b">${na}</div><div class="stat-lbl">Items N/A</div></div>
-   <div class="stat-card"><div class="stat-val tabular-nums">${passRate}%</div><div class="stat-lbl">Overall Pass Rate</div></div>
-   <div class="stat-card"><div class="stat-val tabular-nums" style="color:#b45309">${anomCount}</div><div class="stat-lbl">Thermal Anomalies</div></div>`;
+  const box = document.getElementById('final-stats');
+  if (!box) return;
+  const anomCount = state.anomalies.length;
+  box.innerHTML = `<div class="stat-card"><div class="stat-val tabular-nums">${total}</div><div class="stat-lbl">Total Checklist Items</div></div>
+    <div class="stat-card"><div class="stat-val tabular-nums" style="color:#15803d">${passed}</div><div class="stat-lbl">Items Passed</div></div>
+    <div class="stat-card"><div class="stat-val tabular-nums" style="color:#b91c1c">${failed}</div><div class="stat-lbl">Items Failed</div></div>
+    <div class="stat-card"><div class="stat-val tabular-nums" style="color:#64748b">${na}</div><div class="stat-lbl">Items N/A</div></div>
+    <div class="stat-card"><div class="stat-val tabular-nums">${passRate}%</div><div class="stat-lbl">Overall Pass Rate</div></div>
+    <div class="stat-card"><div class="stat-val tabular-nums" style="color:#b45309">${anomCount}</div><div class="stat-lbl">Thermal Anomalies</div></div>`;
 }
 
 // ===== AUTO SAVE =====
 function startAutoSave() {
-setInterval(() => { saveState(); updateAllCalcs(); }, 2000);
+  setInterval(() => { saveState(false); updateAllCalcs(); }, 2000);
 }
 
 // ===== GLOBAL EVENTS =====
 function bindGlobalEvents() {
-// Sidebar nav
-document.addEventListener('click', function(e) {
-const btn = e.target.closest('.sidebar-btn');
-if (btn) {
-setActiveSection(parseInt(btn.dataset.sec));
-// Close mobile menu
-document.getElementById('mobile-overlay').classList.add('hidden');
-}
-});
-// Mobile menu
-document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-document.getElementById('mobile-overlay').classList.remove('hidden');
-});
-document.getElementById('mobile-close-btn').addEventListener('click', function() {
-document.getElementById('mobile-overlay').classList.add('hidden');
-});
-document.getElementById('mobile-overlay').addEventListener('click', function(e) {
-if (e.target === this) this.classList.add('hidden');
-});
+  document.addEventListener('click', function(event) {
+    const button = event.target.closest('.pfn-toggle button');
+    if (!button) return;
+    const toggle = button.closest('.pfn-toggle');
+    const key = button.dataset.key;
+    const value = button.dataset.val;
+    if (!toggle || !key || !value) return;
+    state.pfn[key] = value;
+    toggle.querySelectorAll('button').forEach(item => item.classList.remove('active-pass', 'active-fail', 'active-na'));
+    button.classList.add(`active-${value}`);
+    saveState();
+    updateAllCalcs();
+  });
+
+  // Sidebar nav
+  document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.sidebar-btn');
+    if (btn) {
+      setActiveSection(parseInt(btn.dataset.sec));
+      // Close mobile menu
+      document.getElementById('mobile-overlay').classList.add('hidden');
+    }
+  });
+  // Mobile menu
+  document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+    document.getElementById('mobile-overlay').classList.remove('hidden');
+  });
+  document.getElementById('mobile-close-btn').addEventListener('click', function() {
+    document.getElementById('mobile-overlay').classList.add('hidden');
+  });
+  document.getElementById('mobile-overlay').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.add('hidden');
+  });
 //Save
 document.getElementById('btn-save-csv')?.addEventListener('click', exportStateToCsv);
 
 document.getElementById('btn-open-csv')?.addEventListener('click', function() {
-document.getElementById('csv-file-input').click();
+  document.getElementById('csv-file-input').click();
 });
 //Open
 document.getElementById('csv-file-input')?.addEventListener('change', function(e) {
-const file = e.target.files && e.target.files[0];
-if (!file) return;
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
 
-const reader = new FileReader();
-reader.onload = function(evt) {
-importStateFromCsvText(evt.target.result);
-};
-reader.readAsText(file);
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    importStateFromCsvText(evt.target.result);
+  };
+  reader.readAsText(file);
 
-e.target.value = '';
+  e.target.value = '';
 });
-// Print
-document.getElementById('btn-print').addEventListener('click', () => window.print());
-document.getElementById('btn-gen-print').addEventListener('click', () => window.print());
-// Reset
-document.getElementById('btn-reset').addEventListener('click', () => {
-document.getElementById('reset-modal').classList.remove('hidden');
-});
-document.getElementById('reset-cancel').addEventListener('click', () => {
-document.getElementById('reset-modal').classList.add('hidden');
-});
-document.getElementById('reset-confirm').addEventListener('click', () => {
-localStorage.removeItem(STORAGE_KEY);
-state = defaultState();
-location.reload();
-});
-// Add anomaly
-document.getElementById('btn-add-anomaly').addEventListener('click', () => {
-state.anomalies.push({zone:'',type:'',minT:'',maxT:'',severity:'',notes:''});
-renderAnomalyRows();
-if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') lucide.createIcons();
-});
-// Add temp row
-document.getElementById('btn-add-temp').addEventListener('click', () => {
-state.tempRows.push({id:'P'+(state.tempRows.length+1),loc:'',ti:'',to:'',ts:'',notes:''});
-renderTempRows();
-if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') lucide.createIcons();
-});
-// Add R-value layer
-document.getElementById('btn-add-layer').addEventListener('click', () => {
-state.rvalLayers.push({mat:'',thick:'',rpi:'',notes:''});
-renderRvalRows();
-if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') lucide.createIcons();
-});
-// R-value unit toggle
-document.getElementById('rval-unit-toggle').addEventListener('change', () => { renderRvalRows(); });
-// Add window
-document.getElementById('btn-add-window').addEventListener('click', () => {
-state.windows.push({id:'W'+(state.windows.length+1),loc:'',frame:'',glaze:'',dim:'',uval:'',cond:'',defects:''});
-renderWindowRows();
-if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') lucide.createIcons();
-});
-// Add action item
-document.getElementById('btn-add-action').addEventListener('click', () => {
-state.actionItems.push({priority:'',desc:'',responsible:'',targetDate:'',cost:'',status:'Open'});
-renderActionRows();
-if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') lucide.createIcons();
-});
-// Condition rating buttons
-document.querySelectorAll('#condition-rating-group .condition-btn').forEach(btn => {
-btn.addEventListener('click', function() {
-document.querySelectorAll('#condition-rating-group .condition-btn').forEach(b => {
-b.className = 'condition-btn';
-});
-const r = this.dataset.rating;
-state.conditionRating = r;
-const cls = {satisfactory:'sel-green',minor:'sel-yellow',moderate:'sel-orange',critical:'sel-red'}[r];
-this.classList.add(cls);
-});
-});
-// Signature preview live update
-const sigInput = document.querySelector('[data-field="sign_name"]');
-if (sigInput) sigInput.addEventListener('input', function() {
-document.getElementById('sig-preview').textContent = this.value;
-});
-// R-value code req update
-const codeReq = document.querySelector('[data-field="rval_code_req"]');
-if (codeReq) codeReq.addEventListener('input', () => updateRvalSummary());
-// Heat flux update
-const hf = document.querySelector('[data-field="rval_heatflux"]');
-if (hf) hf.addEventListener('input', () => updateRvalSummary());
-// RH & temp calcs
-const rhIn = document.querySelector('[data-field="int_rh_indoor"]');
-const rhOut = document.querySelector('[data-field="int_rh_outdoor"]');
-if (rhIn) rhIn.addEventListener('input', () => updateDewPoint());
-if (rhOut) rhOut.addEventListener('input', () => updateDewPoint());
-// General input change tracking
-document.addEventListener('input', function(e) {
-if (e.target.matches('[data-field]')) {
-updateAllCalcs();
-}
-});
-document.addEventListener('change', function(e) {
-if (e.target.matches('[data-field]')) {
-updateAllCalcs();
-}
-});
+  // Print
+  document.getElementById('btn-print').addEventListener('click', () => window.print());
+  document.getElementById('btn-gen-print').addEventListener('click', () => window.print());
+  // Reset
+  document.getElementById('btn-reset').addEventListener('click', () => {
+    document.getElementById('reset-modal').classList.remove('hidden');
+  });
+  document.getElementById('reset-cancel').addEventListener('click', () => {
+    document.getElementById('reset-modal').classList.add('hidden');
+  });
+  document.getElementById('reset-confirm').addEventListener('click', () => {
+    localStorage.removeItem(STORAGE_KEY);
+    state = defaultState();
+    location.reload();
+  });
+  // Add anomaly
+  document.getElementById('btn-add-anomaly').addEventListener('click', () => {
+    state.anomalies.push({zone:'',type:'',minT:'',maxT:'',severity:'',notes:''});
+    renderAnomalyRows();
+    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') lucide.createIcons();
+  });
+  // Add temp row
+  document.getElementById('btn-add-temp').addEventListener('click', () => {
+    state.tempRows.push({id:'P'+(state.tempRows.length+1),loc:'',ti:'',to:'',ts:'',notes:''});
+    renderTempRows();
+    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') lucide.createIcons();
+  });
+  // Add R-value layer
+  document.getElementById('btn-add-layer').addEventListener('click', () => {
+    state.rvalLayers.push({mat:'',thick:'',rpi:'',notes:''});
+    renderRvalRows();
+    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') lucide.createIcons();
+  });
+  // R-value unit toggle
+  document.getElementById('rval-unit-toggle').addEventListener('change', () => { renderRvalRows(); });
+  // Add window
+  document.getElementById('btn-add-window').addEventListener('click', () => {
+    state.windows.push({id:'W'+(state.windows.length+1),loc:'',frame:'',glaze:'',dim:'',uval:'',cond:'',defects:''});
+    renderWindowRows();
+    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') lucide.createIcons();
+  });
+  // Add action item
+  document.getElementById('btn-add-action').addEventListener('click', () => {
+    state.actionItems.push({priority:'',desc:'',responsible:'',targetDate:'',cost:'',status:'Open'});
+    renderActionRows();
+    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') lucide.createIcons();
+  });
+  // Condition rating buttons
+  document.querySelectorAll('#condition-rating-group .condition-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#condition-rating-group .condition-btn').forEach(b => {
+        b.className = 'condition-btn';
+      });
+      const r = this.dataset.rating;
+      state.conditionRating = r;
+      const cls = {satisfactory:'sel-green',minor:'sel-yellow',moderate:'sel-orange',critical:'sel-red'}[r];
+      this.classList.add(cls);
+    });
+  });
+  // Signature preview live update
+  const sigInput = document.querySelector('[data-field="sign_name"]');
+  if (sigInput) sigInput.addEventListener('input', function() {
+    document.getElementById('sig-preview').textContent = this.value;
+  });
+  // R-value code req update
+  const codeReq = document.querySelector('[data-field="rval_code_req"]');
+  if (codeReq) codeReq.addEventListener('input', () => updateRvalSummary());
+  // Heat flux update
+  const hf = document.querySelector('[data-field="rval_heatflux"]');
+  if (hf) hf.addEventListener('input', () => updateRvalSummary());
+  // RH & temp calcs
+  const rhIn = document.querySelector('[data-field="int_rh_indoor"]');
+  const rhOut = document.querySelector('[data-field="int_rh_outdoor"]');
+  if (rhIn) rhIn.addEventListener('input', () => updateDewPoint());
+  if (rhOut) rhOut.addEventListener('input', () => updateDewPoint());
+  // General input change tracking
+  document.addEventListener('input', function(e) {
+    if (e.target.matches('[data-field]')) {
+      updateAllCalcs();
+    }
+  });
+  document.addEventListener('change', function(e) {
+    if (e.target.matches('[data-field]')) {
+      updateAllCalcs();
+    }
+  });
 }
 
 // ===== BOOT =====
 if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
-lucide.createIcons();
+  lucide.createIcons();
 }
 init();
 // Re-run icons after DOM is fully built
 setTimeout(() => {
-if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
-lucide.createIcons();
-}
+  if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+    lucide.createIcons();
+  }
 }, 100);
+
+(function installNavigationFallbacks() {
+  const menu = document.getElementById('mobile-menu-btn');
+  const close = document.getElementById('mobile-close-btn');
+  const overlay = document.getElementById('mobile-overlay');
+  menu?.addEventListener('click', () => overlay?.classList.remove('hidden'));
+  close?.addEventListener('click', () => overlay?.classList.add('hidden'));
+  overlay?.addEventListener('click', event => {
+    if (event.target === overlay) overlay.classList.add('hidden');
+  });
+})();
+
 </script>
 </body>
-</html>
 </html>
