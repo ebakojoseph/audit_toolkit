@@ -885,23 +885,34 @@ function loadState() {
   return defaultState();
 }
 
-function saveState() {
-  // gather all fields
+function saveState(showNotification = false) {
   document.querySelectorAll('[data-field]').forEach(el => {
-    const k = el.dataset.field;
-    if (el.type === 'checkbox') state.fields[k] = el.checked;
-    else state.fields[k] = el.value;
+    const key = el.dataset.field;
+
+    if (el.type === 'checkbox') {
+      state.fields[key] = el.checked;
+    } else {
+      state.fields[key] = el.value;
+    }
   });
+
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  updateProjectHeader();
-  showToast();
+
+  if (showNotification) {
+    showToast();
+  }
 }
 
 function showToast() {
-  const t = document.getElementById('save-toast');
-  t.classList.add('show');
-  clearTimeout(t._to);
-  t._to = setTimeout(() => t.classList.remove('show'), 1500);
+  const toast = document.getElementById('save-toast');
+  if (!toast) return;
+
+  toast.classList.add('show');
+
+  clearTimeout(toast._hideTimer);
+  toast._hideTimer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 1500);
 }
 function csvEscape(value) {
   const s = String(value ?? '');
