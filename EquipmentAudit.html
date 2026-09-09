@@ -1637,33 +1637,60 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
 
     function buildSidebar() {
-      const sidebarMarkup = sections.map(
-        (section, index) => `
-          <button
-            data-sec="${index}"
-            class="sidebar-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/70 hover:bg-[#1a3460] w-full text-left"
-            type="button"
-          >
-            <i
-              data-lucide="${section[1]}"
-              class="w-4 h-4"
-            ></i>
+  const sidebarMarkup = sections.map(
+    (section, index) => `
+      <button
+        data-sec="${index}"
+        class="sidebar-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/70 hover:bg-[#1a3460] w-full text-left"
+        type="button"
+      >
+        <i
+          data-lucide="${section[1]}"
+          class="w-4 h-4"
+        ></i>
 
-            <span class="flex-1 truncate">
-              ${section[0]}
-            </span>
+        <span class="flex-1 truncate">
+          ${section[0]}
+        </span>
 
-            <span
-              class="sidebar-dot dot-grey"
-              data-dot="${index}"
-            ></span>
-          </button>
-        `
-      ).join('');
+        <span
+          class="sidebar-dot dot-grey"
+          data-dot="${index}"
+        ></span>
+      </button>
+    `
+  ).join('');
 
-      $('sidebar-nav').innerHTML = sidebarMarkup;
-      $('mobile-nav').innerHTML = sidebarMarkup;
-    }
+  $('sidebar-nav').innerHTML = sidebarMarkup;
+  $('mobile-nav').innerHTML = sidebarMarkup;
+
+  // --- ADDED BEHAVIOR: Close sidebar drawer immediately after selection ---
+  const allButtons = document.querySelectorAll('.sidebar-btn');
+  allButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Find the mobile drawer container element
+      // (This safely looks for common responsive container IDs like 'sidebar-menu' or 'mobile-drawer')
+      const mobileDrawer = $('sidebar-menu') || $('mobile-drawer') || document.querySelector('aside');
+      const mobileBackdrop = $('sidebar-backdrop');
+
+      if (mobileDrawer) {
+        // Slide the menu completely off-screen back to the left
+        mobileDrawer.classList.add('-translate-x-full');
+        mobileDrawer.classList.remove('translate-x-0');
+      }
+
+      if (mobileBackdrop) {
+        // Dismiss the dark screen backdrop instantly
+        mobileBackdrop.classList.add('hidden');
+        mobileBackdrop.classList.remove('opacity-100');
+      }
+    });
+  });
+
+  // Re-trigger Lucide icon renderer so newly generated icons display perfectly
+  if (window.lucide) { lucide.createIcons(); }
+}
+
 
 
     function activateSection(index) {
