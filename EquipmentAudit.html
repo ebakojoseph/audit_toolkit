@@ -1703,6 +1703,22 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
     }
 
 
+
+    function bindSidebarNavigation() {
+      ['sidebar-nav', 'mobile-nav'].forEach(id => {
+        const container = document.getElementById(id);
+        if (!container || container.dataset.sidebarBound === 'true') return;
+        container.dataset.sidebarBound = 'true';
+        container.addEventListener('click', event => {
+          const button = event.target.closest('.sidebar-btn');
+          if (!button || !container.contains(button)) return;
+          event.preventDefault();
+          activateSection(Number(button.dataset.sec));
+          document.getElementById('mobile-overlay')?.classList.add('hidden');
+        });
+      });
+    }
+
     function activateSection(index) {
       activeSection = index;
 
@@ -3168,6 +3184,7 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
 
     initializeEquipmentAudit();
+    bindSidebarNavigation();
 // Defensive rebind: the sidebar is generated dynamically by buildSidebar().
 document.querySelectorAll('.sidebar-btn').forEach(button=>{
   button.onclick=()=>activateSection(Number(button.dataset.sec));
