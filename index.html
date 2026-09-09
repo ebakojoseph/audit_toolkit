@@ -57,14 +57,27 @@
      
  <!-- Dashboard Action Buttons -->
 <div id="dashboard-actions" class="hidden flex gap-2 shrink-0">
-  <!-- Changed class from 'blue' to 'bg-[#1a3460]' -->
-  <button id="new" type="button" class="btn bg-[#1a3460] shrink-0">＋ New Project</button>
-  <button id="import" type="button" class="btn bg-[#1a3460] shrink-0">Import</button>
-  <button id="export" type="button" class="btn bg-[#1a3460] shrink-0">Export</button>
+  
+  <!-- New Project Button -->
+  <button id="new" type="button" class="btn bg-[#1a3460] flex items-center gap-1.5 shrink-0">
+    <i data-lucide="plus" class="w-4 h-4"></i>
+    <span class="hidden md:inline">New Project</span>
+  </button>
+  
+  <!-- Import Button -->
+  <button id="import" type="button" class="btn bg-[#1a3460] flex items-center gap-1.5 shrink-0">
+    <i data-lucide="download" class="w-4 h-4"></i>
+    <span class="hidden md:inline">Import</span>
+  </button>
+  
+  <!-- Export Button -->
+  <button id="export" type="button" class="btn bg-[#1a3460] flex items-center gap-1.5 shrink-0">
+    <i data-lucide="upload" class="w-4 h-4"></i>
+    <span class="hidden md:inline">Export</span>
+  </button>
+
 </div>
 
-
-    </div>
 
   </div>
 </header>
