@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+<meta http-equiv="Cache-Control" content="no-store">
+<meta http-equiv="Pragma" content="no-cache">
   <meta charset="UTF-8">
   <meta
     name="viewport"
@@ -201,6 +203,95 @@
       }
     }
   </style>
+<script>
+(function(){
+  const SIGNOUT_KEY='building-diagnostics-signout';
+  const CHANNEL_NAME='building-diagnostics-auth';
+  let redirecting=false;
+  function dashboardUrl(){
+    return location.hostname==='localhost'||location.hostname==='127.0.0.1'
+      ? 'http://localhost:3000/'
+      : 'https://ebakojoseph.github.io/audit_toolkit/';
+  }
+  function redirectToDashboard(){
+    if(redirecting)return;
+    redirecting=true;
+    location.replace(dashboardUrl());
+  }
+  const channel=typeof BroadcastChannel==='function'
+    ? new BroadcastChannel(CHANNEL_NAME):null;
+  if(channel) channel.addEventListener('message',event=>{
+    if(event.data?.type==='SIGNED_OUT') redirectToDashboard();
+  });
+  window.addEventListener('storage',event=>{
+    if(event.key===SIGNOUT_KEY) redirectToDashboard();
+  });
+  window.addEventListener('pageshow',()=>{
+    if(!msalInstance || !msalInstance.getAllAccounts().length){
+      redirectToDashboard();
+    }
+  });
+  window.requireMicrosoftAuthentication=async function(){
+    if(!window.msal){redirectToDashboard();return null;}
+    try{
+      if(!window.msalInstance){
+        const config={
+          auth:{
+            clientId:'f21c7beb-f07a-4f63-a384-84272182483e',
+            authority:'https://login.microsoftonline.com/organizations',
+            redirectUri:location.hostname==='localhost'||location.hostname==='127.0.0.1'
+              ? 'http://localhost:3000/'
+              : 'https://ebakojoseph.github.io/audit_toolkit/'
+          },
+          cache:{cacheLocation:'localStorage',storeAuthStateInCookie:false}
+        };
+        window.msalInstance=new msal.PublicClientApplication(config);
+        await window.msalInstance.initialize();
+        await window.msalInstance.handleRedirectPromise();
+      }
+      const account=window.msalInstance.getActiveAccount()||window.msalInstance.getAllAccounts()[0];
+      if(!account){redirectToDashboard();return null;}
+      window.msalInstance.setActiveAccount(account);
+      return account;
+    }catch(error){
+      console.error('Assessment authentication failed:',error);
+      redirectToDashboard();
+      return null;
+    }
+  };
+})();
+</script>
+
+<script id="AUTH_GATE_V2">
+(function(){
+  const SIGNOUT_KEY='building-diagnostics-signout';
+  const CHANNEL='building-diagnostics-auth';
+  let redirecting=false;
+  const dashboard=()=>location.hostname==='localhost'||location.hostname==='127.0.0.1'?'http://localhost:3000/':'https://ebakojoseph.github.io/audit_toolkit/';
+  const go=()=>{if(!redirecting){redirecting=true;location.replace(dashboard())}};
+  const bc=typeof BroadcastChannel==='function'?new BroadcastChannel(CHANNEL):null;
+  bc?.addEventListener('message',e=>{if(e.data?.type==='SIGNED_OUT')go()});
+  addEventListener('storage',e=>{if(e.key===SIGNOUT_KEY)go()});
+  window.__assessmentAuthReady=false;
+  window.requireAssessmentAuth=async function(){
+    if(!window.msal){go();return null}
+    try{
+      const cfg={auth:{clientId:'f21c7beb-f07a-4f63-a384-84272182483e',authority:'https://login.microsoftonline.com/organizations',redirectUri:location.hostname==='localhost'||location.hostname==='127.0.0.1'?'http://localhost:3000/':'https://ebakojoseph.github.io/audit_toolkit/'},cache:{cacheLocation:'localStorage',storeAuthStateInCookie:false}};
+      const instance=new msal.PublicClientApplication(cfg);
+      await instance.initialize();
+      await instance.handleRedirectPromise();
+      const account=instance.getActiveAccount()||instance.getAllAccounts()[0];
+      if(!account){go();return null}
+      instance.setActiveAccount(account);
+      window.assessmentMsalInstance=instance;
+      window.__assessmentAuthReady=true;
+      return account;
+    }catch(e){console.error('[assessment auth]',e);go();return null}
+  };
+})();
+</script>
+
+
 </head>
 
 
@@ -1053,6 +1144,7 @@
   ========================================================== -->
 
   <script>
+const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
     /* =========================================================
        APPLICATION STATE
@@ -3062,6 +3154,40 @@ document.getElementById('btn-home')?.addEventListener('click', function (event) 
   window.location.href = 'index.html';
 });
   </script>
+
+
+<script>
+(function(){
+  const channel=typeof BroadcastChannel==='function'
+    ? new BroadcastChannel('building-diagnostics-auth')
+    : null;
+  let redirecting=false;
+  function returnToDashboard(){
+    if(redirecting)return;
+    redirecting=true;
+    try{sessionStorage.setItem('building-diagnostics-signed-out','1')}catch(e){}
+    location.replace(location.hostname==='localhost'||location.hostname==='127.0.0.1'
+      ? 'http://localhost:3000/'
+      : 'https://ebakojoseph.github.io/audit_toolkit/');
+  }
+  if(channel) channel.onmessage=function(event){
+    if(event.data&&event.data.type==='SIGNED_OUT') returnToDashboard();
+  };
+  window.addEventListener('storage',function(event){
+    if(event.key==='building-diagnostics-signout') returnToDashboard();
+  });
+  window.addEventListener('pageshow',function(){
+    if(sessionStorage.getItem('building-diagnostics-signed-out')==='1') returnToDashboard();
+  });
+})();
+</script>
+<script>
+(async function(){
+  const account=await window.requireMicrosoftAuthentication();
+  if(!account)return;
+  document.documentElement.dataset.authenticated='true';
+})();
+</script>
 
 </body>
 </html>
