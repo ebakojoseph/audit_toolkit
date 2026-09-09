@@ -3069,21 +3069,26 @@ document.getElementById('btn-home')?.addEventListener('click', function (event) 
 
 <script>
 (function(){
+  const channel=typeof BroadcastChannel==='function'
+    ? new BroadcastChannel('building-diagnostics-auth')
+    : null;
+  let redirecting=false;
   function returnToDashboard(){
-    try{ localStorage.removeItem('audit-dashboard-v3'); }catch(e){}
-    window.location.replace(
-      location.hostname==='localhost'||location.hostname==='127.0.0.1'
-        ? 'http://localhost:3000/'
-        : 'https://ebakojoseph.github.io/audit_toolkit/'
-    );
+    if(redirecting)return;
+    redirecting=true;
+    try{sessionStorage.setItem('building-diagnostics-signed-out','1')}catch(e){}
+    location.replace(location.hostname==='localhost'||location.hostname==='127.0.0.1'
+      ? 'http://localhost:3000/'
+      : 'https://ebakojoseph.github.io/audit_toolkit/');
   }
+  if(channel) channel.onmessage=function(event){
+    if(event.data&&event.data.type==='SIGNED_OUT') returnToDashboard();
+  };
   window.addEventListener('storage',function(event){
-    if(event.key===CROSS_TAB_SIGNOUT_KEY) returnToDashboard();
+    if(event.key==='building-diagnostics-signout') returnToDashboard();
   });
   window.addEventListener('pageshow',function(){
-    if(!localStorage.getItem('msal.account.keys') && !sessionStorage.getItem('msal.account.keys')){
-      returnToDashboard();
-    }
+    if(sessionStorage.getItem('building-diagnostics-signed-out')==='1') returnToDashboard();
   });
 })();
 </script>
