@@ -3,1260 +3,377 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <title>Building Diagnostics Workspace</title>
 
+  <!-- External libraries -->
+  <script src="https://alcdn.msauth.net/browser/2.35.0/js/msal-browser.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
 
   <style>
-    body {
-      font-family: Inter, Arial, sans-serif;
-      background: #f1f5f9;
-      color: #1e293b;
-    }
-
-    .navy {
-      background: #0f2040;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 1px 3px #0f20401a;
-    }
-
-    .field {
-      width: 100%;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      padding: 9px 11px;
-      font-size: 14px;
-      background: #fff;
-    }
-
-    .field:focus {
-      outline: 2px solid #d1e5f9;
-      border-color: #4797e7;
-    }
-
-    .btn {
-      border-radius: 10px;
-      padding: 9px 13px;
-      font-size: 13px;
-      font-weight: 700;
-      transition: background-color 0.15s ease;
-    }
-
-    .blue {
-      background: #1e6fbd;
-      color: #fff;
-    }
-
-    .blue:hover {
-      background: #185a9a;
-    }
-
-    .muted {
-      color: #64748b;
-    }
-
-    .status {
-      border-radius: 999px;
-      padding: 3px 8px;
-      font-size: 11px;
-      font-weight: 700;
-      background: #e2e8f0;
-      white-space: nowrap;
-    }
-
-    .status.in {
-      background: #fef3c7;
-      color: #b45309;
-    }
-
-    .status.done {
-      background: #dcfce7;
-      color: #15803d;
-    }
-
-    dialog::backdrop {
-      background: rgb(15 32 64 / 45%);
-    }
-
-    @media (max-width: 767px) {
-      .desktop-only {
-        display: none;
-      }
-    }
+    body { font-family: Inter, Arial, sans-serif; background: #f1f5f9; color: #1e293b; }
+    .navy { background: #0f2040; }
+    .card { background: #fff; border-radius: 16px; box-shadow: 0 1px 3px #0f20401a; }
+    .field { width: 100%; border: 1px solid #cbd5e1; border-radius: 10px; padding: 9px 11px; font-size: 14px; background: #fff; }
+    .btn { border-radius: 10px; padding: 9px 13px; font-size: 13px; font-weight: 700; }
+    .blue { background: #1e6fbd; color: #fff; }
+    .muted { color: #64748b; }
+    .status { border-radius: 999px; padding: 3px 8px; font-size: 11px; font-weight: 700; background: #e2e8f0; white-space: nowrap; }
+    .status.in { background: #fef3c7; color: #b45309; }
+    .status.done { background: #dcfce7; color: #15803d; }
+    dialog::backdrop { background: rgb(15 32 64 / 45%); }
   </style>
 </head>
 
 <body>
-
-  <!-- =========================================================
-       HEADER
-  ========================================================== -->
-
+  <!-- Header -->
   <header class="fixed top-0 left-0 right-0 z-20 navy text-white h-[60px]">
     <div class="h-full flex items-center gap-3 px-4">
+      <i data-lucide="clipboard-check" class="w-5 h-5 text-blue-300"></i>
+      <b>Building Diagnostics Workspace</b>
 
-      <i
-        data-lucide="clipboard-check"
-        class="w-5 h-5 text-blue-300"
-      ></i>
-
-      <b class="whitespace-nowrap">
-        Building Diagnostics Workspace
-      </b>
-
-      <div class="ml-auto flex gap-2">
-        <button id="new" class="btn blue">
-          ＋ New Project
+      <div class="flex items-center gap-2 ml-2">
+        <button id="btn-ms-login" type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">
+          Sign in with Microsoft
         </button>
-
-        <button id="import" class="btn bg-[#1a3460]">
-          Import
-        </button>
-
-        <button id="export" class="btn bg-[#1a3460]">
-          Export
-        </button>
-
-        <button id="auth" class="btn bg-[#1a3460]">
-          Sign in
-        </button>
+        <span id="ms-user-name" class="text-xs text-blue-100"></span>
       </div>
 
+      <div class="ml-auto flex gap-2">
+        <button id="new" type="button" class="btn blue">＋ New Project</button>
+        <button id="import" type="button" class="btn bg-[#1a3460]">Import</button>
+        <button id="export" type="button" class="btn bg-[#1a3460]">Export</button>
+        <button id="auth" type="button" class="btn bg-[#1a3460]">Sign in</button>
+      </div>
     </div>
   </header>
 
-
-  <!-- =========================================================
-       MAIN CONTENT
-  ========================================================== -->
-
+  <!-- Main dashboard -->
   <main class="pt-[84px] max-w-[1500px] mx-auto p-4 md:p-6">
-
-    <!-- Page heading -->
-
     <section class="mb-5">
-      <h1 class="text-2xl font-bold text-[#0f2040]">
-        Project Dashboard
-      </h1>
-
-      <p class="muted text-sm mt-1">
-        Create, search, and reopen audit projects across envelope and equipment assessments.
-      </p>
+      <h1 class="text-2xl font-bold text-[#0f2040]">Project Dashboard</h1>
+      <p class="muted text-sm mt-1">Create, search, and reopen audit projects across envelope and equipment assessments.</p>
     </section>
 
-
-    <!-- Search and filters -->
-
+    <!-- Filters -->
     <section class="card p-5 mb-5">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-
-        <input
-          id="search"
-          class="field md:col-span-2"
-          placeholder="Search client, project ID, facility, auditor, address, notes..."
-        >
-
-        <select id="clientFilter" class="field">
-          <option value="">
-            All clients
-          </option>
-        </select>
-
-        <select id="auditorFilter" class="field">
-          <option value="">
-            All auditors
-          </option>
-        </select>
-
+        <input id="search" class="field md:col-span-2" placeholder="Search client, project ID, facility, auditor, address, notes...">
+        <select id="clientFilter" class="field"><option value="">All clients</option></select>
+        <select id="auditorFilter" class="field"><option value="">All auditors</option></select>
         <select id="statusFilter" class="field">
-          <option value="">
-            All statuses
-          </option>
-          <option value="Not started">
-            Not started
-          </option>
-          <option value="In progress">
-            In progress
-          </option>
-          <option value="Complete">
-            Complete
-          </option>
-          <option value="Archived">
-            Archived
-          </option>
+          <option value="">All statuses</option>
+          <option>Not started</option>
+          <option>In progress</option>
+          <option>Complete</option>
+          <option>Archived</option>
         </select>
-
       </div>
     </section>
 
-
-    <!-- Project table -->
-
+    <!-- Projects table -->
     <section class="card overflow-x-auto">
       <table class="w-full text-sm">
-
         <thead class="bg-slate-100 text-xs font-semibold">
           <tr>
-            <th class="p-3 text-left">
-              Project ID
-            </th>
-
-            <th class="p-3 text-left">
-              Client
-            </th>
-
-            <th class="p-3 text-left">
-              Facility
-            </th>
-
-            <th class="p-3 text-left">
-              Auditor
-            </th>
-
-            <th class="p-3 text-left">
-              Audit date
-            </th>
-
-            <th class="p-3">
-              Envelope
-            </th>
-
-            <th class="p-3">
-              Equipment
-            </th>
-
-            <th class="p-3">
-              Status
-            </th>
-
-            <th class="p-3 text-left">
-              Updated
-            </th>
-
-            <th class="p-3">
-              Actions
-            </th>
+            <th class="p-3 text-left">Project ID</th>
+            <th class="p-3 text-left">Client</th>
+            <th class="p-3 text-left">Facility</th>
+            <th class="p-3 text-left">Auditor</th>
+            <th class="p-3 text-left">Audit date</th>
+            <th class="p-3">Envelope</th>
+            <th class="p-3">Equipment</th>
+            <th class="p-3">Status</th>
+            <th class="p-3 text-left">Updated</th>
+            <th class="p-3">Actions</th>
           </tr>
         </thead>
-
         <tbody id="projects"></tbody>
-
       </table>
-
-      <div id="empty" class="p-10 text-center muted hidden">
-        No projects match the current search.
-      </div>
+      <div id="empty" class="p-10 text-center muted hidden">No projects match the current search.</div>
     </section>
-
   </main>
 
-
-  <!-- =========================================================
-       PROJECT DIALOG
-  ========================================================== -->
-
-  <dialog
-    id="projectDialog"
-    class="rounded-2xl p-0 shadow-2xl w-[min(760px,calc(100% - 24px))]"
-  >
-
-    <form
-      method="dialog"
-      id="projectForm"
-      class="p-6"
-    >
-
-      <h2 class="text-xl font-bold text-[#0f2040] mb-4">
-        Project information
-      </h2>
-
+  <!-- Project dialog -->
+  <dialog id="projectDialog" class="rounded-2xl p-0 shadow-2xl w-[min(760px,calc(100% - 24px))]">
+    <form method="dialog" id="projectForm" class="p-6">
+      <h2 class="text-xl font-bold text-[#0f2040] mb-4">Project information</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <label class="text-xs font-semibold">Site / Project ID<input name="project_id" class="field mt-1" required></label>
+        <label class="text-xs font-semibold">Client / Organization<input name="client" class="field mt-1"></label>
+        <label class="text-xs font-semibold">Facility name<input name="facility" class="field mt-1"></label>
+        <label class="text-xs font-semibold">Auditor<input name="auditor" class="field mt-1"></label>
+        <label class="text-xs font-semibold">Audit date<input name="audit_date" type="date" class="field mt-1"></label>
 
-        <!-- Project identification -->
-
-        <label class="text-xs font-semibold">
-          Site / Project ID
-
-          <input
-            name="project_id"
-            class="field mt-1"
-            required
-          >
-        </label>
-
-
-        <label class="text-xs font-semibold">
-          Client / Organization
-
-          <input
-            name="client"
-            class="field mt-1"
-          >
-        </label>
-
-
-        <label class="text-xs font-semibold">
-          Facility name
-
-          <input
-            name="facility"
-            class="field mt-1"
-          >
-        </label>
-
-
-        <label class="text-xs font-semibold">
-          Auditor
-
-          <input
-            name="auditor"
-            class="field mt-1"
-          >
-        </label>
-
-
-        <label class="text-xs font-semibold">
-          Audit date
-
-          <input
-            name="audit_date"
-            type="date"
-            class="field mt-1"
-          >
-        </label>
-
-
-        <!-- Matches envelope site_btype dropdown -->
-
-        <label class="text-xs font-semibold">
-          Building type
-
-          <select
-            name="facility_type"
-            class="field mt-1"
-          >
-            <option value="">
-              — Select —
-            </option>
-
-            <option value="Residential Single-Family">
-              Residential Single-Family
-            </option>
-
-            <option value="Residential Multi-Unit">
-              Residential Multi-Unit
-            </option>
-
-            <option value="Commercial">
-              Commercial
-            </option>
-
-            <option value="Industrial">
-              Industrial
-            </option>
-
-            <option value="Institutional">
-              Institutional
-            </option>
-
-            <option value="Mixed-Use">
-              Mixed-Use
-            </option>
+        <label class="text-xs font-semibold">Building type
+          <select name="facility_type" class="field mt-1">
+            <option value="">— Select —</option>
+            <option>Residential Single-Family</option>
+            <option>Residential Multi-Unit</option>
+            <option>Commercial</option>
+            <option>Industrial</option>
+            <option>Institutional</option>
+            <option>Mixed-Use</option>
           </select>
         </label>
 
+        <label class="text-xs font-semibold md:col-span-2">Street address<input name="address" class="field mt-1"></label>
+        <label class="text-xs font-semibold">City<input name="city" class="field mt-1"></label>
+        <label class="text-xs font-semibold">Province / State<input name="province" class="field mt-1"></label>
+        <label class="text-xs font-semibold">Gross floor area<input name="floor_area" type="number" step="0.01" class="field mt-1"></label>
 
-        <!-- Location -->
-
-        <label class="text-xs font-semibold md:col-span-2">
-          Street address
-
-          <input
-            name="address"
-            class="field mt-1"
-          >
+        <label class="text-xs font-semibold">Area unit
+          <select name="area_unit" class="field mt-1"><option>m²</option><option>ft²</option></select>
         </label>
 
-
-        <label class="text-xs font-semibold">
-          City
-
-          <input
-            name="city"
-            class="field mt-1"
-          >
-        </label>
-
-
-        <label class="text-xs font-semibold">
-          Province / State
-
-          <input
-            name="province"
-            class="field mt-1"
-          >
-        </label>
-
-
-        <!-- Area -->
-
-        <label class="text-xs font-semibold">
-          Gross floor area
-
-          <input
-            name="floor_area"
-            type="number"
-            step="0.01"
-            min="0"
-            class="field mt-1"
-          >
-        </label>
-
-
-        <label class="text-xs font-semibold">
-          Area unit
-
-          <select
-            name="area_unit"
-            class="field mt-1"
-          >
-            <option value="m²">
-              m²
-            </option>
-
-            <option value="ft²">
-              ft²
-            </option>
-          </select>
-        </label>
-
-
-        <!-- Notes -->
-
-        <label class="text-xs font-semibold md:col-span-2">
-          Notes
-
-          <textarea
-            name="notes"
-            class="field mt-1"
-            rows="3"
-          ></textarea>
-        </label>
-
+        <label class="text-xs font-semibold md:col-span-2">Notes<textarea name="notes" class="field mt-1" rows="3"></textarea></label>
       </div>
-
-
-      <!-- Dialog buttons -->
 
       <div class="flex justify-end gap-2 mt-5">
-
-        <button
-          type="button"
-          id="cancelProject"
-          class="btn bg-slate-200"
-        >
-          Cancel
-        </button>
-
-        <button
-          type="submit"
-          value="save"
-          class="btn blue"
-        >
-          Save project
-        </button>
-
+        <button type="button" id="cancelProject" class="btn bg-slate-200">Cancel</button>
+        <button type="submit" value="save" class="btn blue">Save project</button>
       </div>
-
     </form>
   </dialog>
 
+  <input id="file" type="file" accept="application/json" hidden>
 
-  <!-- Import file input -->
-
-  <input
-    id="file"
-    type="file"
-    accept="application/json"
-    hidden
-  >
-
-
-  <!-- =========================================================
-       JAVASCRIPT
-  ========================================================== -->
-
+  <!-- Application logic -->
   <script>
-
-    /* =========================================================
-       APPLICATION STATE
-    ========================================================= */
-
     const localKey = 'audit-dashboard-v3';
-
     let projects = loadLocalProjects();
     let editing = null;
-
     let online = false;
     let client = null;
-
-
-    /* =========================================================
-       DOM HELPERS
-    ========================================================== */
+    let microsoftReady = false;
+    let microsoftMsalInstance = null;
 
     const $ = id => document.getElementById(id);
 
+    function loadLocalProjects() {
+      try { return JSON.parse(localStorage.getItem(localKey) || '[]'); }
+      catch (error) { console.error('Could not load local projects:', error); return []; }
+    }
+
+    function saveLocalProjects() { localStorage.setItem(localKey, JSON.stringify(projects)); }
 
     function escapeHtml(value) {
-      return String(value ?? '').replace(
-        /[&<>"']/g,
-        character => ({
-          '&': '&amp;',
-          '<': '&lt;',
-          '>': '&gt;',
-          '"': '&quot;',
-          "'": '&#039;'
-        }[character])
-      );
+      return String(value ?? '').replace(/[&<>"']/g, character => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+      }[character]));
     }
 
-
-    function createSafeProjectId(id) {
-      return encodeURIComponent(String(id ?? ''));
-    }
-
-
-    /* =========================================================
-       LOCAL STORAGE
-    ========================================================== */
-
-    function loadLocalProjects() {
-      try {
-        return JSON.parse(
-          localStorage.getItem(localKey) || '[]'
-        );
-      } catch (error) {
-        console.error('Could not load local projects:', error);
-        return [];
-      }
-    }
-
-
-    function saveLocalProjects() {
-      localStorage.setItem(
-        localKey,
-        JSON.stringify(projects)
-      );
-    }
-
-
-    /* =========================================================
-       SUPABASE INITIALIZATION
-    ========================================================== */
+    function createSafeProjectId(id) { return encodeURIComponent(String(id ?? '')); }
 
     function initializeSupabase() {
-      const hasSupabaseConfig =
-        window.supabase &&
-        window.AUDIT_SUPABASE_URL &&
-        window.AUDIT_SUPABASE_PUBLISHABLE_KEY &&
-        !window.AUDIT_SUPABASE_URL.includes('YOUR-');
+      const configured = window.supabase && window.AUDIT_SUPABASE_URL && window.AUDIT_SUPABASE_PUBLISHABLE_KEY &&
+        !window.AUDIT_SUPABASE_URL.includes('YOUR-') && !window.AUDIT_SUPABASE_PUBLISHABLE_KEY.includes('YOUR-');
+      if (configured) {
+        client = window.supabase.createClient(window.AUDIT_SUPABASE_URL, window.AUDIT_SUPABASE_PUBLISHABLE_KEY);
+        online = true;
+      }
+    }
 
-      if (!hasSupabaseConfig) {
+    // Microsoft authentication
+    const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const microsoftMsalConfig = {
+      auth: {
+        clientId: 'f21c7beb-f07a-4f63-a384-84272182483e',
+        authority: 'https://login.microsoftonline.com/organizations',
+        redirectUri: isLocal ? 'http://localhost:3000/' : 'https://ebakojoseph.github.io/audit_toolkit/'
+      },
+      cache: { cacheLocation: 'sessionStorage', storeAuthStateInCookie: false }
+    };
+    const microsoftLoginRequest = { scopes: ['User.Read'] };
+
+    async function initializeMicrosoftAuthentication() {
+      if (!window.msal) {
+        console.error('MSAL.js did not load');
+        $('btn-ms-login').disabled = true;
+        $('btn-ms-login').textContent = 'Microsoft unavailable';
         return;
       }
-
-      client = supabase.createClient(
-        window.AUDIT_SUPABASE_URL,
-        window.AUDIT_SUPABASE_PUBLISHABLE_KEY
-      );
-
-      online = true;
+      try {
+        microsoftMsalInstance = new window.msal.PublicClientApplication(microsoftMsalConfig);
+        await microsoftMsalInstance.initialize();
+        const result = await microsoftMsalInstance.handleRedirectPromise();
+        const account = result?.account || microsoftMsalInstance.getAllAccounts()[0] || null;
+        microsoftReady = true;
+        if (account) {
+          microsoftMsalInstance.setActiveAccount(account);
+          displayMicrosoftAccount(account);
+        }
+      } catch (error) {
+        microsoftReady = false;
+        console.error('Microsoft authentication initialization failed:', error);
+      }
     }
 
+    async function signInWithMicrosoft() {
+      if (!microsoftMsalInstance || !microsoftReady) {
+        alert('Microsoft sign-in is still initializing. Please try again.');
+        return;
+      }
+      try { await microsoftMsalInstance.loginRedirect(microsoftLoginRequest); }
+      catch (error) { console.error('Microsoft sign-in failed:', error); alert(`Microsoft sign-in failed: ${error.message}`); }
+    }
 
-    /* =========================================================
-       PROJECT SEARCH DATA
-    ========================================================== */
+    function displayMicrosoftAccount(account) {
+      $('btn-ms-login').textContent = 'Microsoft connected';
+      $('btn-ms-login').disabled = true;
+      $('btn-ms-login').classList.add('opacity-70', 'cursor-not-allowed');
+      $('ms-user-name').textContent = account.name || account.username || '';
+    }
 
     function projectSearchText(project) {
-      return [
-        project.project_id,
-        project.client,
-        project.facility,
-        project.auditor,
-        project.address,
-        project.city,
-        project.province,
-        project.facility_type,
-        project.floor_area,
-        project.area_unit,
-        project.notes
-      ]
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase();
+      return [project.project_id, project.client, project.facility, project.auditor, project.address, project.city, project.province, project.facility_type, project.floor_area, project.area_unit, project.notes]
+        .filter(Boolean).join(' ').toLowerCase();
     }
-
-
-    /* =========================================================
-       PROJECT DATA OPERATIONS
-    ========================================================== */
-
-    async function loadProjects() {
-      if (online) {
-        const {
-          data,
-          error
-        } = await client
-          .from('audit_projects')
-          .select('*')
-          .order('updated_at', {
-            ascending: false
-          });
-
-        if (!error && data) {
-          projects = data;
-          renderProjects();
-          return;
-        }
-
-        console.error('Supabase load failed:', error);
-      }
-
-      renderProjects();
-    }
-
-
-    async function saveProject(project) {
-      project.updated_at = new Date().toISOString();
-
-      if (online) {
-        const {
-          data,
-          error
-        } = await client
-          .from('audit_projects')
-          .upsert(project, {
-            onConflict: 'id'
-          })
-          .select()
-          .single();
-
-        if (!error && data) {
-          const index = projects.findIndex(
-            item => item.id === project.id
-          );
-
-          if (index === -1) {
-            projects.unshift(data);
-          } else {
-            projects[index] = data;
-          }
-
-          renderProjects();
-          return;
-        }
-
-        console.error('Supabase save failed:', error);
-      }
-
-      const index = projects.findIndex(
-        item => item.id === project.id
-      );
-
-      if (index === -1) {
-        projects.unshift(project);
-      } else {
-        projects[index] = project;
-      }
-
-      saveLocalProjects();
-      renderProjects();
-    }
-
-
-    function createNewProject(formData) {
-      const now = new Date().toISOString();
-
-      return {
-        id: crypto.randomUUID(),
-
-        owner_id: null,
-
-        project_id: formData.project_id || '',
-        client: formData.client || '',
-        facility: formData.facility || '',
-        auditor: formData.auditor || '',
-        audit_date: formData.audit_date || '',
-
-        address: formData.address || '',
-        city: formData.city || '',
-        province: formData.province || '',
-
-        facility_type: formData.facility_type || '',
-
-        floor_area: formData.floor_area || '',
-        area_unit: formData.area_unit || 'm²',
-
-        notes: formData.notes || '',
-
-        status: 'Not started',
-        envelope_status: 'Not started',
-        equipment_status: 'Not started',
-
-        envelope_data: {},
-        equipment_data: {},
-
-        created_at: now,
-        updated_at: now
-      };
-    }
-
-
-    function updateExistingProject(project, formData) {
-      return {
-        ...project,
-
-        project_id: formData.project_id || '',
-        client: formData.client || '',
-        facility: formData.facility || '',
-        auditor: formData.auditor || '',
-        audit_date: formData.audit_date || '',
-
-        address: formData.address || '',
-        city: formData.city || '',
-        province: formData.province || '',
-
-        facility_type: formData.facility_type || '',
-
-        floor_area: formData.floor_area || '',
-        area_unit: formData.area_unit || 'm²',
-
-        notes: formData.notes || ''
-      };
-    }
-
-
-    /* =========================================================
-       PROJECT STATUS HELPERS
-    ========================================================== */
-
-    function getStatusClass(status) {
-      if (status === 'Complete') {
-        return 'done';
-      }
-
-      if (status === 'In progress') {
-        return 'in';
-      }
-
-      return '';
-    }
-
 
     function statusBadge(status) {
-      const safeStatus = status || 'Not started';
-
-      return `
-        <span class="status ${getStatusClass(safeStatus)}">
-          ${escapeHtml(safeStatus)}
-        </span>
-      `;
+      status = status || 'Not started';
+      const className = status === 'Complete' ? 'done' : status === 'In progress' ? 'in' : '';
+      return `<span class="status ${className}">${escapeHtml(status)}</span>`;
     }
-
-
-    /* =========================================================
-       FILTERS
-    ========================================================== */
 
     function updateFilterOptions() {
-      const currentClient = $('clientFilter').value;
-      const currentAuditor = $('auditorFilter').value;
-
-      const clients = [
-        ...new Set(
-          projects
-            .map(project => project.client)
-            .filter(Boolean)
-        )
-      ].sort();
-
-      const auditors = [
-        ...new Set(
-          projects
-            .map(project => project.auditor)
-            .filter(Boolean)
-        )
-      ].sort();
-
-      $('clientFilter').innerHTML = `
-        <option value="">
-          All clients
-        </option>
-
-        ${clients.map(clientName => `
-          <option
-            value="${escapeHtml(clientName)}"
-            ${clientName === currentClient ? 'selected' : ''}
-          >
-            ${escapeHtml(clientName)}
-          </option>
-        `).join('')}
-      `;
-
-      $('auditorFilter').innerHTML = `
-        <option value="">
-          All auditors
-        </option>
-
-        ${auditors.map(auditorName => `
-          <option
-            value="${escapeHtml(auditorName)}"
-            ${auditorName === currentAuditor ? 'selected' : ''}
-          >
-            ${escapeHtml(auditorName)}
-          </option>
-        `).join('')}
-      `;
+      const selectedClient = $('clientFilter').value;
+      const selectedAuditor = $('auditorFilter').value;
+      const clients = [...new Set(projects.map(project => project.client).filter(Boolean))].sort();
+      const auditors = [...new Set(projects.map(project => project.auditor).filter(Boolean))].sort();
+      $('clientFilter').innerHTML = '<option value="">All clients</option>' + clients.map(value => `<option value="${escapeHtml(value)}" ${value === selectedClient ? 'selected' : ''}>${escapeHtml(value)}</option>`).join('');
+      $('auditorFilter').innerHTML = '<option value="">All auditors</option>' + auditors.map(value => `<option value="${escapeHtml(value)}" ${value === selectedAuditor ? 'selected' : ''}>${escapeHtml(value)}</option>`).join('');
     }
-
 
     function getFilteredProjects() {
       const query = $('search').value.trim().toLowerCase();
       const clientFilter = $('clientFilter').value;
       const auditorFilter = $('auditorFilter').value;
       const statusFilter = $('statusFilter').value;
-
-      return projects.filter(project => {
-        const matchesSearch =
-          !query ||
-          projectSearchText(project).includes(query);
-
-        const matchesClient =
-          !clientFilter ||
-          project.client === clientFilter;
-
-        const matchesAuditor =
-          !auditorFilter ||
-          project.auditor === auditorFilter;
-
-        const matchesStatus =
-          !statusFilter ||
-          project.status === statusFilter;
-
-        return (
-          matchesSearch &&
-          matchesClient &&
-          matchesAuditor &&
-          matchesStatus
-        );
-      });
+      return projects.filter(project => (!query || projectSearchText(project).includes(query)) && (!clientFilter || project.client === clientFilter) && (!auditorFilter || project.auditor === auditorFilter) && (!statusFilter || project.status === statusFilter));
     }
-
-
-    /* =========================================================
-       PROJECT RENDERING
-    ========================================================== */
 
     function renderProjectRow(project) {
-      const projectId = createSafeProjectId(project.id);
-
-      return `
-        <tr class="border-t border-slate-200">
-
-          <td class="p-3 font-semibold">
-            ${escapeHtml(project.project_id)}
-          </td>
-
-          <td class="p-3">
-            ${escapeHtml(project.client)}
-          </td>
-
-          <td class="p-3">
-            ${escapeHtml(project.facility)}
-          </td>
-
-          <td class="p-3">
-            ${escapeHtml(project.auditor)}
-          </td>
-
-          <td class="p-3">
-            ${escapeHtml(project.audit_date || '')}
-          </td>
-
-          <td class="p-3 text-center">
-            ${statusBadge(project.envelope_status)}
-          </td>
-
-          <td class="p-3 text-center">
-            ${statusBadge(project.equipment_status)}
-          </td>
-
-          <td class="p-3 text-center">
-            ${statusBadge(project.status)}
-          </td>
-
-          <td class="p-3">
-            ${
-              project.updated_at
-                ? new Date(project.updated_at).toLocaleDateString()
-                : ''
-            }
-          </td>
-
-          <td class="p-3 whitespace-nowrap">
-
-            <button
-              class="text-[#1e6fbd] font-bold mr-2"
-              onclick="openAudit('${projectId}', 'envelope')"
-            >
-              Envelope
-            </button>
-
-            <button
-              class="text-[#1e6fbd] font-bold"
-              onclick="openAudit('${projectId}', 'equipment')"
-            >
-              Equipment
-            </button>
-
-            <button
-              class="text-slate-500 font-bold ml-2"
-              onclick="editProject('${projectId}')"
-            >
-              Edit
-            </button>
-
-          </td>
-
-        </tr>
-      `;
+      const safeId = createSafeProjectId(project.id);
+      return `<tr class="border-t border-slate-200"><td class="p-3 font-semibold">${escapeHtml(project.project_id)}</td><td class="p-3">${escapeHtml(project.client)}</td><td class="p-3">${escapeHtml(project.facility)}</td><td class="p-3">${escapeHtml(project.auditor)}</td><td class="p-3">${escapeHtml(project.audit_date)}</td><td class="p-3 text-center">${statusBadge(project.envelope_status)}</td><td class="p-3 text-center">${statusBadge(project.equipment_status)}</td><td class="p-3 text-center">${statusBadge(project.status)}</td><td class="p-3">${project.updated_at ? new Date(project.updated_at).toLocaleDateString() : ''}</td><td class="p-3 whitespace-nowrap"><button type="button" class="text-[#1e6fbd] font-bold mr-2" onclick="openAudit('${safeId}','envelope')">Envelope</button><button type="button" class="text-[#1e6fbd] font-bold" onclick="openAudit('${safeId}','equipment')">Equipment</button><button type="button" class="text-slate-500 font-bold ml-2" onclick="editProject('${safeId}')">Edit</button></td></tr>`;
     }
-
 
     function renderProjects() {
       updateFilterOptions();
-
-      const filteredProjects = getFilteredProjects();
-
-      $('empty').classList.toggle(
-        'hidden',
-        filteredProjects.length > 0
-      );
-
-      $('projects').innerHTML = filteredProjects
-        .map(renderProjectRow)
-        .join('');
+      const filtered = getFilteredProjects();
+      $('empty').classList.toggle('hidden', filtered.length > 0);
+      $('projects').innerHTML = filtered.map(renderProjectRow).join('');
     }
-
-
-    /* =========================================================
-       PROJECT NAVIGATION
-    ========================================================== */
 
     function openAudit(encodedId, type) {
       const id = decodeURIComponent(encodedId);
-
-      const page =
-        type === 'equipment'
-          ? 'EquipmentAudit.html'
-          : 'BuildingEnvelopeChecklist.html';
-
-      window.location.href =
-        `${page}?project=${encodeURIComponent(id)}`;
+      const page = type === 'equipment' ? 'EquipmentAudit.html' : 'BuildingEnvelopeChecklist.html';
+      location.href = `${page}?project=${encodeURIComponent(id)}`;
     }
 
-
-    /* =========================================================
-       PROJECT DIALOG
-    ========================================================== */
-
-    function clearProjectForm() {
-      $('projectForm').reset();
-      $('projectForm').elements.area_unit.value = 'm²';
-    }
-
+    function clearProjectForm() { $('projectForm').reset(); $('projectForm').elements.area_unit.value = 'm²'; }
 
     function fillProjectForm(project) {
-      const form = $('projectForm');
-
-      form.elements.project_id.value = project.project_id || '';
-      form.elements.client.value = project.client || '';
-      form.elements.facility.value = project.facility || '';
-      form.elements.auditor.value = project.auditor || '';
-      form.elements.audit_date.value = project.audit_date || '';
-
-      form.elements.address.value = project.address || '';
-      form.elements.city.value = project.city || '';
-      form.elements.province.value = project.province || '';
-
-      form.elements.facility_type.value =
-        project.facility_type || '';
-
-      form.elements.floor_area.value =
-        project.floor_area || '';
-
-      form.elements.area_unit.value =
-        project.area_unit || 'm²';
-
-      form.elements.notes.value = project.notes || '';
+      const form = $('projectForm').elements;
+      for (const key of ['project_id', 'client', 'facility', 'auditor', 'audit_date', 'address', 'city', 'province', 'facility_type', 'floor_area', 'notes']) form[key].value = project[key] || '';
+      form.area_unit.value = project.area_unit || 'm²';
     }
 
-
-    function openNewProjectDialog() {
-      editing = null;
-      clearProjectForm();
-      $('projectDialog').showModal();
-    }
-
+    function openNewProjectDialog() { editing = null; clearProjectForm(); $('projectDialog').showModal(); }
 
     function editProject(encodedId) {
-      const id = decodeURIComponent(encodedId);
-
-      const project = projects.find(
-        item => item.id === id
-      );
-
-      if (!project) {
-        return;
-      }
-
+      const project = projects.find(item => item.id === decodeURIComponent(encodedId));
+      if (!project) return;
       editing = project;
       fillProjectForm(project);
       $('projectDialog').showModal();
     }
 
+    function closeProjectDialog() { if ($('projectDialog').open) $('projectDialog').close(); }
 
-    function closeProjectDialog() {
-      $('projectDialog').close();
+    function createNewProject(form) {
+      const now = new Date().toISOString();
+      return { id: crypto.randomUUID(), owner_id: null, project_id: form.project_id || '', client: form.client || '', facility: form.facility || '', auditor: form.auditor || '', audit_date: form.audit_date || '', address: form.address || '', city: form.city || '', province: form.province || '', facility_type: form.facility_type || '', floor_area: form.floor_area || '', area_unit: form.area_unit || 'm²', notes: form.notes || '', status: 'Not started', envelope_status: 'Not started', equipment_status: 'Not started', envelope_data: {}, equipment_data: {}, created_at: now, updated_at: now };
     }
 
+    async function saveProject(project) {
+      project.updated_at = new Date().toISOString();
+      const index = projects.findIndex(item => item.id === project.id);
+      if (index < 0) projects.unshift(project); else projects[index] = project;
+      saveLocalProjects();
+      renderProjects();
+    }
 
     async function handleProjectSubmit(event) {
       event.preventDefault();
-
-      const formData = Object.fromEntries(
-        new FormData(event.target).entries()
-      );
-
-      let project;
-
-      if (editing) {
-        project = updateExistingProject(
-          editing,
-          formData
-        );
-      } else {
-        project = createNewProject(formData);
-      }
-
-      await saveProject(project);
-
+      const form = Object.fromEntries(new FormData(event.target).entries());
+      await saveProject(editing ? { ...editing, ...form } : createNewProject(form));
       editing = null;
       closeProjectDialog();
     }
 
-
-    /* =========================================================
-       IMPORT AND EXPORT
-    ========================================================== */
-
     function exportProjects() {
-      const data = JSON.stringify(
-        projects,
-        null,
-        2
-      );
-
-      const blob = new Blob(
-        [data],
-        { type: 'application/json' }
-      );
-
+      const blob = new Blob([JSON.stringify(projects, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
-
       link.href = url;
       link.download = 'audit-projects.json';
       link.click();
-
-      URL.revokeObjectURL(url);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
 
-
-    function importProjects() {
-      $('file').click();
-    }
-
+    function importProjects() { $('file').click(); }
 
     function handleImportedFile(event) {
       const file = event.target.files[0];
-
-      if (!file) {
-        return;
-      }
-
+      if (!file) return;
       const reader = new FileReader();
-
       reader.onload = () => {
         try {
-          const importedProjects = JSON.parse(
-            reader.result
-          );
-
-          if (!Array.isArray(importedProjects)) {
-            throw new Error(
-              'Imported file must contain an array of projects.'
-            );
-          }
-
-          projects = importedProjects;
+          const imported = JSON.parse(reader.result);
+          if (!Array.isArray(imported)) throw new Error('Imported file must contain an array');
+          projects = imported;
           saveLocalProjects();
           renderProjects();
-
-        } catch (error) {
-          alert(
-            `Import failed: ${error.message}`
-          );
-        }
-
+        } catch (error) { alert(`Import failed: ${error.message}`); }
         event.target.value = '';
       };
-
       reader.readAsText(file);
     }
 
-
-    /* =========================================================
-       AUTHENTICATION
-    ========================================================== */
-
     async function signIn() {
-      if (!online) {
-        alert(
-          'Configure Supabase first by adding valid values to supabase-config.js.'
-        );
-
-        return;
-      }
-
-      const email = prompt(
-        'Email address'
-      );
-
-      if (!email) {
-        return;
-      }
-
-      const {
-        error
-      } = await client.auth.signInWithOtp({
-        email,
-
-        options: {
-          emailRedirectTo:
-            'https://ebakojoseph.github.io/audit_toolkit/'
-        }
-      });
-
-      alert(
-        error
-          ? error.message
-          : 'Check your email for the sign-in link.'
-      );
+      if (!online) { alert('Configure Supabase first.'); return; }
+      const email = prompt('Email address');
+      if (!email) return;
+      const { error } = await client.auth.signInWithOtp({ email: email.trim(), options: { emailRedirectTo: 'https://ebakojoseph.github.io/audit_toolkit/' } });
+      alert(error ? error.message : 'Check your email for the sign-in link.');
     }
-
-
-    /* =========================================================
-       EVENT BINDING
-    ========================================================== */
 
     function bindEvents() {
-      $('new').addEventListener(
-        'click',
-        openNewProjectDialog
-      );
-
-      $('cancelProject').addEventListener(
-        'click',
-        closeProjectDialog
-      );
-
-      $('projectForm').addEventListener(
-        'submit',
-        handleProjectSubmit
-      );
-
-      $('search').addEventListener(
-        'input',
-        renderProjects
-      );
-
-      $('clientFilter').addEventListener(
-        'change',
-        renderProjects
-      );
-
-      $('auditorFilter').addEventListener(
-        'change',
-        renderProjects
-      );
-
-      $('statusFilter').addEventListener(
-        'change',
-        renderProjects
-      );
-
-      $('export').addEventListener(
-        'click',
-        exportProjects
-      );
-
-      $('import').addEventListener(
-        'click',
-        importProjects
-      );
-
-      $('file').addEventListener(
-        'change',
-        handleImportedFile
-      );
-
-      $('auth').addEventListener(
-        'click',
-        signIn
-      );
+      $('new').addEventListener('click', openNewProjectDialog);
+      $('cancelProject').addEventListener('click', closeProjectDialog);
+      $('projectForm').addEventListener('submit', handleProjectSubmit);
+      $('search').addEventListener('input', renderProjects);
+      ['clientFilter', 'auditorFilter', 'statusFilter'].forEach(id => $(id).addEventListener('change', renderProjects));
+      $('export').addEventListener('click', exportProjects);
+      $('import').addEventListener('click', importProjects);
+      $('file').addEventListener('change', handleImportedFile);
+      $('auth').addEventListener('click', signIn);
+      $('btn-ms-login').addEventListener('click', signInWithMicrosoft);
     }
-
-
-    /* =========================================================
-       APPLICATION STARTUP
-    ========================================================== */
 
     async function init() {
       initializeSupabase();
       bindEvents();
-      await loadProjects();
-
-      if (window.lucide) {
-        lucide.createIcons();
-      }
+      await initializeMicrosoftAuthentication();
+      renderProjects();
+      if (window.lucide?.createIcons) window.lucide.createIcons();
     }
 
-
     init();
-
   </script>
-
 </body>
 </html>
