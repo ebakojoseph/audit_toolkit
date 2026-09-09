@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+<meta http-equiv="Cache-Control" content="no-store">
+<meta http-equiv="Pragma" content="no-cache">
   <meta charset="UTF-8">
   <meta
     name="viewport"
@@ -1053,6 +1055,7 @@
   ========================================================== -->
 
   <script>
+const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
     /* =========================================================
        APPLICATION STATE
@@ -3063,5 +3066,26 @@ document.getElementById('btn-home')?.addEventListener('click', function (event) 
 });
   </script>
 
+
+<script>
+(function(){
+  function returnToDashboard(){
+    try{ localStorage.removeItem('audit-dashboard-v3'); }catch(e){}
+    window.location.replace(
+      location.hostname==='localhost'||location.hostname==='127.0.0.1'
+        ? 'http://localhost:3000/'
+        : 'https://ebakojoseph.github.io/audit_toolkit/'
+    );
+  }
+  window.addEventListener('storage',function(event){
+    if(event.key===CROSS_TAB_SIGNOUT_KEY) returnToDashboard();
+  });
+  window.addEventListener('pageshow',function(){
+    if(!localStorage.getItem('msal.account.keys') && !sessionStorage.getItem('msal.account.keys')){
+      returnToDashboard();
+    }
+  });
+})();
+</script>
 </body>
 </html>
