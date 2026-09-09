@@ -333,7 +333,8 @@
       <div id="header-actions" class="flex items-center gap-2 shrink-0">
         
         <!-- Home / Dashboard Button linking directly to your source redirect logic -->
-        <a href="javascript:void(0);" onclick="location.replace(dashboardUrl())" class="no-underline">
+        <a href="index.html" onclick="event.preventDefault(); location.replace(dashboardUrl());" class="no-underline">
+
           <button id="btn-home" type="button" class="btn bg-[#1a3460] text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-1.5 shrink-0 hover:bg-[#132749] transition-colors">
             <i data-lucide="home" class="w-4 h-4"></i>
             <span class="hidden md:inline">Dashboard</span>
