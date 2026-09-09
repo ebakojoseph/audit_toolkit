@@ -203,6 +203,64 @@
       }
     }
   </style>
+<script>
+(function(){
+  const SIGNOUT_KEY='building-diagnostics-signout';
+  const CHANNEL_NAME='building-diagnostics-auth';
+  let redirecting=false;
+  function dashboardUrl(){
+    return location.hostname==='localhost'||location.hostname==='127.0.0.1'
+      ? 'http://localhost:3000/'
+      : 'https://ebakojoseph.github.io/audit_toolkit/';
+  }
+  function redirectToDashboard(){
+    if(redirecting)return;
+    redirecting=true;
+    location.replace(dashboardUrl());
+  }
+  const channel=typeof BroadcastChannel==='function'
+    ? new BroadcastChannel(CHANNEL_NAME):null;
+  if(channel) channel.addEventListener('message',event=>{
+    if(event.data?.type==='SIGNED_OUT') redirectToDashboard();
+  });
+  window.addEventListener('storage',event=>{
+    if(event.key===SIGNOUT_KEY) redirectToDashboard();
+  });
+  window.addEventListener('pageshow',()=>{
+    if(!msalInstance || !msalInstance.getAllAccounts().length){
+      redirectToDashboard();
+    }
+  });
+  window.requireMicrosoftAuthentication=async function(){
+    if(!window.msal){redirectToDashboard();return null;}
+    try{
+      if(!window.msalInstance){
+        const config={
+          auth:{
+            clientId:'f21c7beb-f07a-4f63-a384-84272182483e',
+            authority:'https://login.microsoftonline.com/organizations',
+            redirectUri:location.hostname==='localhost'||location.hostname==='127.0.0.1'
+              ? 'http://localhost:3000/'
+              : 'https://ebakojoseph.github.io/audit_toolkit/'
+          },
+          cache:{cacheLocation:'localStorage',storeAuthStateInCookie:false}
+        };
+        window.msalInstance=new msal.PublicClientApplication(config);
+        await window.msalInstance.initialize();
+        await window.msalInstance.handleRedirectPromise();
+      }
+      const account=window.msalInstance.getActiveAccount()||window.msalInstance.getAllAccounts()[0];
+      if(!account){redirectToDashboard();return null;}
+      window.msalInstance.setActiveAccount(account);
+      return account;
+    }catch(error){
+      console.error('Assessment authentication failed:',error);
+      redirectToDashboard();
+      return null;
+    }
+  };
+})();
+</script>
 </head>
 
 
@@ -3090,6 +3148,13 @@ document.getElementById('btn-home')?.addEventListener('click', function (event) 
   window.addEventListener('pageshow',function(){
     if(sessionStorage.getItem('building-diagnostics-signed-out')==='1') returnToDashboard();
   });
+})();
+</script>
+<script>
+(async function(){
+  const account=await window.requireMicrosoftAuthentication();
+  if(!account)return;
+  document.documentElement.dataset.authenticated='true';
 })();
 </script>
 </body>
