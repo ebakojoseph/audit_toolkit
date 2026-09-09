@@ -176,12 +176,18 @@
     }
 
     async function signInWithMicrosoft() {
-      if (!msalInstance || !microsoftReady) {
-        alert('Microsoft sign-in is still initializing. Please try again.');
-        return;
-      }
-      await msalInstance.loginRedirect(loginRequest);
-    }
+  if (!msalInstance) {
+    alert('Microsoft authentication is unavailable. Refresh the page and try again.');
+    return;
+  }
+
+  try {
+    await msalInstance.loginRedirect(loginRequest);
+  } catch (error) {
+    console.error('Microsoft sign-in failed:', error);
+    alert(`Microsoft sign-in failed: ${error.message}`);
+  }
+}
 
     async function signOutWithMicrosoft() {
       if (!msalInstance) return;
@@ -329,10 +335,17 @@
     }
 
     async function init() {
-      showLoggedOutUI();
-      bindEvents();
-      await initializeMicrosoftAuth();
-      if (window.lucide?.createIcons) window.lucide.createIcons();
+  showLoggedOutUI();
+  bindEvents();
+
+  await initializeMicrosoftAuth();
+
+  if (window.lucide?.createIcons) {
+    window.lucide.createIcons();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', init);
     }
 
     init();
