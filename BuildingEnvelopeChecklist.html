@@ -105,6 +105,56 @@ input, select, textarea { font-family: inherit; }
   cursor: not-allowed !important;
   opacity: .9;
 }
+  @media print {
+  body {
+    background: #fff !important;
+    font-size: 11px;
+  }
+
+  .no-print,
+  .sidebar,
+  #sidebar,
+  header,
+  #header-bar,
+  #bottom-bar,
+  #btn-home,
+  .toast,
+  button {
+    display: none !important;
+  }
+
+  .section-panel {
+    display: block !important;
+    page-break-before: always;
+    padding: 0 !important;
+  }
+
+  .section-panel:first-of-type {
+    page-break-before: avoid;
+  }
+
+  main,
+  #main-content {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .card,
+  .bg-white {
+    box-shadow: none !important;
+    border: 1px solid #ddd;
+  }
+
+  table {
+    font-size: 10px;
+  }
+
+  th,
+  td {
+    padding: 4px 6px !important;
+  }
+}
 </style>
 </head>
 <body data-id="0" class="min-h-screen flex flex-col">
