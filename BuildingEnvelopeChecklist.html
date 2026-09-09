@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="Cache-Control" content="no-store">
+<meta http-equiv="Pragma" content="no-cache">
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Building Envelope Diagnostic Checklist</title>
@@ -10,6 +12,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/lucide@latest" defer></script>
 <script>
+const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 tailwind.config = {
   theme: {
     extend: {
@@ -1967,6 +1970,32 @@ setTimeout(() => {
   event.preventDefault();
   window.location.href = 'index.html';
 });
+</script>
+
+<script>
+(function(){
+  const channel=typeof BroadcastChannel==='function'
+    ? new BroadcastChannel('building-diagnostics-auth')
+    : null;
+  let redirecting=false;
+  function returnToDashboard(){
+    if(redirecting)return;
+    redirecting=true;
+    try{sessionStorage.setItem('building-diagnostics-signed-out','1')}catch(e){}
+    location.replace(location.hostname==='localhost'||location.hostname==='127.0.0.1'
+      ? 'http://localhost:3000/'
+      : 'https://ebakojoseph.github.io/audit_toolkit/');
+  }
+  if(channel) channel.onmessage=function(event){
+    if(event.data&&event.data.type==='SIGNED_OUT') returnToDashboard();
+  };
+  window.addEventListener('storage',function(event){
+    if(event.key==='building-diagnostics-signout') returnToDashboard();
+  });
+  window.addEventListener('pageshow',function(){
+    if(sessionStorage.getItem('building-diagnostics-signed-out')==='1') returnToDashboard();
+  });
+})();
 </script>
 </body>
 </html>
