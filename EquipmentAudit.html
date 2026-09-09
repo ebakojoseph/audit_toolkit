@@ -261,6 +261,35 @@
   };
 })();
 </script>
+
+<script id="AUTH_GATE_V2">
+(function(){
+  const SIGNOUT_KEY='building-diagnostics-signout';
+  const CHANNEL='building-diagnostics-auth';
+  let redirecting=false;
+  const dashboard=()=>location.hostname==='localhost'||location.hostname==='127.0.0.1'?'http://localhost:3000/':'https://ebakojoseph.github.io/audit_toolkit/';
+  const go=()=>{if(!redirecting){redirecting=true;location.replace(dashboard())}};
+  const bc=typeof BroadcastChannel==='function'?new BroadcastChannel(CHANNEL):null;
+  bc?.addEventListener('message',e=>{if(e.data?.type==='SIGNED_OUT')go()});
+  addEventListener('storage',e=>{if(e.key===SIGNOUT_KEY)go()});
+  window.__assessmentAuthReady=false;
+  window.requireAssessmentAuth=async function(){
+    if(!window.msal){go();return null}
+    try{
+      const cfg={auth:{clientId:'f21c7beb-f07a-4f63-a384-84272182483e',authority:'https://login.microsoftonline.com/organizations',redirectUri:location.hostname==='localhost'||location.hostname==='127.0.0.1'?'http://localhost:3000/':'https://ebakojoseph.github.io/audit_toolkit/'},cache:{cacheLocation:'localStorage',storeAuthStateInCookie:false}};
+      const instance=new msal.PublicClientApplication(cfg);
+      await instance.initialize();
+      await instance.handleRedirectPromise();
+      const account=instance.getActiveAccount()||instance.getAllAccounts()[0];
+      if(!account){go();return null}
+      instance.setActiveAccount(account);
+      window.assessmentMsalInstance=instance;
+      window.__assessmentAuthReady=true;
+      return account;
+    }catch(e){console.error('[assessment auth]',e);go();return null}
+  };
+})();
+</script>
 </head>
 
 
