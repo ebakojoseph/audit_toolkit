@@ -291,7 +291,28 @@
 })();
 </script>
 
-
+<script id="shared-auth-project-patch">
+(function(){
+  const SIGNOUT_KEY='building-diagnostics-signout';
+  const CHANNEL_NAME='building-diagnostics-auth';
+  const DASHBOARD=location.hostname==='localhost'||location.hostname==='127.0.0.1'?'http://localhost:3000/':'https://ebakojoseph.github.io/audit_toolkit/';
+  let redirecting=false;
+  function goHome(){if(!redirecting){redirecting=true;location.replace(DASHBOARD)}}
+  addEventListener('storage',e=>{if(e.key===SIGNOUT_KEY)goHome()});
+  if(typeof BroadcastChannel==='function'){const c=new BroadcastChannel(CHANNEL_NAME);c.onmessage=e=>{if(e.data?.type==='SIGNED_OUT')goHome()}}
+  window.__requireSharedAuth=async function(){
+    if(!window.msal)return null;
+    const cfg={auth:{clientId:'f21c7beb-f07a-4f63-a384-84272182483e',authority:'https://login.microsoftonline.com/organizations',redirectUri:DASHBOARD},cache:{cacheLocation:'localStorage',storeAuthStateInCookie:false}};
+    try{const m=new msal.PublicClientApplication(cfg);await m.initialize();await m.handleRedirectPromise();const a=m.getActiveAccount()||m.getAllAccounts()[0];if(!a){goHome();return null}m.setActiveAccount(a);window.__sharedMsal=m;return a}catch(e){console.error(e);goHome();return null}
+  };
+  window.__getProjectFromDashboard=function(){
+    const id=new URLSearchParams(location.search).get('projectId');
+    if(!id)return null;
+    let list=[];try{list=JSON.parse(localStorage.getItem('audit-dashboard-v3')||'[]')}catch(e){}
+    return list.find(p=>String(p.id)===String(id))||null;
+  };
+})();
+</script>
 </head>
 
 
@@ -1157,9 +1178,7 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
       window.location.search
     );
 
-    const currentProjectId = projectParams.get(
-      'project'
-    );
+    const currentProjectId = projectParams.get('projectId') || projectParams.get('project');
 
     let state = loadState();
     let currentProject = null;
@@ -3155,39 +3174,6 @@ document.getElementById('btn-home')?.addEventListener('click', function (event) 
 });
   </script>
 
-
-<script>
-(function(){
-  const channel=typeof BroadcastChannel==='function'
-    ? new BroadcastChannel('building-diagnostics-auth')
-    : null;
-  let redirecting=false;
-  function returnToDashboard(){
-    if(redirecting)return;
-    redirecting=true;
-    try{sessionStorage.setItem('building-diagnostics-signed-out','1')}catch(e){}
-    location.replace(location.hostname==='localhost'||location.hostname==='127.0.0.1'
-      ? 'http://localhost:3000/'
-      : 'https://ebakojoseph.github.io/audit_toolkit/');
-  }
-  if(channel) channel.onmessage=function(event){
-    if(event.data&&event.data.type==='SIGNED_OUT') returnToDashboard();
-  };
-  window.addEventListener('storage',function(event){
-    if(event.key==='building-diagnostics-signout') returnToDashboard();
-  });
-  window.addEventListener('pageshow',function(){
-    if(sessionStorage.getItem('building-diagnostics-signed-out')==='1') returnToDashboard();
-  });
-})();
-</script>
-<script>
-(async function(){
-  const account=await window.requireMicrosoftAuthentication();
-  if(!account)return;
-  document.documentElement.dataset.authenticated='true';
-})();
-</script>
 
 </body>
 </html>
