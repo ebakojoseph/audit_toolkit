@@ -1637,58 +1637,58 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
 
     function buildSidebar() {
-  const sidebarMarkup = sections.map(
-    (section, index) => `
-      <button
-        data-sec="${index}"
-        class="sidebar-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/70 hover:bg-[#1a3460] w-full text-left"
-        type="button"
-      >
-        <i
-          data-lucide="${section[1]}"
-          class="w-4 h-4"
-        ></i>
+      const sidebarMarkup = sections.map(
+        (section, index) => `
+          <button
+            data-sec="${index}"
+            class="sidebar-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/70 hover:bg-[#1a3460] w-full text-left"
+            type="button"
+          >
+            <i
+              data-lucide="${section[1]}"
+              class="w-4 h-4"
+            ></i>
 
-        <span class="flex-1 truncate">
-          ${section[0]}
-        </span>
+            <span class="flex-1 truncate">
+              ${section[0]}
+            </span>
 
-        <span
-          class="sidebar-dot dot-grey"
-          data-dot="${index}"
-        ></span>
-      </button>
-    `
-  ).join('');
+            <span
+              class="sidebar-dot dot-grey"
+              data-dot="${index}"
+            ></span>
+          </button>
+        `
+      ).join('');
 
-  $('sidebar-nav').innerHTML = sidebarMarkup;
-  $('mobile-nav').innerHTML = sidebarMarkup;
+      $('sidebar-nav').innerHTML = sidebarMarkup;
+      $('mobile-nav').innerHTML = sidebarMarkup;
+    }
 
-  // --- MOBILE ONLY: Fold up/sideways immediately after selection ---
-  const mobileButtons = $('mobile-nav').querySelectorAll('.sidebar-btn');
-  mobileButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      // Find the wrapping mobile container element (update ID to match your layout)
-      const mobileDrawer = $('sidebar-menu') || $('mobile-drawer') || document.querySelector('aside');
-      const mobileBackdrop = $('sidebar-backdrop');
 
-      // Slide the menu completely off-screen sideways back to the left
-      if (mobileDrawer) {
-        mobileDrawer.classList.add('-translate-x-full');
-        mobileDrawer.classList.remove('translate-x-0');
-      }
+    function activateSection(index) {
+      activeSection = index;
 
-      // Hide the dark screen backdrop block
-      if (mobileBackdrop) {
-        mobileBackdrop.classList.add('hidden');
-        mobileBackdrop.classList.remove('opacity-100');
-      }
-    });
-  });
+      document.querySelectorAll(
+        '.section-panel'
+      ).forEach(panel => {
+        panel.classList.toggle(
+          'active',
+          Number(panel.dataset.section) === index
+        );
+      });
 
-  // Re-trigger Lucide icon renderer so newly generated icons display perfectly
-  if (window.lucide) { lucide.createIcons(); }
-}
+      document.querySelectorAll(
+        '.sidebar-btn'
+      ).forEach(button => {
+        button.classList.toggle(
+          'bg-[#1e6fbd]',
+          Number(button.dataset.sec) === index
+        );
+      });
+
+      $('mobile-overlay').classList.add('hidden');
+    }
 
 
     /* =========================================================
