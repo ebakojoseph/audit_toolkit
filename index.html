@@ -1,276 +1,32 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Building Diagnostics Workspace</title>
-
-  <!-- External libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.35.0/lib/msal-browser.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Application styles -->
-  <style>
-    body { font-family: Inter, Arial, sans-serif; background: #f1f5f9; color: #1e293b; }
-    .navy { background: #0f2040; }
-    .card { background: #fff; border-radius: 16px; box-shadow: 0 1px 3px #0f20401a; }
-    .field { width: 100%; border: 1px solid #cbd5e1; border-radius: 10px; padding: 9px 11px; font-size: 14px; background: #fff; }
-    .btn { border-radius: 10px; padding: 9px 13px; font-size: 13px; font-weight: 700; }
-    .blue { background: #1e6fbd; color: #fff; }
-    .muted { color: #64748b; }
-    .status { border-radius: 999px; padding: 3px 8px; font-size: 11px; font-weight: 700; background: #e2e8f0; white-space: nowrap; }
-    .status.in { background: #fef3c7; color: #b45309; }
-    .status.done { background: #dcfce7; color: #15803d; }
-    dialog::backdrop { background: rgb(15 32 64 / 45%); }
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Building Diagnostics Workspace</title>
+<script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.35.0/lib/msal-browser.min.js"></script><script src="https://cdn.tailwindcss.com"></script><script src="https://unpkg.com/lucide@latest"></script>
+<style>body{font-family:Inter,Arial,sans-serif;background:#f1f5f9;color:#1e293b}.navy{background:#0f2040}.card{background:#fff;border-radius:16px;box-shadow:0 1px 3px #0f20401a}.field{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:9px 11px;font-size:14px;background:#fff}.btn{border-radius:10px;padding:9px 13px;font-size:13px;font-weight:700}.blue{background:#1e6fbd;color:#fff}.muted{color:#64748b}.status{border-radius:999px;padding:3px 8px;font-size:11px;font-weight:700;background:#e2e8f0;white-space:nowrap}.status.in{background:#fef3c7;color:#b45309}.status.done{background:#dcfce7;color:#15803d}dialog::backdrop{background:rgb(15 32 64 / 45%)}a.action-link{color:#1e6fbd;font-weight:700;text-decoration:underline}</style>
 </head>
 <body>
-  <!-- Header and authentication -->
-  <header class="fixed top-0 left-0 right-0 z-20 navy text-white h-[60px]">
-    <div class="h-full flex items-center gap-3 px-4">
-      <i data-lucide="clipboard-check" class="w-5 h-5 text-blue-300"></i>
-      <b>Building Diagnostics Workspace</b>
-      <div class="flex items-center gap-2 ml-2">
-        <button id="btn-ms-login" type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">Sign in with Microsoft</button>
-        <button id="btn-ms-logout" type="button" class="hidden bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">Sign out</button>
-        <span id="ms-user-name" class="text-xs text-blue-100"></span>
-      </div>
-      <span id="sync-status" class="hidden text-xs text-blue-100"></span>
-      <div id="dashboard-actions" class="hidden ml-auto flex gap-2">
-        <button id="new" type="button" class="btn blue">＋ New Project</button>
-        <button id="import" type="button" class="btn bg-[#1a3460]">Import</button>
-        <button id="export" type="button" class="btn bg-[#1a3460]">Export</button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Authenticated dashboard -->
-  <main id="dashboard-content" class="hidden pt-[84px] max-w-[1500px] mx-auto p-4 md:p-6">
-    <section class="mb-5"><h1 class="text-2xl font-bold text-[#0f2040]">Project Dashboard</h1><p class="muted text-sm mt-1">Create, search, and reopen audit projects across envelope and equipment assessments.</p></section>
-    <section class="card p-5 mb-5"><div class="grid grid-cols-1 md:grid-cols-4 gap-3"><input id="search" class="field md:col-span-2" placeholder="Search client, project ID, facility, auditor, address, notes..."><select id="clientFilter" class="field"><option value="">All clients</option></select><select id="auditorFilter" class="field"><option value="">All auditors</option></select><select id="statusFilter" class="field"><option value="">All statuses</option><option>Not started</option><option>In progress</option><option>Complete</option><option>Archived</option></select></div></section>
-    <section class="card overflow-x-auto"><table class="w-full text-sm"><thead class="bg-slate-100 text-xs font-semibold"><tr><th class="p-3 text-left">Project ID</th><th class="p-3 text-left">Client</th><th class="p-3 text-left">Facility</th><th class="p-3 text-left">Auditor</th><th class="p-3 text-left">Audit date</th><th class="p-3">Envelope</th><th class="p-3">Equipment</th><th class="p-3">Status</th><th class="p-3 text-left">Updated</th><th class="p-3">Actions</th></tr></thead><tbody id="projects"></tbody></table><div id="empty" class="p-10 text-center muted hidden">No projects match the current search.</div></section>
-  </main>
-
-  <!-- Project dialog -->
-  <dialog id="projectDialog" class="rounded-2xl p-0 shadow-2xl w-[min(760px,calc(100% - 24px))]">
-    <form method="dialog" id="projectForm" class="p-6">
-      <h2 class="text-xl font-bold text-[#0f2040] mb-4">Project information</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <label class="text-xs font-semibold">Site / Project ID<input name="project_id" class="field mt-1" required></label>
-        <label class="text-xs font-semibold">Client / Organization<input name="client" class="field mt-1"></label>
-        <label class="text-xs font-semibold">Facility name<input name="facility" class="field mt-1"></label>
-        <label class="text-xs font-semibold">Auditor<input name="auditor" class="field mt-1"></label>
-        <label class="text-xs font-semibold">Audit date<input name="audit_date" type="date" class="field mt-1"></label>
-        <label class="text-xs font-semibold">Building type<select name="facility_type" class="field mt-1"><option value="">— Select —</option><option>Residential Single-Family</option><option>Residential Multi-Unit</option><option>Commercial</option><option>Industrial</option><option>Institutional</option><option>Mixed-Use</option></select></label>
-        <label class="text-xs font-semibold md:col-span-2">Street address<input name="address" class="field mt-1"></label>
-        <label class="text-xs font-semibold">City<input name="city" class="field mt-1"></label>
-        <label class="text-xs font-semibold">Province / State<input name="province" class="field mt-1"></label>
-        <label class="text-xs font-semibold">Gross floor area<input name="floor_area" type="number" step="0.01" class="field mt-1"></label>
-        <label class="text-xs font-semibold">Area unit<select name="area_unit" class="field mt-1"><option>m²</option><option>ft²</option></select></label>
-        <label class="text-xs font-semibold md:col-span-2">Notes<textarea name="notes" class="field mt-1" rows="3"></textarea></label>
-      </div>
-      <div class="flex justify-end gap-2 mt-5"><button type="button" id="cancelProject" class="btn bg-slate-200">Cancel</button><button type="submit" class="btn blue">Save project</button></div>
-    </form>
-  </dialog>
-  <input id="file" type="file" accept="application/json" hidden>
-
-  <!-- Application logic -->
-  <script>
-    // ---------- State and configuration ----------
-    const STORAGE_KEY = 'audit-dashboard-v3';
-    const GRAPH_SCOPES = ['User.Read', 'Files.ReadWrite.AppFolder'];
-    const APP_FOLDER_NAME = 'Building Diagnostics Workspace';
-    const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-    const $ = id => document.getElementById(id);
-    let projects = loadLocalProjects();
-    let editingProject = null;
-    let msalInstance = null;
-    let microsoftReady = false;
-    let graphAccessToken = null;
-
-    const msalConfig = {
-      auth: {
-        clientId: 'f21c7beb-f07a-4f63-a384-84272182483e',
-        authority: 'https://login.microsoftonline.com/organizations',
-        redirectUri: isLocal ? 'http://localhost:3000/' : 'https://ebakojoseph.github.io/audit_toolkit/'
-      },
-      cache: { cacheLocation: 'sessionStorage', storeAuthStateInCookie: false }
-    };
-
-    function monthFileName() { return `audit-projects-${new Date().toISOString().slice(0, 7)}.json`; }
-
-    // ---------- Authentication UI ----------
-    function showAuthenticatedUI(account) {
-      microsoftReady = true;
-      $('ms-user-name').textContent = account.name || account.username || '';
-      $('btn-ms-login').classList.add('hidden');
-      $('btn-ms-logout').classList.remove('hidden');
-      $('dashboard-actions').classList.remove('hidden');
-      $('dashboard-content').classList.remove('hidden');
-      $('sync-status').classList.remove('hidden');
-      renderProjects();
-    }
-
-    function showLoggedOutUI() {
-      microsoftReady = false;
-      graphAccessToken = null;
-      $('ms-user-name').textContent = '';
-      $('btn-ms-login').classList.remove('hidden');
-      $('btn-ms-logout').classList.add('hidden');
-      $('dashboard-actions').classList.add('hidden');
-      $('dashboard-content').classList.add('hidden');
-      $('sync-status').classList.add('hidden');
-    }
-
-    function setSyncStatus(message) { $('sync-status').textContent = message; }
-
-    // ---------- Microsoft authentication ----------
-    async function initializeMicrosoftAuth() {
-      console.log('[MSAL] Starting initialization:', typeof window.msal);
-      if (!window.msal) {
-        console.error('[MSAL] Library did not load');
-        $('btn-ms-login').disabled = true;
-        $('btn-ms-login').textContent = 'Microsoft unavailable';
-        showLoggedOutUI();
-        return;
-      }
-      try {
-        msalInstance = new window.msal.PublicClientApplication(msalConfig);
-        await msalInstance.initialize();
-        const redirectResult = await msalInstance.handleRedirectPromise();
-        const account = redirectResult?.account || msalInstance.getAllAccounts()[0] || null;
-        if (account) {
-          msalInstance.setActiveAccount(account);
-          showAuthenticatedUI(account);
-          await initializeOneDrive();
-        } else {
-          showLoggedOutUI();
-        }
-      } catch (error) {
-        console.error('[MSAL] Initialization failed:', error);
-        showLoggedOutUI();
-      }
-    }
-
-    async function signInWithMicrosoft() {
-      if (!msalInstance) { alert('Microsoft authentication is unavailable. Refresh and try again.'); return; }
-      try { await msalInstance.loginRedirect({ scopes: GRAPH_SCOPES }); }
-      catch (error) { console.error('[MSAL] Sign-in failed:', error); alert(`Microsoft sign-in failed: ${error.message}`); }
-    }
-
-    async function signOutWithMicrosoft() {
-      if (!msalInstance) return;
-      const account = msalInstance.getActiveAccount() || msalInstance.getAllAccounts()[0];
-      await msalInstance.logoutRedirect({ account, postLogoutRedirectUri: isLocal ? 'http://localhost:3000/' : 'https://ebakojoseph.github.io/audit_toolkit/' });
-    }
-
-    // ---------- Microsoft Graph token and requests ----------
-    async function getGraphToken() {
-      const account = msalInstance.getActiveAccount() || msalInstance.getAllAccounts()[0];
-      try {
-        const result = await msalInstance.acquireTokenSilent({ account, scopes: GRAPH_SCOPES });
-        graphAccessToken = result.accessToken;
-        return graphAccessToken;
-      } catch (error) {
-        console.warn('[Graph] Silent token failed; opening consent window:', error);
-        const result = await msalInstance.acquireTokenPopup({ scopes: GRAPH_SCOPES });
-        graphAccessToken = result.accessToken;
-        return graphAccessToken;
-      }
-    }
-
-    async function graphRequest(path, options = {}) {
-      const token = graphAccessToken || await getGraphToken();
-      const response = await fetch(`https://graph.microsoft.com/v1.0${path}`, {
-        ...options,
-        headers: { Authorization: `Bearer ${token}`, ...(options.headers || {}) }
-      });
-      return response;
-    }
-
-    // ---------- OneDrive app-folder storage ----------
-    async function getAppFolder() {
-      const response = await graphRequest('/me/drive/special/approot');
-      if (!response.ok) throw new Error(`Could not access the OneDrive app folder: ${response.status}`);
-      return response.json();
-    }
-
-    async function downloadMonthlyFile() {
-      const response = await graphRequest(`/me/drive/special/approot:/${encodeURIComponent(monthFileName())}:/content`);
-      if (response.status === 404) throw new Error('MONTHLY_FILE_NOT_FOUND');
-      if (!response.ok) throw new Error(`Could not download ${monthFileName()}: ${response.status}`);
-      return response.json();
-    }
-
-    async function uploadMonthlyFile() {
-      await getAppFolder();
-      const body = JSON.stringify({ version: 1, month: new Date().toISOString().slice(0, 7), projects }, null, 2);
-      const response = await graphRequest(`/me/drive/special/approot:/${encodeURIComponent(monthFileName())}:/content`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body
-      });
-      if (!response.ok) throw new Error(`Could not save ${monthFileName()}: ${response.status}`);
-      setSyncStatus(`OneDrive app folder: ${monthFileName()}`);
-    }
-
-    async function initializeOneDrive() {
-      try {
-        setSyncStatus('Loading OneDrive app folder…');
-        const cloudData = await downloadMonthlyFile();
-        projects = Array.isArray(cloudData) ? cloudData : cloudData.projects;
-        if (!Array.isArray(projects)) throw new Error('The OneDrive JSON file has an invalid format');
-        saveLocalProjects();
-        renderProjects();
-        setSyncStatus(`OneDrive app folder: ${monthFileName()}`);
-      } catch (error) {
-        if (error.message === 'MONTHLY_FILE_NOT_FOUND') {
-          await uploadMonthlyFile();
-          setSyncStatus(`Created ${monthFileName()} in the app folder`);
-        } else {
-          console.error('[Graph] OneDrive load failed:', error);
-          setSyncStatus('OneDrive unavailable; local copy active');
-        }
-      }
-    }
-
-    async function syncProjectsToOneDrive() {
-      try {
-        setSyncStatus('Saving to OneDrive…');
-        await uploadMonthlyFile();
-      } catch (error) {
-        console.error('[Graph] OneDrive save failed:', error);
-        setSyncStatus('OneDrive save failed; local copy retained');
-        alert(`OneDrive save failed: ${error.message}`);
-      }
-    }
-
-    // ---------- Local storage and rendering ----------
-    function loadLocalProjects() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (error) { console.error(error); return []; } }
-    function saveLocalProjects() { localStorage.setItem(STORAGE_KEY, JSON.stringify(projects)); }
-    function escapeHtml(value) { return String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c])); }
-    function statusBadge(status) { status = status || 'Not started'; const cls = status === 'Complete' ? 'done' : status === 'In progress' ? 'in' : ''; return `<span class="status ${cls}">${escapeHtml(status)}</span>`; }
-    function projectSearchText(project) { return [project.project_id, project.client, project.facility, project.auditor, project.address, project.city, project.province, project.facility_type, project.floor_area, project.area_unit, project.notes].filter(Boolean).join(' ').toLowerCase(); }
-    function updateFilterOptions() { const client = $('clientFilter').value, auditor = $('auditorFilter').value, clients = [...new Set(projects.map(p => p.client).filter(Boolean))].sort(), auditors = [...new Set(projects.map(p => p.auditor).filter(Boolean))].sort(); $('clientFilter').innerHTML = '<option value="">All clients</option>' + clients.map(v => `<option ${v === client ? 'selected' : ''}>${escapeHtml(v)}</option>`).join(''); $('auditorFilter').innerHTML = '<option value="">All auditors</option>' + auditors.map(v => `<option ${v === auditor ? 'selected' : ''}>${escapeHtml(v)}</option>`).join(''); }
-    function renderProjects() { updateFilterOptions(); const query = $('search').value.trim().toLowerCase(), client = $('clientFilter').value, auditor = $('auditorFilter').value, status = $('statusFilter').value, list = projects.filter(p => (!query || projectSearchText(p).includes(query)) && (!client || p.client === client) && (!auditor || p.auditor === auditor) && (!status || p.status === status)); $('empty').classList.toggle('hidden', list.length > 0); $('projects').innerHTML = list.map(p => `<tr class="border-t border-slate-200"><td class="p-3 font-semibold">${escapeHtml(p.project_id)}</td><td class="p-3">${escapeHtml(p.client)}</td><td class="p-3">${escapeHtml(p.facility)}</td><td class="p-3">${escapeHtml(p.auditor)}</td><td class="p-3">${escapeHtml(p.audit_date)}</td><td class="p-3 text-center">${statusBadge(p.envelope_status)}</td><td class="p-3 text-center">${statusBadge(p.equipment_status)}</td><td class="p-3 text-center">${statusBadge(p.status)}</td><td class="p-3">${p.updated_at ? new Date(p.updated_at).toLocaleDateString() : ''}</td><td class="p-3"><button type="button" class="text-[#1e6fbd] font-bold" onclick="editProject('${encodeURIComponent(p.id)}')">Edit</button></td></tr>`).join(''); }
-
-    // ---------- Project editing ----------
-    function clearProjectForm() { $('projectForm').reset(); $('projectForm').elements.area_unit.value = 'm²'; }
-    function openNewProjectDialog() { editingProject = null; clearProjectForm(); $('projectDialog').showModal(); }
-    function editProject(encodedId) { const project = projects.find(item => item.id === decodeURIComponent(encodedId)); if (!project) return; editingProject = project; const form = $('projectForm').elements; for (const key of ['project_id', 'client', 'facility', 'auditor', 'audit_date', 'address', 'city', 'province', 'facility_type', 'floor_area', 'notes']) form[key].value = project[key] || ''; form.area_unit.value = project.area_unit || 'm²'; $('projectDialog').showModal(); }
-    function closeProjectDialog() { if ($('projectDialog').open) $('projectDialog').close(); }
-    async function saveProjectForm(event) { event.preventDefault(); const values = Object.fromEntries(new FormData(event.target).entries()), now = new Date().toISOString(), project = editingProject ? { ...editingProject, ...values, updated_at: now } : { id: crypto.randomUUID(), ...values, status: 'Not started', envelope_status: 'Not started', equipment_status: 'Not started', created_at: now, updated_at: now }; const index = projects.findIndex(item => item.id === project.id); if (index < 0) projects.unshift(project); else projects[index] = project; saveLocalProjects(); editingProject = null; closeProjectDialog(); renderProjects(); await syncProjectsToOneDrive(); }
-
-    // ---------- Import and export ----------
-    function exportProjects() { const blob = new Blob([JSON.stringify(projects, null, 2)], { type: 'application/json' }), link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'audit-projects.json'; link.click(); }
-    function importProjects() { $('file').click(); }
-    async function importProjectFile(event) { const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = async () => { try { const imported = JSON.parse(reader.result); projects = Array.isArray(imported) ? imported : imported.projects; if (!Array.isArray(projects)) throw Error('Invalid project file'); saveLocalProjects(); renderProjects(); await syncProjectsToOneDrive(); } catch (error) { alert(error.message); } event.target.value = ''; }; reader.readAsText(file); }
-
-    // ---------- Event binding and startup ----------
-    function bindEvents() { $('btn-ms-login').addEventListener('click', signInWithMicrosoft); $('btn-ms-logout').addEventListener('click', signOutWithMicrosoft); $('new').addEventListener('click', openNewProjectDialog); $('cancelProject').addEventListener('click', closeProjectDialog); $('projectForm').addEventListener('submit', saveProjectForm); $('search').addEventListener('input', renderProjects); ['clientFilter', 'auditorFilter', 'statusFilter'].forEach(id => $(id).addEventListener('change', renderProjects)); $('import').addEventListener('click', importProjects); $('export').addEventListener('click', exportProjects); $('file').addEventListener('change', importProjectFile); }
-    async function init() { showLoggedOutUI(); bindEvents(); await initializeMicrosoftAuth(); if (window.lucide?.createIcons) window.lucide.createIcons(); }
-    document.addEventListener('DOMContentLoaded', init);
-  </script>
-</body>
-</html>
+<!-- Header -->
+<header class="fixed top-0 left-0 right-0 z-20 navy text-white h-[60px]"><div class="h-full flex items-center gap-3 px-4"><i data-lucide="clipboard-check" class="w-5 h-5 text-blue-300"></i><b>Building Diagnostics Workspace</b><div class="flex items-center gap-2 ml-2"><button id="btn-ms-login" type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">Sign in with Microsoft</button><button id="btn-ms-logout" type="button" class="hidden bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">Sign out</button><span id="ms-user-name" class="text-xs text-blue-100"></span></div><span id="sync-status" class="hidden text-xs text-blue-100"></span><div id="dashboard-actions" class="hidden ml-auto flex gap-2"><button id="new" type="button" class="btn blue">＋ New Project</button><button id="import" type="button" class="btn bg-[#1a3460]">Import</button><button id="export" type="button" class="btn bg-[#1a3460]">Export</button></div></div></header>
+<!-- Dashboard -->
+<main id="dashboard-content" class="hidden pt-[84px] max-w-[1500px] mx-auto p-4 md:p-6"><section class="mb-5"><h1 class="text-2xl font-bold text-[#0f2040]">Project Dashboard</h1><p class="muted text-sm mt-1">Create, search, and reopen audit projects across envelope and equipment assessments.</p></section><section class="card p-5 mb-5"><div class="grid grid-cols-1 md:grid-cols-4 gap-3"><input id="search" class="field md:col-span-2" placeholder="Search client, project ID, facility, auditor, address, notes..."><select id="clientFilter" class="field"><option value="">All clients</option></select><select id="auditorFilter" class="field"><option value="">All auditors</option></select><select id="statusFilter" class="field"><option value="">All statuses</option><option>Not started</option><option>In progress</option><option>Complete</option><option>Archived</option></select></div></section><section class="card overflow-x-auto"><table class="w-full text-sm"><thead class="bg-slate-100 text-xs font-semibold"><tr><th class="p-3 text-left">Project ID</th><th class="p-3 text-left">Client</th><th class="p-3 text-left">Facility</th><th class="p-3 text-left">Auditor</th><th class="p-3 text-left">Audit date</th><th class="p-3">Envelope</th><th class="p-3">Equipment</th><th class="p-3">Status</th><th class="p-3 text-left">Updated</th><th class="p-3">Actions</th></tr></thead><tbody id="projects"></tbody></table><div id="empty" class="p-10 text-center muted hidden">No projects match the current search.</div></section></main>
+<!-- Project dialog -->
+<dialog id="projectDialog" class="rounded-2xl p-0 shadow-2xl w-[min(760px,calc(100% - 24px))]"><form method="dialog" id="projectForm" class="p-6"><h2 class="text-xl font-bold text-[#0f2040] mb-4">Project information</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-3"><label class="text-xs font-semibold">Site / Project ID<input name="project_id" class="field mt-1" required></label><label class="text-xs font-semibold">Client / Organization<input name="client" class="field mt-1"></label><label class="text-xs font-semibold">Facility name<input name="facility" class="field mt-1"></label><label class="text-xs font-semibold">Auditor<input name="auditor" class="field mt-1"></label><label class="text-xs font-semibold">Audit date<input name="audit_date" type="date" class="field mt-1"></label><label class="text-xs font-semibold">Building type<select name="facility_type" class="field mt-1"><option value="">— Select —</option><option>Residential Single-Family</option><option>Residential Multi-Unit</option><option>Commercial</option><option>Industrial</option><option>Institutional</option><option>Mixed-Use</option></select></label><label class="text-xs font-semibold md:col-span-2">Street address<input name="address" class="field mt-1"></label><label class="text-xs font-semibold">City<input name="city" class="field mt-1"></label><label class="text-xs font-semibold">Province / State<input name="province" class="field mt-1"></label><label class="text-xs font-semibold">Gross floor area<input name="floor_area" type="number" step="0.01" class="field mt-1"></label><label class="text-xs font-semibold">Area unit<select name="area_unit" class="field mt-1"><option>m²</option><option>ft²</option></select></label><label class="text-xs font-semibold md:col-span-2">Notes<textarea name="notes" class="field mt-1" rows="3"></textarea></label></div><div class="flex justify-end gap-2 mt-5"><button type="button" id="cancelProject" class="btn bg-slate-200">Cancel</button><button type="submit" class="btn blue">Save project</button></div></form></dialog><input id="file" type="file" accept="application/json" hidden>
+<script>
+// ---------- State and configuration ----------
+const STORAGE_KEY='audit-dashboard-v3',GRAPH_SCOPES=['User.Read','Files.ReadWrite.AppFolder'],isLocal=location.hostname==='localhost'||location.hostname==='127.0.0.1',$=id=>document.getElementById(id);let projects=loadLocalProjects(),editingProject=null,msalInstance=null,graphAccessToken=null;
+const msalConfig={auth:{clientId:'f21c7beb-f07a-4f63-a384-84272182483e',authority:'https://login.microsoftonline.com/organizations',redirectUri:isLocal?'http://localhost:3000/':'https://ebakojoseph.github.io/audit_toolkit/'},cache:{cacheLocation:'sessionStorage',storeAuthStateInCookie:false}};const monthFileName=()=>`audit-projects-${new Date().toISOString().slice(0,7)}.json`;
+// ---------- Authentication and OneDrive ----------
+function showAuthenticatedUI(a){$('ms-user-name').textContent=a.name||a.username||'';$('btn-ms-login').classList.add('hidden');$('btn-ms-logout').classList.remove('hidden');$('dashboard-actions').classList.remove('hidden');$('dashboard-content').classList.remove('hidden');$('sync-status').classList.remove('hidden');renderProjects()}function showLoggedOutUI(){$('ms-user-name').textContent='';$('btn-ms-login').classList.remove('hidden');$('btn-ms-logout').classList.add('hidden');$('dashboard-actions').classList.add('hidden');$('dashboard-content').classList.add('hidden');$('sync-status').classList.add('hidden')}function setSyncStatus(x){$('sync-status').textContent=x}
+async function initializeMicrosoftAuth(){if(!window.msal){$('btn-ms-login').disabled=true;return}try{msalInstance=new msal.PublicClientApplication(msalConfig);await msalInstance.initialize();const r=await msalInstance.handleRedirectPromise(),a=r?.account||msalInstance.getAllAccounts()[0];if(a){msalInstance.setActiveAccount(a);showAuthenticatedUI(a);await initializeOneDrive()}else showLoggedOutUI()}catch(e){console.error('[MSAL]',e);showLoggedOutUI()}}async function signInWithMicrosoft(){if(!msalInstance)return alert('Microsoft authentication is unavailable.');try{await msalInstance.loginRedirect({scopes:GRAPH_SCOPES})}catch(e){alert(e.message)}}async function signOutWithMicrosoft(){const a=msalInstance?.getActiveAccount()||msalInstance?.getAllAccounts()[0];if(a)await msalInstance.logoutRedirect({account:a,postLogoutRedirectUri:isLocal?'http://localhost:3000/':'https://ebakojoseph.github.io/audit_toolkit/'})}async function getGraphToken(){const a=msalInstance.getActiveAccount()||msalInstance.getAllAccounts()[0];try{return(graphAccessToken=(await msalInstance.acquireTokenSilent({account:a,scopes:GRAPH_SCOPES})).accessToken)}catch(e){return(graphAccessToken=(await msalInstance.acquireTokenPopup({scopes:GRAPH_SCOPES})).accessToken)}}async function graphRequest(path,options={}){const token=graphAccessToken||await getGraphToken();return fetch(`https://graph.microsoft.com/v1.0${path}`,{...options,headers:{Authorization:`Bearer ${token}`,...(options.headers||{})}})}async function uploadMonthlyFile(){const body=JSON.stringify({version:1,month:new Date().toISOString().slice(0,7),projects},null,2),r=await graphRequest(`/me/drive/special/approot:/${encodeURIComponent(monthFileName())}:/content`,{method:'PUT',headers:{'Content-Type':'application/json'},body});if(!r.ok)throw Error(`Save failed: ${r.status}`);setSyncStatus(`OneDrive: ${monthFileName()}`)}async function initializeOneDrive(){try{setSyncStatus('Loading OneDrive…');const r=await graphRequest(`/me/drive/special/approot:/${encodeURIComponent(monthFileName())}:/content`);if(r.status===404){await uploadMonthlyFile();return}if(!r.ok)throw Error(`Load failed: ${r.status}`);const d=await r.json();projects=Array.isArray(d)?d:d.projects;saveLocalProjects();renderProjects();setSyncStatus(`OneDrive: ${monthFileName()}`)}catch(e){console.error('[Graph]',e);setSyncStatus('OneDrive unavailable; local copy active')}}async function syncProjectsToOneDrive(){try{setSyncStatus('Saving to OneDrive…');await uploadMonthlyFile()}catch(e){console.error(e);setSyncStatus('OneDrive save failed; local copy retained');alert(e.message)}}
+// ---------- Local storage, formatting, and filtering ----------
+function loadLocalProjects(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch(e){return[]}}function saveLocalProjects(){localStorage.setItem(STORAGE_KEY,JSON.stringify(projects))}function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}function statusBadge(s){s=s||'Not started';return`<span class="status ${s==='Complete'?'done':s==='In progress'?'in':''}">${escapeHtml(s)}</span>`}function searchText(p){return[p.project_id,p.client,p.facility,p.auditor,p.address,p.city,p.province,p.facility_type,p.floor_area,p.area_unit,p.notes].filter(Boolean).join(' ').toLowerCase()}function updateFilterOptions(){const c=$('clientFilter').value,a=$('auditorFilter').value,cs=[...new Set(projects.map(p=>p.client).filter(Boolean))].sort(),as=[...new Set(projects.map(p=>p.auditor).filter(Boolean))].sort();$('clientFilter').innerHTML='<option value="">All clients</option>'+cs.map(v=>`<option ${v===c?'selected':''}>${escapeHtml(v)}</option>`).join('');$('auditorFilter').innerHTML='<option value="">All auditors</option>'+as.map(v=>`<option ${v===a?'selected':''}>${escapeHtml(v)}</option>`).join('')}
+// ---------- Dashboard links ----------
+function pageUrl(file,id){return `${file}?projectId=${encodeURIComponent(id)}`}function renderAssessmentLink(file,label,id){return `<a class="action-link" href="${pageUrl(file,id)}" target="_blank" rel="noopener">${label}</a>`}
+function renderProjects(){updateFilterOptions();const q=$('search').value.trim().toLowerCase(),c=$('clientFilter').value,a=$('auditorFilter').value,s=$('statusFilter').value,list=projects.filter(p=>(!q||searchText(p).includes(q))&&(!c||p.client===c)&&(!a||p.auditor===a)&&(!s||p.status===s));$('empty').classList.toggle('hidden',list.length>0);$('projects').innerHTML=list.map(p=>`<tr class="border-t border-slate-200"><td class="p-3 font-semibold">${escapeHtml(p.project_id)}</td><td class="p-3">${escapeHtml(p.client)}</td><td class="p-3">${escapeHtml(p.facility)}</td><td class="p-3">${escapeHtml(p.auditor)}</td><td class="p-3">${escapeHtml(p.audit_date)}</td><td class="p-3 text-center">${renderAssessmentLink('BuildingEnvelopeChecklist.html','Open envelope',p.id)}<br>${statusBadge(p.envelope_status)}</td><td class="p-3 text-center">${renderAssessmentLink('EquipmentAudit.html','Open equipment',p.id)}<br>${statusBadge(p.equipment_status)}</td><td class="p-3 text-center">${statusBadge(p.status)}</td><td class="p-3">${p.updated_at?new Date(p.updated_at).toLocaleDateString():''}</td><td class="p-3"><button type="button" class="text-[#1e6fbd] font-bold" onclick="editProject('${encodeURIComponent(p.id)}')">Edit</button></td></tr>`).join('')}
+// ---------- Project dialog ----------
+function clearProjectForm(){$('projectForm').reset();$('projectForm').elements.area_unit.value='m²'}function openNewProjectDialog(){editingProject=null;clearProjectForm();$('projectDialog').showModal()}function editProject(id){const p=projects.find(x=>x.id===decodeURIComponent(id));if(!p)return;editingProject=p;const f=$('projectForm').elements;for(const k of ['project_id','client','facility','auditor','audit_date','address','city','province','facility_type','floor_area','notes'])f[k].value=p[k]||'';f.area_unit.value=p.area_unit||'m²';$('projectDialog').showModal()}function closeProjectDialog(){if($('projectDialog').open)$('projectDialog').close()}async function saveProjectForm(e){e.preventDefault();const v=Object.fromEntries(new FormData(e.target).entries()),now=new Date().toISOString(),p=editingProject?{...editingProject,...v,updated_at:now}:{id:crypto.randomUUID(),...v,status:'Not started',envelope_status:'Not started',equipment_status:'Not started',created_at:now,updated_at:now};const i=projects.findIndex(x=>x.id===p.id);if(i<0)projects.unshift(p);else projects[i]=p;saveLocalProjects();editingProject=null;closeProjectDialog();renderProjects();await syncProjectsToOneDrive()}
+// ---------- Import, export, and startup ----------
+function exportProjects(){const b=new Blob([JSON.stringify(projects,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='audit-projects.json';a.click()}function importProjects(){$('file').click()}function importProjectFile(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{const d=JSON.parse(r.result);projects=Array.isArray(d)?d:d.projects;if(!Array.isArray(projects))throw Error('Invalid project file');saveLocalProjects();renderProjects();await syncProjectsToOneDrive()}catch(x){alert(x.message)}e.target.value=''};r.readAsText(f)}function bindEvents(){$('btn-ms-login').addEventListener('click',signInWithMicrosoft);$('btn-ms-logout').addEventListener('click',signOutWithMicrosoft);$('new').addEventListener('click',openNewProjectDialog);$('cancelProject').addEventListener('click',closeProjectDialog);$('projectForm').addEventListener('submit',saveProjectForm);$('search').addEventListener('input',renderProjects);['clientFilter','auditorFilter','statusFilter'].forEach(id=>$(id).addEventListener('change',renderProjects));$('import').addEventListener('click',importProjects);$('export').addEventListener('click',exportProjects);$('file').addEventListener('change',importProjectFile)}async function init(){showLoggedOutUI();bindEvents();await initializeMicrosoftAuth();if(window.lucide?.createIcons)lucide.createIcons()}document.addEventListener('DOMContentLoaded',init)
+</script>
+</body></html>
