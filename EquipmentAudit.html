@@ -3027,6 +3027,18 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
       );
 
 
+      $('btn-save').addEventListener(
+        'click',
+        exportAudit
+      );
+
+
+      $('btn-open').addEventListener(
+        'click',
+        importAudit
+      );
+
+
       $('file-input').addEventListener(
         'change',
         importAuditFile
