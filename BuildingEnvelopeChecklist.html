@@ -191,29 +191,6 @@ input, select, textarea { font-family: inherit; }
   };
 })();
 </script>
-
-<script id="shared-auth-project-patch">
-(function(){
-  const SIGNOUT_KEY='building-diagnostics-signout';
-  const CHANNEL_NAME='building-diagnostics-auth';
-  const DASHBOARD=location.hostname==='localhost'||location.hostname==='127.0.0.1'?'http://localhost:3000/':'https://ebakojoseph.github.io/audit_toolkit/';
-  let redirecting=false;
-  function goHome(){if(!redirecting){redirecting=true;location.replace(DASHBOARD)}}
-  addEventListener('storage',e=>{if(e.key===SIGNOUT_KEY)goHome()});
-  if(typeof BroadcastChannel==='function'){const c=new BroadcastChannel(CHANNEL_NAME);c.onmessage=e=>{if(e.data?.type==='SIGNED_OUT')goHome()}}
-  window.__requireSharedAuth=async function(){
-    if(!window.msal)return null;
-    const cfg={auth:{clientId:'f21c7beb-f07a-4f63-a384-84272182483e',authority:'https://login.microsoftonline.com/organizations',redirectUri:DASHBOARD},cache:{cacheLocation:'localStorage',storeAuthStateInCookie:false}};
-    try{const m=new msal.PublicClientApplication(cfg);await m.initialize();await m.handleRedirectPromise();const a=m.getActiveAccount()||m.getAllAccounts()[0];if(!a){goHome();return null}m.setActiveAccount(a);window.__sharedMsal=m;return a}catch(e){console.error(e);goHome();return null}
-  };
-  window.__getProjectFromDashboard=function(){
-    const id=new URLSearchParams(location.search).get('projectId');
-    if(!id)return null;
-    let list=[];try{list=JSON.parse(localStorage.getItem('audit-dashboard-v3')||'[]')}catch(e){}
-    return list.find(p=>String(p.id)===String(id))||null;
-  };
-})();
-</script>
 </head>
 <body data-id="0" class="min-h-screen flex flex-col">
 <app-icon data-id="1" hidden data-icon="clipboard-check" data-palette="Blue"></app-icon>
@@ -227,7 +204,7 @@ input, select, textarea { font-family: inherit; }
     </button>
     <div data-id="7" class="flex items-center gap-2 mr-4 flex-shrink-0">
       <i data-id="8" data-lucide="clipboard-check" class="w-5 h-5 text-accent-300"></i>
-      <span data-id="9" class="font-bold text-sm md:text-base whitespace-nowrap">Building Envelope Diagnostic Checklist</span>
+      <span data-id="9" class="font-bold text-sm md:text-base whitespace-nowrap">Building Envelope Diagnostic Checklist</span><a href="EquipmentAudit.html" class="ml-3 bg-[#1e6fbd] hover:bg-[#185a9a] text-white px-3 py-1.5 rounded-lg text-xs font-semibold" id="btn-equipment">Equipment Audit</a>
     </div>
     <div data-id="10" class="flex-1 hidden sm:flex items-center gap-2 mx-4">
       <div data-id="11" class="flex-1 bg-navy-700 rounded-full h-2.5 overflow-hidden">
@@ -248,17 +225,6 @@ input, select, textarea { font-family: inherit; }
       <button data-id="15" id="btn-print" class="flex items-center gap-1.5 bg-accent-500 hover:bg-accent-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">
         <i data-id="16" data-lucide="printer" class="w-3.5 h-3.5"></i><span data-id="17" class="hidden sm:inline">Print</span>
       </button>
-<button id="btn-save-csv" class="flex items-center gap-1.5 bg-accent-500 hover:bg-accent-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">
-  <i data-lucide="download" class="w-3.5 h-3.5"></i>
-  <span class="hidden sm:inline">Save CSV</span>
-</button>
-
-<button id="btn-open-csv" class="flex items-center gap-1.5 bg-navy-700 hover:bg-navy-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">
-  <i data-lucide="upload" class="w-3.5 h-3.5"></i>
-  <span class="hidden sm:inline">Open CSV</span>
-</button>
-
-<input type="file" id="csv-file-input" accept=".csv,text/csv" class="hidden" />
       <button data-id="18" id="btn-reset" class="flex items-center gap-1.5 bg-navy-700 hover:bg-navy-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">
         <i data-id="19" data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i><span data-id="20" class="hidden sm:inline">Reset</span>
       </button>
@@ -2047,17 +2013,6 @@ setTimeout(() => {
   window.addEventListener('pageshow',function(){
     if(sessionStorage.getItem('building-diagnostics-signed-out')==='1') returnToDashboard();
   });
-})();
-</script>
-<script>
-(async function(){
- const account=await window.__requireSharedAuth();
- if(!account)return;
- const project=window.__getProjectFromDashboard();
- if(project){
-   const map={project_id:'project_id',projectid:'project_id',siteprojectid:'project_id',client:'client',siteclient:'client',facility:'facility',sitefacility:'facility',auditor:'auditor',audit_date:'audit_date',auditdate:'audit_date',address:'address',city:'city',province:'province',facility_type:'facility_type',facilitytype:'facility_type',floor_area:'floor_area',floorarea:'floor_area',area_unit:'area_unit',areaunit:'area_unit'};
-   Object.entries(map).forEach(([field,key])=>{const el=document.querySelector(`[name="${field}"],[data-field="${field}"]`);if(el&&!el.value&&project[key]!=null)el.value=project[key]});
- }
 })();
 </script>
 </body>
