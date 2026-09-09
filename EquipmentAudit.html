@@ -320,7 +320,7 @@
 
   <body>
 
-  <!-- Top Navigation Header -->
+    <!-- Top Navigation Header -->
   <header class="no-print bg-white border-b border-slate-200 fixed top-0 left-0 right-0 z-50">
     <div class="max-w-[1500px] mx-auto px-4 h-16 flex items-center justify-between gap-4">
       
@@ -332,11 +332,13 @@
       <!-- Right: Action Buttons matching Dashboard styling -->
       <div id="header-actions" class="flex items-center gap-2 shrink-0">
         
-        <!-- Home / Dashboard Button -->
-        <button id="btn-home" type="button" class="btn bg-[#1a3460] text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-1.5 shrink-0 hover:bg-[#132749] transition-colors">
-          <i data-lucide="home" class="w-4 h-4"></i>
-          <span class="hidden md:inline">Dashboard</span>
-        </button>
+        <!-- Home / Dashboard Button linking directly to your source redirect logic -->
+        <a href="javascript:void(0);" onclick="location.replace(dashboardUrl())" class="no-underline">
+          <button id="btn-home" type="button" class="btn bg-[#1a3460] text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-1.5 shrink-0 hover:bg-[#132749] transition-colors">
+            <i data-lucide="home" class="w-4 h-4"></i>
+            <span class="hidden md:inline">Dashboard</span>
+          </button>
+        </a>
 
         <!-- New Audit Button -->
         <button id="btn-new" type="button" class="btn bg-[#1a3460] text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-1.5 shrink-0 hover:bg-[#132749] transition-colors">
@@ -353,6 +355,7 @@
       </div>
     </div>
   </header>
+
 
   <!-- Main Body Wrapper Adjustment (Pushes content down so fixed header doesn't cover it) -->
   <main class="pt-20 max-w-[1500px] mx-auto p-4 md:p-6">
