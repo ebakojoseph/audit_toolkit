@@ -318,93 +318,45 @@
 
 <body>
 
-  <!-- =========================================================
-       HEADER
-  ========================================================== -->
+  <body>
 
-  <header
-    class="fixed top-0 left-0 right-0 z-50 bg-[#0f2040] text-white shadow-lg h-[60px]"
-  >
-    <div class="flex items-center h-full px-4 gap-3">
-
-      <button
-        id="mobile-menu"
-        class="md:hidden p-2"
-        type="button"
-      >
-        <i data-lucide="menu"></i>
-      </button>
-
-      <i
-        data-lucide="plug-zap"
-        class="w-5 h-5 text-blue-300"
-      ></i>
-
-      <span class="font-bold text-sm md:text-base whitespace-nowrap">
-        Equipment Audit
-      </span>
-
-      <div class="flex-1 hidden sm:flex items-center gap-2 mx-4">
-        <div class="flex-1 bg-[#1a3460] rounded-full h-2.5 overflow-hidden">
-          <div
-            id="progress-fill"
-            class="h-full bg-[#4797e7] rounded-full"
-            style="width: 0%"
-          ></div>
-        </div>
-
-        <span
-          id="progress-pct"
-          class="text-xs font-semibold text-blue-200"
-        >
-          0%
-        </span>
+  <!-- Top Navigation Header -->
+  <header class="no-print bg-white border-b border-slate-200 fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-[1500px] mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      
+      <!-- Left: Title / Branding -->
+      <div class="flex items-center gap-3">
+        <h1 class="text-lg font-bold text-[#0f2040]">Equipment Audit System</h1>
       </div>
 
-      <div class="flex items-center gap-2 ml-auto">
-<a
-  href="index.html"
-  id="btn-home"
-  class="flex items-center gap-1.5 bg-navy-700 hover:bg-navy-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition"
-  title="Return to Home"
->
-  <i data-lucide="home" class="w-3.5 h-3.5"></i>
-  <span class="hidden sm:inline">Home</span>
-</a>
-        <button
-          id="btn-print"
-          class="bg-[#1e6fbd] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
-          type="button"
-        >
-          <i
-            data-lucide="printer"
-            class="inline w-3.5 h-3.5"
-          ></i>
-
-          <span class="hidden sm:inline">
-            Print
-          </span>
+      <!-- Right: Action Buttons matching Dashboard styling -->
+      <div id="header-actions" class="flex items-center gap-2 shrink-0">
+        
+        <!-- Home / Dashboard Button -->
+        <button id="btn-home" type="button" class="btn bg-[#1a3460] text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-1.5 shrink-0 hover:bg-[#132749] transition-colors">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          <span class="hidden md:inline">Dashboard</span>
         </button>
 
-        <button
-          id="btn-reset"
-          class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
-          type="button"
-        >
-          <i
-            data-lucide="rotate-ccw"
-            class="inline w-3.5 h-3.5"
-          ></i>
-
-          <span class="hidden sm:inline">
-            Reset
-          </span>
+        <!-- New Audit Button -->
+        <button id="btn-new" type="button" class="btn bg-[#1a3460] text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-1.5 shrink-0 hover:bg-[#132749] transition-colors">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span class="hidden md:inline">New Audit</span>
+        </button>
+        
+        <!-- Export Button -->
+        <button id="btn-export" type="button" class="btn bg-[#1a3460] text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-1.5 shrink-0 hover:bg-[#132749] transition-colors">
+          <i data-lucide="upload" class="w-4 h-4"></i>
+          <span class="hidden md:inline">Export Report</span>
         </button>
 
       </div>
     </div>
-    <div class="flex items-center gap-2 ml-auto flex-shrink-0">
   </header>
+
+  <!-- Main Body Wrapper Adjustment (Pushes content down so fixed header doesn't cover it) -->
+  <main class="pt-20 max-w-[1500px] mx-auto p-4 md:p-6">
+
 
 
   <!-- =========================================================
