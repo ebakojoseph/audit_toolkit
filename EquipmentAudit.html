@@ -387,36 +387,6 @@
         </button>
 
         <button
-          id="btn-save"
-          class="bg-[#1e6fbd] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
-          type="button"
-        >
-          <i
-            data-lucide="download"
-            class="inline w-3.5 h-3.5"
-          ></i>
-
-          <span class="hidden sm:inline">
-            Save JSON
-          </span>
-        </button>
-
-        <button
-          id="btn-open"
-          class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
-          type="button"
-        >
-          <i
-            data-lucide="upload"
-            class="inline w-3.5 h-3.5"
-          ></i>
-
-          <span class="hidden sm:inline">
-            Open JSON
-          </span>
-        </button>
-
-        <button
           id="btn-reset"
           class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
           type="button"
@@ -430,13 +400,6 @@
             Reset
           </span>
         </button>
-
-        <input
-          id="file-input"
-          type="file"
-          accept=".json,application/json"
-          hidden
-        >
 
       </div>
     </div>
@@ -3064,18 +3027,6 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
       );
 
 
-      $('btn-save').addEventListener(
-        'click',
-        exportAudit
-      );
-
-
-      $('btn-open').addEventListener(
-        'click',
-        importAudit
-      );
-
-
       $('file-input').addEventListener(
         'change',
         importAuditFile
@@ -3175,10 +3126,7 @@ document.querySelectorAll('.sidebar-btn').forEach(button=>{
 
 document.getElementById('btn-home')?.addEventListener('click', function (event) {
   event.preventDefault();
-  sessionStorage.setItem('assessmentReturn', '1');
-  // Use the canonical dashboard URL. MSAL rehydrates the existing session
-  // from its configured browser cache when index.html initializes.
-  window.location.assign(new URL('index.html', window.location.href).href);
+  window.location.href = 'index.html';
 });
   </script>
 
