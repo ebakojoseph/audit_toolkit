@@ -3204,7 +3204,41 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-</script>
+      // Open Mobile Sidebar & Overlay Layer simultaneously
+      $('mobile-menu').addEventListener(
+        'click',
+        () => {
+          // 1. Reveal the dim backdrop layer overlay
+          $('mobile-overlay').classList.remove('hidden');
+          
+          // 2. FORCE the main section-panel sidebar wrapper to become visible
+          const sidebarPanel = document.querySelector('.sections-sidebar') || $('sidebar'); 
+          if (sidebarPanel) {
+            sidebarPanel.classList.remove('hidden');
+            // Add utility flags to make it pop over the mobile layout smoothly
+            sidebarPanel.classList.add('fixed', 'top-0', 'left-0', 'h-full', 'z-[60]', 'w-64', 'block');
+          }
+        }
+      );
+
+      // Clean Close Mobile Layer Sequence
+      $('mobile-close').addEventListener(
+        'click',
+        () => {
+          // 1. Hide the background dim backdrop overlay
+          $('mobile-overlay').classList.add('hidden');
+          
+          // 2. Hide the navigation track panel container
+          const sidebarPanel = document.querySelector('.sections-sidebar') || $('sidebar');
+          if (sidebarPanel) {
+            sidebarPanel.classList.add('hidden');
+            sidebarPanel.classList.remove('fixed', 'top-0', 'left-0', 'h-full', 'z-[60]', 'w-64', 'block');
+          }
+        }
+      );
+
+
+
 
 <!-- Reset Confirmation Modal Dialog -->
 <dialog id="resetDialog" class="rounded-2xl p-6 shadow-2xl w-[min(440px,calc(100%-24px))] bg-white">
@@ -3227,5 +3261,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </dialog>
 
+
+</script>
 </body>
 </html>
