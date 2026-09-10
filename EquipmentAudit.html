@@ -3118,11 +3118,35 @@ document.getElementById('btn-home')?.addEventListener('click', function (event) 
   window.location.href = 'index.html';
 });
   </script>
+
 <script>
   window.addEventListener('DOMContentLoaded', () => {
+// Initialize visual SVGs via lucide Engine
     if (typeof lucide !== 'undefined') {
       lucide.createIcons();
     }
+// 2. Clear Active Fields Logic Handler
+      document.getElementById('btn-reset')?.addEventListener('click', () => {
+        if (confirm('Are you completely sure you want to clear all form entries?')) {
+          const targetForm = document.getElementById('auditForm');
+          if (targetForm) {
+            targetForm.reset();
+            
+ // Explicit check to guarantee clean textareas and filters are dropped back to empty
+            targetForm.querySelectorAll('input, textarea, select').forEach(element => {
+              if (!element.disabled && !element.readOnly) {
+                element.value = '';
+              }
+            });
+// Trigger structural updates to your progress metrics manually
+            const fill = document.getElementById('progress-fill');
+            const pct = document.getElementById('progress-pct');
+            if (fill) fill.style.width = '0%';
+            if (pct) pct.innerText = '0%';
+          }
+        }
+      });
+
 	bindEvents();
   });
 </script>
