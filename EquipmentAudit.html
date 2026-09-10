@@ -3122,94 +3122,63 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
 
     initializeEquipmentAudit();
+// Defensive rebind: the sidebar is generated dynamically by buildSidebar().
+document.querySelectorAll('.sidebar-btn').forEach(button=>{
+  button.onclick=()=>activateSection(Number(button.dataset.sec));
+});
+
+document.getElementById('btn-home')?.addEventListener('click', function (event) {
+  event.preventDefault();
+  window.location.href = 'index.html';
+});
+  </script>
+
 <script>
+  window.addEventListener('DOMContentLoaded', () => {
+// Initialize visual SVGs via lucide Engine
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+	bindEvents();
+  });
 document.addEventListener('DOMContentLoaded', () => {
-  // --- 1. Global Helper Selectors & Utility Definitions ---
-  const $ = id => document.getElementById(id);
-  
-  const resetBtn = $('btn-reset');
-  const resetDialog = $('resetDialog');
-  const cancelResetBtn = $('btn-reset-cancel');
-  const confirmResetBtn = $('btn-reset-confirm');
-  
-  const mobileMenuBtn = $('mobile-menu');
-  const mobileOverlay = $('mobile-overlay');
-  const mobileCloseBtn = $('mobile-close');
+  const resetBtn = document.getElementById('btn-reset');
+  const resetDialog = document.getElementById('resetDialog');
+  const cancelResetBtn = document.getElementById('btn-reset-cancel');
+  const confirmResetBtn = document.getElementById('btn-reset-confirm');
 
-  // Helper selector targeting your sidebar panel container seamlessly
-  const getSidebarPanel = () => document.querySelector('.sections-sidebar') || $('sidebar');
-
-  // --- 2. Mobile Responsive Viewport Toggle Controllers ---
-  function openMobileSidebar() {
-    mobileOverlay?.classList.remove('hidden');
-    const sidebarPanel = getSidebarPanel();
-    if (sidebarPanel) {
-      sidebarPanel.classList.remove('hidden');
-      sidebarPanel.classList.add('fixed', 'top-0', 'left-0', 'h-full', 'z-[60]', 'w-64', 'block');
-    }
-  }
-
-  function closeMobileSidebar() {
-    mobileOverlay?.classList.add('hidden');
-    const sidebarPanel = getSidebarPanel();
-    if (sidebarPanel) {
-      sidebarPanel.classList.add('hidden');
-      sidebarPanel.classList.remove('fixed', 'top-0', 'left-0', 'h-full', 'z-[60]', 'w-64', 'block');
-    }
-  }
-
-  // Bind sidebar visibility control triggers
-  mobileMenuBtn?.addEventListener('click', openMobileSidebar);
-  mobileCloseBtn?.addEventListener('click', closeMobileSidebar);
-  mobileOverlay?.addEventListener('click', closeMobileSidebar); // Background dim tap dismissal fallback
-
-  // --- 3. Sidebar Selection Handling & Mobile Auto-Collapse ---
-  // Core function to safely attach item selection behaviors across dynamically drawn loops
-  window.rebindSidebarButtons = function() {
-    document.querySelectorAll('.sidebar-btn').forEach(button => {
-      button.onclick = () => {
-        // Change the active viewport pane state view panel
-        activateSection(Number(button.dataset.sec));
-        
-        // CRITICAL FIX: Instantly close down the popout track if running inside a mobile scale window screen
-        closeMobileSidebar();
-      };
-    });
-  };
-
-  // Run initial binding script directly
-  window.rebindSidebarButtons();
-
-  // --- 4. Navigation Flow Control Systems ---
-  $('btn-home')?.addEventListener('click', function(event) {
-    event.preventDefault();
-    if (typeof dashboardUrl === 'function') {
-      location.replace(dashboardUrl());
-    } else {
-      window.location.href = 'index.html';
-    }
-  });
-
-  // --- 5. Modal Dialog Confirmation / Data Clear Systems ---
+  // 1. Open the modal dialog when the header Reset button is clicked
   resetBtn?.addEventListener('click', () => {
-    if (typeof resetDialog?.showModal === 'function') {
+    if (typeof resetDialog.showModal === 'function') {
       resetDialog.showModal();
-    } else if (confirm('This will permanently erase all inspection data. Proceed?')) {
-      executeFormReset();
+    } else {
+      // Fallback if dialog tag isn't supported smoothly
+      if (confirm('This will permanently erase all inspection data. Proceed?')) {
+        executeFormReset();
+      }
     }
   });
 
-  cancelResetBtn?.addEventListener('click', () => resetDialog?.close());
-
-  confirmResetBtn?.addEventListener('click', () => {
-    executeFormReset();
+  // 2. Close the modal dialog if Cancel is clicked
+  cancelResetBtn?.addEventListener('click', () => {
     resetDialog?.close();
   });
 
+  // 3. Clear data and close modal if Reset Everything is clicked
+  confirmResetBtn?.addEventListener('click', () => {
+    executeFormReset();
+    resetDialog?.close();
+    
+    // Optional: Show a quick success alert or toast
+    alert('All entries have been cleared.');
+  });
+
+  // Core execution function to clear fields safely
   function executeFormReset() {
-    // Structural layout input field sweep arrays
+    // Clear all standard forms
     document.querySelectorAll('form').forEach(form => form.reset());
 
+    // Deep clean text inputs, selectors, and textareas (skipping read-only/disabled fields)
     document.querySelectorAll('input, select, textarea').forEach(field => {
       if (!field.disabled && !field.readOnly) {
         if (field.type === 'checkbox' || field.type === 'radio') {
@@ -3220,28 +3189,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Reset layout progress monitoring tags back to empty limits
-    const progressFill = $('progress-fill');
-    const progressPct = $('progress-pct');
+    // Reset progress tracking visual fills back to zero
+    const progressFill = document.getElementById('progress-fill');
+    const progressPct = document.getElementById('progress-pct');
     if (progressFill) progressFill.style.width = '0%';
     if (progressPct) progressPct.textContent = '0%';
 
-    ['projects', 'projectTableBody', 'projects-list'].forEach(id => {
-      const container = $(id);
+    // Clear custom dynamic table lists (like window inventories or billing grids)
+    const tablesToClear = ['projects', 'projectTableBody', 'projects-list'];
+    tablesToClear.forEach(id => {
+      const container = document.getElementById(id);
       if (container) container.innerHTML = '';
     });
   }
-
-  // --- 6. Icon Compilers and Late-Binding Initializations ---
-  if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
-  }
-  
-  if (typeof bindEvents === 'function') {
-    bindEvents();
-  }
 });
-</script>
+
 </script>
 
 <!-- Reset Confirmation Modal Dialog -->
