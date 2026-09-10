@@ -2,20 +2,20 @@
 <html lang="en">
 
 <head>
-<meta http-equiv="Cache-Control" content="no-store">
-<meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <meta http-equiv="Pragma" content="no-cache">
   <meta charset="UTF-8">
   <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
   >
 
   <title>Equipment Audit</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script
-    src="https://unpkg.com/lucide@latest"
-    defer
+          src="https://unpkg.com/lucide@latest"
+          defer
   ></script>
 
   <style>
@@ -203,947 +203,905 @@
       }
     }
   </style>
-<script>
-(function(){
-  const SIGNOUT_KEY='building-diagnostics-signout';
-  const CHANNEL_NAME='building-diagnostics-auth';
-  let redirecting=false;
-  function dashboardUrl(){
-    return location.hostname==='localhost'||location.hostname==='127.0.0.1'
-      ? 'http://localhost:3000/'
-      : 'https://ebakojoseph.github.io/audit_toolkit/';
-  }
-  function redirectToDashboard(){
-    if(redirecting)return;
-    redirecting=true;
-    location.replace(dashboardUrl());
-  }
-  const channel=typeof BroadcastChannel==='function'
-    ? new BroadcastChannel(CHANNEL_NAME):null;
-  if(channel) channel.addEventListener('message',event=>{
-    if(event.data?.type==='SIGNED_OUT') redirectToDashboard();
-  });
-  window.addEventListener('storage',event=>{
-    if(event.key===SIGNOUT_KEY) redirectToDashboard();
-  });
-  window.addEventListener('pageshow',()=>{
-    if(!msalInstance || !msalInstance.getAllAccounts().length){
-      redirectToDashboard();
-    }
-  });
-  window.requireMicrosoftAuthentication=async function(){
-    if(!window.msal){redirectToDashboard();return null;}
-    try{
-      if(!window.msalInstance){
-        const config={
-          auth:{
-            clientId:'f21c7beb-f07a-4f63-a384-84272182483e',
-            authority:'https://login.microsoftonline.com/organizations',
-            redirectUri:location.hostname==='localhost'||location.hostname==='127.0.0.1'
-              ? 'http://localhost:3000/'
-              : 'https://ebakojoseph.github.io/audit_toolkit/'
-          },
-          cache:{cacheLocation:'localStorage',storeAuthStateInCookie:false}
-        };
-        window.msalInstance=new msal.PublicClientApplication(config);
-        await window.msalInstance.initialize();
-        await window.msalInstance.handleRedirectPromise();
+  <script>
+    (function(){
+      const SIGNOUT_KEY='building-diagnostics-signout';
+      const CHANNEL_NAME='building-diagnostics-auth';
+      let redirecting=false;
+      function dashboardUrl(){
+        return location.hostname==='localhost'||location.hostname==='127.0.0.1'
+          ? 'http://localhost:3000/'
+          : 'https://ebakojoseph.github.io/audit_toolkit/';
       }
-      const account=window.msalInstance.getActiveAccount()||window.msalInstance.getAllAccounts()[0];
-      if(!account){redirectToDashboard();return null;}
-      window.msalInstance.setActiveAccount(account);
-      return account;
-    }catch(error){
-      console.error('Assessment authentication failed:',error);
-      redirectToDashboard();
-      return null;
-    }
-  };
-})();
-</script>
+      function redirectToDashboard(){
+        if(redirecting)return;
+        redirecting=true;
+        location.replace(dashboardUrl());
+      }
+      const channel=typeof BroadcastChannel==='function'
+        ? new BroadcastChannel(CHANNEL_NAME):null;
+      if(channel) channel.addEventListener('message',event=>{
+        if(event.data?.type==='SIGNED_OUT') redirectToDashboard();
+      });
+      window.addEventListener('storage',event=>{
+        if(event.key===SIGNOUT_KEY) redirectToDashboard();
+      });
+      window.addEventListener('pageshow',()=>{
+        if(!msalInstance || !msalInstance.getAllAccounts().length){
+          redirectToDashboard();
+        }
+      });
+      window.requireMicrosoftAuthentication=async function(){
+        if(!window.msal){redirectToDashboard();return null;}
+        try{
+          if(!window.msalInstance){
+            const config={
+              auth:{
+                clientId:'f21c7beb-f07a-4f63-a384-84272182483e',
+                authority:'https://login.microsoftonline.com/organizations',
+                redirectUri:location.hostname==='localhost'||location.hostname==='127.0.0.1'
+                  ? 'http://localhost:3000/'
+                  : 'https://ebakojoseph.github.io/audit_toolkit/'
+              },
+              cache:{cacheLocation:'localStorage',storeAuthStateInCookie:false}
+            };
+            window.msalInstance=new msal.PublicClientApplication(config);
+            await window.msalInstance.initialize();
+            await window.msalInstance.handleRedirectPromise();
+          }
+          const account=window.msalInstance.getActiveAccount()||window.msalInstance.getAllAccounts()[0];
+          if(!account){redirectToDashboard();return null;}
+          window.msalInstance.setActiveAccount(account);
+          return account;
+        }catch(error){
+          console.error('Assessment authentication failed:',error);
+          redirectToDashboard();
+          return null;
+        }
+      };
+    })();
+  </script>
 
-<script id="AUTH_GATE_V2">
-(function(){
-  const SIGNOUT_KEY='building-diagnostics-signout';
-  const CHANNEL='building-diagnostics-auth';
-  let redirecting=false;
-  const dashboard=()=>location.hostname==='localhost'||location.hostname==='127.0.0.1'?'http://localhost:3000/':'https://ebakojoseph.github.io/audit_toolkit/';
-  const go=()=>{if(!redirecting){redirecting=true;location.replace(dashboard())}};
-  const bc=typeof BroadcastChannel==='function'?new BroadcastChannel(CHANNEL):null;
-  bc?.addEventListener('message',e=>{if(e.data?.type==='SIGNED_OUT')go()});
-  addEventListener('storage',e=>{if(e.key===SIGNOUT_KEY)go()});
-  window.__assessmentAuthReady=false;
-  window.requireAssessmentAuth=async function(){
-    if(!window.msal){go();return null}
-    try{
-      const cfg={auth:{clientId:'f21c7beb-f07a-4f63-a384-84272182483e',authority:'https://login.microsoftonline.com/organizations',redirectUri:location.hostname==='localhost'||location.hostname==='127.0.0.1'?'http://localhost:3000/':'https://ebakojoseph.github.io/audit_toolkit/'},cache:{cacheLocation:'localStorage',storeAuthStateInCookie:false}};
-      const instance=new msal.PublicClientApplication(cfg);
-      await instance.initialize();
-      await instance.handleRedirectPromise();
-      const account=instance.getActiveAccount()||instance.getAllAccounts()[0];
-      if(!account){go();return null}
-      instance.setActiveAccount(account);
-      window.assessmentMsalInstance=instance;
-      window.__assessmentAuthReady=true;
-      return account;
-    }catch(e){console.error('[assessment auth]',e);go();return null}
-  };
-})();
-</script>
+  <script id="AUTH_GATE_V2">
+    (function(){
+      const SIGNOUT_KEY='building-diagnostics-signout';
+      const CHANNEL='building-diagnostics-auth';
+      let redirecting=false;
+      const dashboard=()=>location.hostname==='localhost'||location.hostname==='127.0.0.1'?'http://localhost:3000/':'https://ebakojoseph.github.io/audit_toolkit/';
+      const go=()=>{if(!redirecting){redirecting=true;location.replace(dashboard())}};
+      const bc=typeof BroadcastChannel==='function'?new BroadcastChannel(CHANNEL):null;
+      bc?.addEventListener('message',e=>{if(e.data?.type==='SIGNED_OUT')go()});
+      addEventListener('storage',e=>{if(e.key===SIGNOUT_KEY)go()});
+      window.__assessmentAuthReady=false;
+      window.requireAssessmentAuth=async function(){
+        if(!window.msal){go();return null}
+        try{
+          const cfg={auth:{clientId:'f21c7beb-f07a-4f63-a384-84272182483e',authority:'https://login.microsoftonline.com/organizations',redirectUri:location.hostname==='localhost'||location.hostname==='127.0.0.1'?'http://localhost:3000/':'https://ebakojoseph.github.io/audit_toolkit/'},cache:{cacheLocation:'localStorage',storeAuthStateInCookie:false}};
+          const instance=new msal.PublicClientApplication(cfg);
+          await instance.initialize();
+          await instance.handleRedirectPromise();
+          const account=instance.getActiveAccount()||instance.getAllAccounts()[0];
+          if(!account){go();return null}
+          instance.setActiveAccount(account);
+          window.assessmentMsalInstance=instance;
+          window.__assessmentAuthReady=true;
+          return account;
+        }catch(e){console.error('[assessment auth]',e);go();return null}
+      };
+    })();
+  </script>
 
-<script id="shared-auth-project-patch">
-(function(){
-  const SIGNOUT_KEY='building-diagnostics-signout';
-  const CHANNEL_NAME='building-diagnostics-auth';
-  const DASHBOARD=location.hostname==='localhost'||location.hostname==='127.0.0.1'?'http://localhost:3000/':'https://ebakojoseph.github.io/audit_toolkit/';
-  let redirecting=false;
-  function goHome(){if(!redirecting){redirecting=true;location.replace(DASHBOARD)}}
-  addEventListener('storage',e=>{if(e.key===SIGNOUT_KEY)goHome()});
-  if(typeof BroadcastChannel==='function'){const c=new BroadcastChannel(CHANNEL_NAME);c.onmessage=e=>{if(e.data?.type==='SIGNED_OUT')goHome()}}
-  window.__requireSharedAuth=async function(){
-    if(!window.msal)return null;
-    const cfg={auth:{clientId:'f21c7beb-f07a-4f63-a384-84272182483e',authority:'https://login.microsoftonline.com/organizations',redirectUri:DASHBOARD},cache:{cacheLocation:'localStorage',storeAuthStateInCookie:false}};
-    try{const m=new msal.PublicClientApplication(cfg);await m.initialize();await m.handleRedirectPromise();const a=m.getActiveAccount()||m.getAllAccounts()[0];if(!a){goHome();return null}m.setActiveAccount(a);window.__sharedMsal=m;return a}catch(e){console.error(e);goHome();return null}
-  };
-  window.__getProjectFromDashboard=function(){
-    const id=new URLSearchParams(location.search).get('projectId');
-    if(!id)return null;
-    let list=[];try{list=JSON.parse(localStorage.getItem('audit-dashboard-v3')||'[]')}catch(e){}
-    return list.find(p=>String(p.id)===String(id))||null;
-  };
-})();
-</script>
+  <script id="shared-auth-project-patch">
+    (function(){
+      const SIGNOUT_KEY='building-diagnostics-signout';
+      const CHANNEL_NAME='building-diagnostics-auth';
+      const DASHBOARD=location.hostname==='localhost'||location.hostname==='127.0.0.1'?'http://localhost:3000/':'https://ebakojoseph.github.io/audit_toolkit/';
+      let redirecting=false;
+      function goHome(){if(!redirecting){redirecting=true;location.replace(DASHBOARD)}}
+      addEventListener('storage',e=>{if(e.key===SIGNOUT_KEY)goHome()});
+      if(typeof BroadcastChannel==='function'){const c=new BroadcastChannel(CHANNEL_NAME);c.onmessage=e=>{if(e.data?.type==='SIGNED_OUT')goHome()}}
+      window.__requireSharedAuth=async function(){
+        if(!window.msal)return null;
+        const cfg={auth:{clientId:'f21c7beb-f07a-4f63-a384-84272182483e',authority:'https://login.microsoftonline.com/organizations',redirectUri:DASHBOARD},cache:{cacheLocation:'localStorage',storeAuthStateInCookie:false}};
+        try{const m=new msal.PublicClientApplication(cfg);await m.initialize();await m.handleRedirectPromise();const a=m.getActiveAccount()||m.getAllAccounts()[0];if(!a){goHome();return null}m.setActiveAccount(a);window.__sharedMsal=m;return a}catch(e){console.error(e);goHome();return null}
+      };
+      window.__getProjectFromDashboard=function(){
+        const id=new URLSearchParams(location.search).get('projectId');
+        if(!id)return null;
+        let list=[];try{list=JSON.parse(localStorage.getItem('audit-dashboard-v3')||'[]')}catch(e){}
+        return list.find(p=>String(p.id)===String(id))||null;
+      };
+    })();
+  </script>
 </head>
 
 
 <body>
 
-  <!-- =========================================================
-       HEADER
-  ========================================================== -->
+<!-- =========================================================
+     HEADER
+========================================================== -->
 
-   <header
-    class="fixed top-0 left-0 right-0 z-50 bg-[#0f2040] text-white shadow-lg h-[60px]"
-  >
-    <div class="flex items-center h-full px-4 gap-3">
+<header
+        class="fixed top-0 left-0 right-0 z-50 bg-[#0f2040] text-white shadow-lg h-[60px]"
+>
+  <div class="flex items-center h-full px-4 gap-3">
 
-      <button
-        id="mobile-menu"
-        class="md:hidden p-2"
-        type="button"
-      >
-        <i data-lucide="menu"></i>
-      </button>
+    <button
+            id="mobile-menu"
+            class="md:hidden p-2"
+            type="button"
+    >
+      <i data-lucide="menu"></i>
+    </button>
 
-      <i
-        data-lucide="plug-zap"
-        class="w-5 h-5 text-blue-300"
-      ></i>
+    <i
+            data-lucide="plug-zap"
+            class="w-5 h-5 text-blue-300"
+    ></i>
 
-      <span class="font-bold text-sm md:text-base whitespace-nowrap">
+    <span class="font-bold text-sm md:text-base whitespace-nowrap">
         Equipment Audit
       </span>
 
-      <div class="flex-1 hidden sm:flex items-center gap-2 mx-4">
-        <div class="flex-1 bg-[#1a3460] rounded-full h-2.5 overflow-hidden">
-          <div
-            id="progress-fill"
-            class="h-full bg-[#4797e7] rounded-full"
-            style="width: 0%"
-          ></div>
-        </div>
-        <span
-          id="progress-pct"
-          class="text-xs font-semibold text-blue-200">
-          </span>
+    <div class="flex-1 hidden sm:flex items-center gap-2 mx-4">
+      <div class="flex-1 bg-[#1a3460] rounded-full h-2.5 overflow-hidden">
+        <div
+                id="progress-fill"
+                class="h-full bg-[#4797e7] rounded-full"
+                style="width: 0%"
+        ></div>
       </div>
 
-      <!-- Right Section: Swipeable horizontal scroll container matching Code 2 -->
-      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap max-w-full py-1 no-scrollbar">
-        
-        <!-- Dashboard Action Buttons (Unchanged contents from Code 1) -->
-        <div id="dashboard-actions" class="flex gap-2 shrink-0">
+      <span
+              id="progress-pct"
+              class="text-xs font-semibold text-blue-200"
+      >
+          0%
+        </span>
+    </div>
 
-      <div class="flex items-center gap-2 ml-auto">
-<a
-  href="index.html"
-  id="btn-home"
+    <div class="flex items-center gap-2 ml-auto">
+      <a
+              href="index.html"
+              id="btn-home"
+              class="flex items-center gap-1.5 bg-navy-700 hover:bg-navy-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition"
+              title="Return to Home"
+      >
+        <i data-lucide="home" class="w-3.5 h-3.5"></i>
+        <span class="hidden sm:inline">Home</span>
+      </a>
+      <button
+              id="btn-print"
+              class="bg-[#1e6fbd] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
+              type="button"
+      >
+        <i
+                data-lucide="printer"
+                class="inline w-3.5 h-3.5"
+        ></i>
 
-  class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
-  title="Return to Dashboard"
-
-  class="flex items-center gap-1.5 bg-navy-700 hover:bg-navy-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition"
-
-  class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
-
-  title="Return to Dashboard"
->
-  <i data-lucide="home" class="w-3.5 h-3.5"></i>
-  <span class="hidden sm:inline">Dashboard</span>
-</a>
-        <button
-          id="btn-print"
-          class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
-          type="button">
-
-      <!-- Right Section: Swipeable horizontal scroll container matching Code 2 -->
-      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap max-w-full py-1 no-scrollbar">
-        
-        <!-- Dashboard Action Buttons (Unchanged contents from Code 1) -->
-        <div id="dashboard-actions" class="flex gap-2 shrink-0">
-      <div class="flex items-center gap-2 ml-auto">
-<a
-  href="index.html"
-  id="btn-home"
-
-  class="flex items-center gap-1.5 bg-navy-700 hover:bg-navy-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition"
-
-  class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
-  title="Return to Dashboard"
->
-  <i data-lucide="home" class="w-3.5 h-3.5"></i>
-  <span class="hidden sm:inline">Dashboard</span>
-</a>
-        <button
-          id="btn-print"
-          class="btn bg-[#1a3460] flex items-center gap-1.5 shrink-0"
-          type="button">
-
-                  </div>
-
-          class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
-          type="button">
-
-          class="btn bg-[#1a3460] flex items-center gap-1.5 shrink-0"
-          type="button">
-
-          class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
-          type="button">
-	<i
-            data-lucide="printer" class=""w-4 h-4""
-          ></i>
-
-          <span class="hidden sm:inline">
+        <span class="hidden sm:inline">
             Print
           </span>
-        </button>
+      </button>
 
-        <button
-          id="btn-reset"
-          class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
-          type="button"
-        >
-          <i
-            data-lucide="rotate-ccw"
-            class="inline w-3.5 h-3.5"
-          ></i>
+      <button
+              id="btn-reset"
+              class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
+              type="button"
+      >
+        <i
+                data-lucide="rotate-ccw"
+                class="inline w-3.5 h-3.5"
+        ></i>
 
-          <span class="hidden sm:inline">
+        <span class="hidden sm:inline">
             Reset
           </span>
-        </button>
+      </button>
 
-      </div>
     </div>
-    <div class="flex items-center gap-2 ml-auto flex-shrink-0">
-  </header>
+  </div>
+  <div class="flex items-center gap-2 ml-auto flex-shrink-0">
+</header>
 
 
-  <!-- =========================================================
-       APPLICATION LAYOUT
-  ========================================================== -->
+<!-- =========================================================
+     APPLICATION LAYOUT
+========================================================== -->
 
-  <div class="flex flex-1 pt-[60px] min-h-screen">
+<div class="flex flex-1 pt-[60px] min-h-screen">
 
-    <!-- Desktop sidebar -->
+  <!-- Desktop sidebar -->
 
-    <aside
-      id="sidebar"
-      class="sidebar hidden md:flex flex-col w-56 lg:w-60 bg-[#0f2040] text-white fixed top-[60px] bottom-0 left-0 z-40 overflow-y-auto"
-    >
-      <nav
-        id="sidebar-nav"
-        class="flex flex-col py-3 px-2 gap-0.5"
-      ></nav>
-
-      <div
-        class="mt-auto p-4 border-t border-[#1a3460] text-[10px] text-slate-400 text-center"
-      >
-        Equipment Audit Tool<br>
-        v1.0
-      </div>
-    </aside>
-
-
-    <!-- Mobile navigation -->
+  <aside
+          id="sidebar"
+          class="sidebar hidden md:flex flex-col w-56 lg:w-60 bg-[#0f2040] text-white fixed top-[60px] bottom-0 left-0 z-40 overflow-y-auto"
+  >
+    <nav
+            id="sidebar-nav"
+            class="flex flex-col py-3 px-2 gap-0.5"
+    ></nav>
 
     <div
-      id="mobile-overlay"
-      class="fixed inset-0 bg-black/50 z-50 hidden"
+            class="mt-auto p-4 border-t border-[#1a3460] text-[10px] text-slate-400 text-center"
     >
-      <aside class="w-72 bg-[#0f2040] text-white h-full">
-
-        <div
-          class="flex justify-between p-4 border-b border-[#1a3460]"
-        >
-          <b>
-            Sections
-          </b>
-
-          <button
-            id="mobile-close"
-            type="button"
-          >
-            ✕
-          </button>
-        </div>
-
-        <nav
-          id="mobile-nav"
-          class="flex flex-col py-3 px-2"
-        ></nav>
-
-      </aside>
+      Equipment Audit Tool<br>
+      v1.0
     </div>
+  </aside>
 
 
-    <!-- Main content -->
+  <!-- Mobile navigation -->
 
-    <main
-      id="main"
-      class="flex-1 md:ml-56 lg:ml-60 p-4 md:p-6 pb-20 overflow-y-auto"
-    >
+  <div
+          id="mobile-overlay"
+          class="fixed inset-0 bg-black/50 z-50 hidden"
+  >
+    <aside class="w-72 bg-[#0f2040] text-white h-full">
 
-      <!-- =====================================================
-           SECTION 0: SITE INFORMATION
-      ====================================================== -->
-
-      <section
-        class="section-panel active"
-        data-section="0"
+      <div
+              class="flex justify-between p-4 border-b border-[#1a3460]"
       >
-        <div class="mb-1">
+        <b>
+          Sections
+        </b>
 
-          <h2
-            class="text-xl font-bold text-[#0f2040] flex items-center gap-2"
-          >
-            <i
-              data-lucide="building-2"
-              class="w-5 h-5 text-[#1e6fbd]"
-            ></i>
-
-            Site Information
-          </h2>
-
-          <p
-            id="completion-0"
-            class="text-xs text-slate-500 mt-1"
-          ></p>
-
-        </div>
-
-
-        <!-- Dashboard project information -->
-
-        <div
-          id="project-context"
-          class="card mt-3 border-l-4 border-[#1e6fbd]"
+        <button
+                id="mobile-close"
+                type="button"
         >
-
-          <div
-            class="flex items-center justify-between gap-3 mb-4"
-          >
-            <div>
-              <h3 class="text-sm font-bold text-[#0f2040]">
-                Dashboard Project
-              </h3>
-
-              <p
-                id="project-context-text"
-                class="text-xs text-slate-500 mt-1"
-              >
-                General project information is loaded from the project dashboard.
-              </p>
-            </div>
-
-            <span
-              id="project-status"
-              class="badge badge-good"
-            >
-              Project loaded
-            </span>
-          </div>
-
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-            <label class="text-xs font-semibold">
-              Site / Project ID
-
-              <input
-                data-project-field="project_id"
-                class="field mt-1"
-                readonly
-              >
-            </label>
-
-
-            <label class="text-xs font-semibold">
-              Client / Organization
-
-              <input
-                data-project-field="client"
-                class="field mt-1"
-                readonly
-              >
-            </label>
-
-
-            <label class="text-xs font-semibold">
-              Facility Name
-
-              <input
-                data-project-field="facility"
-                class="field mt-1"
-                readonly
-              >
-            </label>
-
-
-            <label class="text-xs font-semibold">
-              Auditor
-
-              <input
-                data-project-field="auditor"
-                class="field mt-1"
-                readonly
-              >
-            </label>
-
-
-            <label class="text-xs font-semibold">
-              Date of Audit
-
-              <input
-                data-project-field="audit_date"
-                type="date"
-                class="field mt-1"
-                readonly
-              >
-            </label>
-
-
-            <label class="text-xs font-semibold">
-              Building Type
-
-              <select
-                data-project-field="facility_type"
-                class="field mt-1"
-                disabled
-              >
-                <option value="">
-                  — Select —
-                </option>
-
-                <option value="Residential Single-Family">
-                  Residential Single-Family
-                </option>
-
-                <option value="Residential Multi-Unit">
-                  Residential Multi-Unit
-                </option>
-
-                <option value="Commercial">
-                  Commercial
-                </option>
-
-                <option value="Industrial">
-                  Industrial
-                </option>
-
-                <option value="Institutional">
-                  Institutional
-                </option>
-
-                <option value="Mixed-Use">
-                  Mixed-Use
-                </option>
-              </select>
-            </label>
-
-
-            <label class="text-xs font-semibold md:col-span-2">
-              Street Address
-
-              <input
-                data-project-field="address"
-                class="field mt-1"
-                readonly
-              >
-            </label>
-
-
-            <label class="text-xs font-semibold">
-              City
-
-              <input
-                data-project-field="city"
-                class="field mt-1"
-                readonly
-              >
-            </label>
-
-
-            <label class="text-xs font-semibold">
-              Province / State
-
-              <input
-                data-project-field="province"
-                class="field mt-1"
-                readonly
-              >
-            </label>
-
-
-            <label class="text-xs font-semibold">
-              Gross Floor Area
-
-              <input
-                data-project-field="floor_area"
-                type="number"
-                class="field mt-1"
-                readonly
-              >
-            </label>
-
-
-            <label class="text-xs font-semibold">
-              Area Unit
-
-              <select
-                data-project-field="area_unit"
-                class="field mt-1"
-                disabled
-              >
-                <option value="m²">
-                  m²
-                </option>
-
-                <option value="ft²">
-                  ft²
-                </option>
-              </select>
-            </label>
-
-
-            <label class="text-xs font-semibold md:col-span-2">
-              Project Notes
-
-              <textarea
-                data-project-field="notes"
-                rows="3"
-                class="field mt-1"
-                readonly
-              ></textarea>
-            </label>
-
-          </div>
-        </div>
-
-
-        <!-- Equipment-specific site information -->
-
-        <div class="card mt-3">
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-            <label class="text-xs font-semibold">
-              Number of Stories
-
-              <input
-                type="number"
-                data-field="stories"
-                class="field mt-1"
-              >
-            </label>
-
-
-            <label class="text-xs font-semibold md:col-span-2">
-              Equipment Audit Notes / Special Conditions
-
-              <textarea
-                data-field="siteNotes"
-                rows="3"
-                class="field mt-1"
-              ></textarea>
-            </label>
-
-          </div>
-        </div>
-
-      </section>
-
-
-      <!-- =====================================================
-           EQUIPMENT SECTIONS
-      ====================================================== -->
-
-      <section
-        class="section-panel"
-        data-section="1"
-      >
-        <section-header
-          title="Furnace"
-          icon="flame"
-          index="1"
-        ></section-header>
-
-        <div id="panel-furnace"></div>
-      </section>
-
-
-      <section
-        class="section-panel"
-        data-section="2"
-      >
-        <section-header
-          title="Boiler"
-          icon="droplets"
-          index="2"
-        ></section-header>
-
-        <div id="panel-boiler"></div>
-      </section>
-
-
-      <section
-        class="section-panel"
-        data-section="3"
-      >
-        <section-header
-          title="Heat Pump"
-          icon="refresh-cw"
-          index="3"
-        ></section-header>
-
-        <div id="panel-heatPump"></div>
-      </section>
-
-
-      <section
-        class="section-panel"
-        data-section="4"
-      >
-        <section-header
-          title="Air Conditioning"
-          icon="snowflake"
-          index="4"
-        ></section-header>
-
-        <div id="panel-ac"></div>
-      </section>
-
-
-      <section
-        class="section-panel"
-        data-section="5"
-      >
-        <section-header
-          title="Ventilation"
-          icon="wind"
-          index="5"
-        ></section-header>
-
-        <div id="panel-ventilation"></div>
-      </section>
-
-
-      <section
-        class="section-panel"
-        data-section="6"
-      >
-        <section-header
-          title="Appliances"
-          icon="refrigerator"
-          index="6"
-        ></section-header>
-
-        <div id="panel-appliances"></div>
-      </section>
-
-
-      <section
-        class="section-panel"
-        data-section="7"
-      >
-        <section-header
-          title="Lighting"
-          icon="lightbulb"
-          index="7"
-        ></section-header>
-
-        <div id="panel-lighting"></div>
-      </section>
-
-
-      <!-- =====================================================
-           SECTION 8: FACILITY ENERGY
-      ====================================================== -->
-
-      <section
-        class="section-panel"
-        data-section="8"
-      >
-        <section-header
-          title="Facility Energy"
-          icon="bar-chart-3"
-          index="8"
-        ></section-header>
-
-        <div class="card mt-3">
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-            <label class="text-xs font-semibold">
-              Baseline Period
-
-              <input
-                data-field="baselinePeriod"
-                class="field mt-1"
-                placeholder="e.g. Jan-Dec 2025"
-              >
-            </label>
-
-
-            <label class="text-xs font-semibold">
-              Electricity Utility Provider
-
-              <input
-                data-field="electricProvider"
-                class="field mt-1"
-              >
-            </label>
-
-
-            <label class="text-xs font-semibold">
-              Gas Utility Provider
-
-              <input
-                data-field="gasProvider"
-                class="field mt-1"
-              >
-            </label>
-
-          </div>
-
-
-          <h3 class="text-sm font-bold text-[#0f2040] mt-6 mb-3">
-            Electricity Utility Bills
-          </h3>
-
-
-          <div class="overflow-x-auto">
-
-            <table class="w-full text-sm">
-
-              <thead class="bg-slate-100 text-xs font-semibold">
-                <tr>
-                  <th class="p-2 text-left">
-                    Period
-                  </th>
-
-                  <th class="p-2 text-left">
-                    Start
-                  </th>
-
-                  <th class="p-2 text-left">
-                    End
-                  </th>
-
-                  <th class="p-2 text-right">
-                    kWh
-                  </th>
-
-                  <th class="p-2 text-right">
-                    Peak kW
-                  </th>
-
-                  <th class="p-2 text-right">
-                    Cost
-                  </th>
-
-                  <th class="p-2">
-                    Notes
-                  </th>
-
-                  <th class="p-2 no-print"></th>
-                </tr>
-              </thead>
-
-              <tbody id="utility-body"></tbody>
-
-            </table>
-          </div>
-
-
-          <button
-            id="add-utility"
-            class="mt-3 text-xs font-semibold text-[#1e6fbd] no-print"
-            type="button"
-          >
-            ＋ Add Billing Period
-          </button>
-
-
-          <div
-            id="energy-summary"
-            class="grid grid-cols-2 md:grid-cols-5 gap-3 mt-5"
-          ></div>
-
-        </div>
-      </section>
-
-
-      <!-- =====================================================
-           SECTION 9: RECOMMENDATIONS
-      ====================================================== -->
-
-      <section
-        class="section-panel"
-        data-section="9"
-      >
-        <section-header
-          title="Recommendations"
-          icon="clipboard-list"
-          index="9"
-        ></section-header>
-
-        <div class="card mt-3">
-
-          <div class="overflow-x-auto">
-
-            <table class="w-full text-sm">
-
-              <thead class="bg-slate-100 text-xs font-semibold">
-                <tr>
-                  <th class="p-2">
-                    Priority
-                  </th>
-
-                  <th class="p-2 text-left">
-                    Equipment / Area
-                  </th>
-
-                  <th class="p-2 text-left">
-                    Recommendation
-                  </th>
-
-                  <th class="p-2 text-right">
-                    Estimated Cost
-                  </th>
-
-                  <th class="p-2 text-right">
-                    Annual Savings kWh
-                  </th>
-
-                  <th class="p-2">
-                    Status
-                  </th>
-
-                  <th class="p-2 no-print"></th>
-                </tr>
-              </thead>
-
-              <tbody id="recommendation-body"></tbody>
-
-            </table>
-          </div>
-
-
-          <button
-            id="add-recommendation"
-            class="mt-3 text-xs font-semibold text-[#1e6fbd] no-print"
-            type="button"
-          >
-            ＋ Add Recommendation
-          </button>
-
-        </div>
-      </section>
-
-
-      <!-- =====================================================
-           SECTION 10: M&V SUMMARY
-      ====================================================== -->
-
-      <section
-        class="section-panel"
-        data-section="10"
-      >
-        <section-header
-          title="M&V Summary"
-          icon="check-circle-2"
-          index="10"
-        ></section-header>
-
-        <div class="card mt-3">
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-            <label class="text-xs font-semibold">
-              Reporting Period
-
-              <input
-                data-field="reportingPeriod"
-                class="field mt-1"
-              >
-            </label>
-
-
-            <label class="text-xs font-semibold">
-              Verification Method
-
-              <input
-                data-field="verificationMethod"
-                class="field mt-1"
-                placeholder="Utility bills, submeters, logger..."
-              >
-            </label>
-
-
-            <label class="text-xs font-semibold md:col-span-2">
-              Comparison Notes
-
-              <textarea
-                data-field="mvNotes"
-                rows="5"
-                class="field mt-1"
-              ></textarea>
-            </label>
-
-          </div>
-
-
-          <div
-            id="mv-summary"
-            class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5"
-          ></div>
-
-        </div>
-      </section>
-
-    </main>
+          ✕
+        </button>
+      </div>
+
+      <nav
+              id="mobile-nav"
+              class="flex flex-col py-3 px-2"
+      ></nav>
+
+    </aside>
   </div>
 
 
-  <!-- =========================================================
-       BOTTOM STATUS BAR
-  ========================================================== -->
+  <!-- Main content -->
 
-  <div
-    id="bottom-bar"
-    class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-300 z-40 px-4 py-2 flex items-center justify-between text-xs"
+  <main
+          id="main"
+          class="flex-1 md:ml-56 lg:ml-60 p-4 md:p-6 pb-20 overflow-y-auto"
   >
+
+    <!-- =====================================================
+         SECTION 0: SITE INFORMATION
+    ====================================================== -->
+
+    <section
+            class="section-panel active"
+            data-section="0"
+    >
+      <div class="mb-1">
+
+        <h2
+                class="text-xl font-bold text-[#0f2040] flex items-center gap-2"
+        >
+          <i
+                  data-lucide="building-2"
+                  class="w-5 h-5 text-[#1e6fbd]"
+          ></i>
+
+          Site Information
+        </h2>
+
+        <p
+                id="completion-0"
+                class="text-xs text-slate-500 mt-1"
+        ></p>
+
+      </div>
+
+
+      <!-- Dashboard project information -->
+
+      <div
+              id="project-context"
+              class="card mt-3 border-l-4 border-[#1e6fbd]"
+      >
+
+        <div
+                class="flex items-center justify-between gap-3 mb-4"
+        >
+          <div>
+            <h3 class="text-sm font-bold text-[#0f2040]">
+              Dashboard Project
+            </h3>
+
+            <p
+                    id="project-context-text"
+                    class="text-xs text-slate-500 mt-1"
+            >
+              General project information is loaded from the project dashboard.
+            </p>
+          </div>
+
+          <span
+                  id="project-status"
+                  class="badge badge-good"
+          >
+              Project loaded
+            </span>
+        </div>
+
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          <label class="text-xs font-semibold">
+            Site / Project ID
+
+            <input
+                    data-project-field="project_id"
+                    class="field mt-1"
+                    readonly
+            >
+          </label>
+
+
+          <label class="text-xs font-semibold">
+            Client / Organization
+
+            <input
+                    data-project-field="client"
+                    class="field mt-1"
+                    readonly
+            >
+          </label>
+
+
+          <label class="text-xs font-semibold">
+            Facility Name
+
+            <input
+                    data-project-field="facility"
+                    class="field mt-1"
+                    readonly
+            >
+          </label>
+
+
+          <label class="text-xs font-semibold">
+            Auditor
+
+            <input
+                    data-project-field="auditor"
+                    class="field mt-1"
+                    readonly
+            >
+          </label>
+
+
+          <label class="text-xs font-semibold">
+            Date of Audit
+
+            <input
+                    data-project-field="audit_date"
+                    type="date"
+                    class="field mt-1"
+                    readonly
+            >
+          </label>
+
+
+          <label class="text-xs font-semibold">
+            Building Type
+
+            <select
+                    data-project-field="facility_type"
+                    class="field mt-1"
+                    disabled
+            >
+              <option value="">
+                — Select —
+              </option>
+
+              <option value="Residential Single-Family">
+                Residential Single-Family
+              </option>
+
+              <option value="Residential Multi-Unit">
+                Residential Multi-Unit
+              </option>
+
+              <option value="Commercial">
+                Commercial
+              </option>
+
+              <option value="Industrial">
+                Industrial
+              </option>
+
+              <option value="Institutional">
+                Institutional
+              </option>
+
+              <option value="Mixed-Use">
+                Mixed-Use
+              </option>
+            </select>
+          </label>
+
+
+          <label class="text-xs font-semibold md:col-span-2">
+            Street Address
+
+            <input
+                    data-project-field="address"
+                    class="field mt-1"
+                    readonly
+            >
+          </label>
+
+
+          <label class="text-xs font-semibold">
+            City
+
+            <input
+                    data-project-field="city"
+                    class="field mt-1"
+                    readonly
+            >
+          </label>
+
+
+          <label class="text-xs font-semibold">
+            Province / State
+
+            <input
+                    data-project-field="province"
+                    class="field mt-1"
+                    readonly
+            >
+          </label>
+
+
+          <label class="text-xs font-semibold">
+            Gross Floor Area
+
+            <input
+                    data-project-field="floor_area"
+                    type="number"
+                    class="field mt-1"
+                    readonly
+            >
+          </label>
+
+
+          <label class="text-xs font-semibold">
+            Area Unit
+
+            <select
+                    data-project-field="area_unit"
+                    class="field mt-1"
+                    disabled
+            >
+              <option value="m²">
+                m²
+              </option>
+
+              <option value="ft²">
+                ft²
+              </option>
+            </select>
+          </label>
+
+
+          <label class="text-xs font-semibold md:col-span-2">
+            Project Notes
+
+            <textarea
+                    data-project-field="notes"
+                    rows="3"
+                    class="field mt-1"
+                    readonly
+            ></textarea>
+          </label>
+
+        </div>
+      </div>
+
+
+      <!-- Equipment-specific site information -->
+
+      <div class="card mt-3">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          <label class="text-xs font-semibold">
+            Number of Stories
+
+            <input
+                    type="number"
+                    data-field="stories"
+                    class="field mt-1"
+            >
+          </label>
+
+
+          <label class="text-xs font-semibold md:col-span-2">
+            Equipment Audit Notes / Special Conditions
+
+            <textarea
+                    data-field="siteNotes"
+                    rows="3"
+                    class="field mt-1"
+            ></textarea>
+          </label>
+
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         EQUIPMENT SECTIONS
+    ====================================================== -->
+
+    <section
+            class="section-panel"
+            data-section="1"
+    >
+      <section-header
+              title="Furnace"
+              icon="flame"
+              index="1"
+      ></section-header>
+
+      <div id="panel-furnace"></div>
+    </section>
+
+
+    <section
+            class="section-panel"
+            data-section="2"
+    >
+      <section-header
+              title="Boiler"
+              icon="droplets"
+              index="2"
+      ></section-header>
+
+      <div id="panel-boiler"></div>
+    </section>
+
+
+    <section
+            class="section-panel"
+            data-section="3"
+    >
+      <section-header
+              title="Heat Pump"
+              icon="refresh-cw"
+              index="3"
+      ></section-header>
+
+      <div id="panel-heatPump"></div>
+    </section>
+
+
+    <section
+            class="section-panel"
+            data-section="4"
+    >
+      <section-header
+              title="Air Conditioning"
+              icon="snowflake"
+              index="4"
+      ></section-header>
+
+      <div id="panel-ac"></div>
+    </section>
+
+
+    <section
+            class="section-panel"
+            data-section="5"
+    >
+      <section-header
+              title="Ventilation"
+              icon="wind"
+              index="5"
+      ></section-header>
+
+      <div id="panel-ventilation"></div>
+    </section>
+
+
+    <section
+            class="section-panel"
+            data-section="6"
+    >
+      <section-header
+              title="Appliances"
+              icon="refrigerator"
+              index="6"
+      ></section-header>
+
+      <div id="panel-appliances"></div>
+    </section>
+
+
+    <section
+            class="section-panel"
+            data-section="7"
+    >
+      <section-header
+              title="Lighting"
+              icon="lightbulb"
+              index="7"
+      ></section-header>
+
+      <div id="panel-lighting"></div>
+    </section>
+
+
+    <!-- =====================================================
+         SECTION 8: FACILITY ENERGY
+    ====================================================== -->
+
+    <section
+            class="section-panel"
+            data-section="8"
+    >
+      <section-header
+              title="Facility Energy"
+              icon="bar-chart-3"
+              index="8"
+      ></section-header>
+
+      <div class="card mt-3">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+          <label class="text-xs font-semibold">
+            Baseline Period
+
+            <input
+                    data-field="baselinePeriod"
+                    class="field mt-1"
+                    placeholder="e.g. Jan-Dec 2025"
+            >
+          </label>
+
+
+          <label class="text-xs font-semibold">
+            Electricity Utility Provider
+
+            <input
+                    data-field="electricProvider"
+                    class="field mt-1"
+            >
+          </label>
+
+
+          <label class="text-xs font-semibold">
+            Gas Utility Provider
+
+            <input
+                    data-field="gasProvider"
+                    class="field mt-1"
+            >
+          </label>
+
+        </div>
+
+
+        <h3 class="text-sm font-bold text-[#0f2040] mt-6 mb-3">
+          Electricity Utility Bills
+        </h3>
+
+
+        <div class="overflow-x-auto">
+
+          <table class="w-full text-sm">
+
+            <thead class="bg-slate-100 text-xs font-semibold">
+            <tr>
+              <th class="p-2 text-left">
+                Period
+              </th>
+
+              <th class="p-2 text-left">
+                Start
+              </th>
+
+              <th class="p-2 text-left">
+                End
+              </th>
+
+              <th class="p-2 text-right">
+                kWh
+              </th>
+
+              <th class="p-2 text-right">
+                Peak kW
+              </th>
+
+              <th class="p-2 text-right">
+                Cost
+              </th>
+
+              <th class="p-2">
+                Notes
+              </th>
+
+              <th class="p-2 no-print"></th>
+            </tr>
+            </thead>
+
+            <tbody id="utility-body"></tbody>
+
+          </table>
+        </div>
+
+
+        <button
+                id="add-utility"
+                class="mt-3 text-xs font-semibold text-[#1e6fbd] no-print"
+                type="button"
+        >
+          ＋ Add Billing Period
+        </button>
+
+
+        <div
+                id="energy-summary"
+                class="grid grid-cols-2 md:grid-cols-5 gap-3 mt-5"
+        ></div>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+         SECTION 9: RECOMMENDATIONS
+    ====================================================== -->
+
+    <section
+            class="section-panel"
+            data-section="9"
+    >
+      <section-header
+              title="Recommendations"
+              icon="clipboard-list"
+              index="9"
+      ></section-header>
+
+      <div class="card mt-3">
+
+        <div class="overflow-x-auto">
+
+          <table class="w-full text-sm">
+
+            <thead class="bg-slate-100 text-xs font-semibold">
+            <tr>
+              <th class="p-2">
+                Priority
+              </th>
+
+              <th class="p-2 text-left">
+                Equipment / Area
+              </th>
+
+              <th class="p-2 text-left">
+                Recommendation
+              </th>
+
+              <th class="p-2 text-right">
+                Estimated Cost
+              </th>
+
+              <th class="p-2 text-right">
+                Annual Savings kWh
+              </th>
+
+              <th class="p-2">
+                Status
+              </th>
+
+              <th class="p-2 no-print"></th>
+            </tr>
+            </thead>
+
+            <tbody id="recommendation-body"></tbody>
+
+          </table>
+        </div>
+
+
+        <button
+                id="add-recommendation"
+                class="mt-3 text-xs font-semibold text-[#1e6fbd] no-print"
+                type="button"
+        >
+          ＋ Add Recommendation
+        </button>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+         SECTION 10: M&V SUMMARY
+    ====================================================== -->
+
+    <section
+            class="section-panel"
+            data-section="10"
+    >
+      <section-header
+              title="M&V Summary"
+              icon="check-circle-2"
+              index="10"
+      ></section-header>
+
+      <div class="card mt-3">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          <label class="text-xs font-semibold">
+            Reporting Period
+
+            <input
+                    data-field="reportingPeriod"
+                    class="field mt-1"
+            >
+          </label>
+
+
+          <label class="text-xs font-semibold">
+            Verification Method
+
+            <input
+                    data-field="verificationMethod"
+                    class="field mt-1"
+                    placeholder="Utility bills, submeters, logger..."
+            >
+          </label>
+
+
+          <label class="text-xs font-semibold md:col-span-2">
+            Comparison Notes
+
+            <textarea
+                    data-field="mvNotes"
+                    rows="5"
+                    class="field mt-1"
+            ></textarea>
+          </label>
+
+        </div>
+
+
+        <div
+                id="mv-summary"
+                class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5"
+        ></div>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+
+<!-- =========================================================
+     BOTTOM STATUS BAR
+========================================================== -->
+
+<div
+        id="bottom-bar"
+        class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-300 z-40 px-4 py-2 flex items-center justify-between text-xs"
+>
     <span>
       <b id="checked-count">0</b>
       of
@@ -1151,2038 +1109,2038 @@
       fields completed
     </span>
 
-    <span
-      id="overall-status"
-      class="font-semibold text-[#1e6fbd]"
-    ></span>
-  </div>
+  <span
+          id="overall-status"
+          class="font-semibold text-[#1e6fbd]"
+  ></span>
+</div>
 
 
-  <!-- Toast -->
+<!-- Toast -->
 
-  <div id="toast" class="toast">
-    Saved
-  </div>
-
-
-  <!-- =========================================================
-       JAVASCRIPT
-  ========================================================== -->
-
-  <script>
-const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
-
-    /* =========================================================
-       APPLICATION STATE
-    ========================================================== */
-
-    const STORAGE_KEY = 'equipment-audit-sibling-v1';
-    const DASHBOARD_STORAGE_KEY = 'audit-dashboard-v3';
-
-    const projectParams = new URLSearchParams(
-      window.location.search
-    );
-
-    const currentProjectId = projectParams.get('projectId') || projectParams.get('project');
-
-    let state = loadState();
-    let currentProject = null;
-    let activeSection = 0;
+<div id="toast" class="toast">
+  Saved
+</div>
 
 
-    const sections = [
-      ['Site Information', 'building-2'],
-      ['Furnace', 'flame'],
-      ['Boiler', 'droplets'],
-      ['Heat Pump', 'refresh-cw'],
-      ['Air Conditioning', 'snowflake'],
-      ['Ventilation', 'wind'],
-      ['Appliances', 'refrigerator'],
-      ['Lighting', 'lightbulb'],
-      ['Facility Energy', 'bar-chart-3'],
-      ['Recommendations', 'clipboard-list'],
-      ['M&V Summary', 'check-circle-2']
-    ];
+<!-- =========================================================
+     JAVASCRIPT
+========================================================== -->
 
+<script>
+  const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
-    const equipmentTypes = [
-      'furnace',
-      'boiler',
-      'heatPump',
-      'ac',
-      'ventilation'
-    ];
+      /* =========================================================
+         APPLICATION STATE
+      ========================================================== */
 
+      const STORAGE_KEY = 'equipment-audit-sibling-v1';
+      const DASHBOARD_STORAGE_KEY = 'audit-dashboard-v3';
 
-    /* =========================================================
-       DOM AND GENERAL HELPERS
-    ========================================================== */
-
-    function $(id) {
-      return document.getElementById(id);
-    }
-
-
-    function escapeHtml(value) {
-      return String(value ?? '').replace(
-        /[&<>"']/g,
-        character => ({
-          '&': '&amp;',
-          '<': '&lt;',
-          '>': '&gt;',
-          '"': '&quot;',
-          "'": '&#039;'
-        }[character])
+      const projectParams = new URLSearchParams(
+        window.location.search
       );
-    }
+
+      const currentProjectId = projectParams.get('projectId') || projectParams.get('project');
+
+      let state = loadState();
+      let currentProject = null;
+      let activeSection = 0;
 
 
-    function numberValue(value) {
-      const number = Number(value);
+      const sections = [
+        ['Site Information', 'building-2'],
+        ['Furnace', 'flame'],
+        ['Boiler', 'droplets'],
+        ['Heat Pump', 'refresh-cw'],
+        ['Air Conditioning', 'snowflake'],
+        ['Ventilation', 'wind'],
+        ['Appliances', 'refrigerator'],
+        ['Lighting', 'lightbulb'],
+        ['Facility Energy', 'bar-chart-3'],
+        ['Recommendations', 'clipboard-list'],
+        ['M&V Summary', 'check-circle-2']
+      ];
 
-      return Number.isFinite(number)
-        ? number
-        : 0;
-    }
+
+      const equipmentTypes = [
+        'furnace',
+        'boiler',
+        'heatPump',
+        'ac',
+        'ventilation'
+      ];
 
 
-    function formatNumber(value) {
-      return numberValue(value).toLocaleString(
-        undefined,
-        {
-          maximumFractionDigits: 1
+      /* =========================================================
+         DOM AND GENERAL HELPERS
+      ========================================================== */
+
+      function $(id) {
+        return document.getElementById(id);
+      }
+
+
+      function escapeHtml(value) {
+        return String(value ?? '').replace(
+          /[&<>"']/g,
+          character => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+          }[character])
+        );
+      }
+
+
+      function numberValue(value) {
+        const number = Number(value);
+
+        return Number.isFinite(number)
+          ? number
+          : 0;
+      }
+
+
+      function formatNumber(value) {
+        return numberValue(value).toLocaleString(
+          undefined,
+          {
+            maximumFractionDigits: 1
+          }
+        );
+      }
+
+
+      function showToast(message = 'Saved') {
+        const toast = $('toast');
+
+        toast.textContent = message;
+        toast.classList.add('show');
+
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 900);
+      }
+
+
+      function createBlankEquipment(name) {
+        return {
+          name,
+          location: '',
+          quantity: 1,
+          power: '',
+          unit: 'W',
+          load: 1,
+          hours: 0,
+          days: 365,
+          measured: '',
+          volts: '',
+          amps: '',
+          pf: 1,
+          condition: '',
+          recommendation: '',
+          notes: ''
+        };
+      }
+
+
+      /* =========================================================
+         DEFAULT STATE AND LOCAL STORAGE
+      ========================================================== */
+
+      function createInitialState() {
+        return {
+          auditDate: '',
+          auditor: '',
+          client: '',
+          facility: '',
+
+          address: '',
+          city: '',
+          province: '',
+
+          facilityType: '',
+          floorArea: '',
+          areaUnit: 'm²',
+
+          stories: '',
+          siteNotes: '',
+
+          baselinePeriod: '',
+          electricProvider: '',
+          gasProvider: '',
+
+          reportingPeriod: '',
+          verificationMethod: '',
+          mvNotes: '',
+
+          equipment: {
+            furnace: [
+              createBlankEquipment('Furnace')
+            ],
+
+            boiler: [
+              createBlankEquipment('Boiler')
+            ],
+
+            heatPump: [
+              createBlankEquipment('Heat Pump')
+            ],
+
+            ac: [
+              createBlankEquipment('Air Conditioner')
+            ],
+
+            ventilation: [
+              createBlankEquipment('Air Handling Unit')
+            ],
+
+            appliances: [
+              createBlankEquipment('Refrigerator'),
+              createBlankEquipment('Freezer'),
+              createBlankEquipment('Dishwasher'),
+              createBlankEquipment('Laundry Machine'),
+              createBlankEquipment('Clothes Dryer')
+            ],
+
+            lighting: [
+              {
+                area: '',
+                fixture: '',
+                qty: 1,
+                lamps: 1,
+                watt: 0,
+                driver: 0,
+                hours: 0,
+                days: 365,
+                measured: '',
+                controls: '',
+                upgrade: '',
+                notes: ''
+              }
+            ]
+          },
+
+          utilities: [],
+          recommendations: []
+        };
+      }
+
+
+      function loadState() {
+        try {
+          const storedState = JSON.parse(
+            localStorage.getItem(STORAGE_KEY) || 'null'
+          );
+
+          return storedState || createInitialState();
+
+        } catch (error) {
+          console.error(
+            'Could not load equipment audit data:',
+            error
+          );
+
+          return createInitialState();
         }
-      );
-    }
-
-
-    function showToast(message = 'Saved') {
-      const toast = $('toast');
-
-      toast.textContent = message;
-      toast.classList.add('show');
-
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 900);
-    }
-
-
-    function createBlankEquipment(name) {
-      return {
-        name,
-        location: '',
-        quantity: 1,
-        power: '',
-        unit: 'W',
-        load: 1,
-        hours: 0,
-        days: 365,
-        measured: '',
-        volts: '',
-        amps: '',
-        pf: 1,
-        condition: '',
-        recommendation: '',
-        notes: ''
-      };
-    }
-
-
-    /* =========================================================
-       DEFAULT STATE AND LOCAL STORAGE
-    ========================================================== */
-
-    function createInitialState() {
-      return {
-        auditDate: '',
-        auditor: '',
-        client: '',
-        facility: '',
-
-        address: '',
-        city: '',
-        province: '',
-
-        facilityType: '',
-        floorArea: '',
-        areaUnit: 'm²',
-
-        stories: '',
-        siteNotes: '',
-
-        baselinePeriod: '',
-        electricProvider: '',
-        gasProvider: '',
-
-        reportingPeriod: '',
-        verificationMethod: '',
-        mvNotes: '',
-
-        equipment: {
-          furnace: [
-            createBlankEquipment('Furnace')
-          ],
-
-          boiler: [
-            createBlankEquipment('Boiler')
-          ],
-
-          heatPump: [
-            createBlankEquipment('Heat Pump')
-          ],
-
-          ac: [
-            createBlankEquipment('Air Conditioner')
-          ],
-
-          ventilation: [
-            createBlankEquipment('Air Handling Unit')
-          ],
-
-          appliances: [
-            createBlankEquipment('Refrigerator'),
-            createBlankEquipment('Freezer'),
-            createBlankEquipment('Dishwasher'),
-            createBlankEquipment('Laundry Machine'),
-            createBlankEquipment('Clothes Dryer')
-          ],
-
-          lighting: [
-            {
-              area: '',
-              fixture: '',
-              qty: 1,
-              lamps: 1,
-              watt: 0,
-              driver: 0,
-              hours: 0,
-              days: 365,
-              measured: '',
-              controls: '',
-              upgrade: '',
-              notes: ''
-            }
-          ]
-        },
-
-        utilities: [],
-        recommendations: []
-      };
-    }
-
-
-    function loadState() {
-      try {
-        const storedState = JSON.parse(
-          localStorage.getItem(STORAGE_KEY) || 'null'
-        );
-
-        return storedState || createInitialState();
-
-      } catch (error) {
-        console.error(
-          'Could not load equipment audit data:',
-          error
-        );
-
-        return createInitialState();
-      }
-    }
-
-
-    function saveState() {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(state)
-      );
-
-      synchronizeDashboardProject();
-      updateProgress();
-      showToast();
-    }
-
-
-    /* =========================================================
-       DASHBOARD PROJECT LOADING
-    ========================================================== */
-
-    function loadDashboardProject() {
-      if (!currentProjectId) {
-        return null;
       }
 
-      try {
-        const projects = JSON.parse(
-          localStorage.getItem(
-            DASHBOARD_STORAGE_KEY
-          ) || '[]'
+
+      function saveState() {
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(state)
         );
 
-        return projects.find(
-          project => project.id === currentProjectId
-        ) || null;
+        synchronizeDashboardProject();
+        updateProgress();
+        showToast();
+      }
 
-      } catch (error) {
-        console.error(
-          'Could not load dashboard project:',
-          error
+
+      /* =========================================================
+         DASHBOARD PROJECT LOADING
+      ========================================================== */
+
+      function loadDashboardProject() {
+        if (!currentProjectId) {
+          return null;
+        }
+
+        try {
+          const projects = JSON.parse(
+            localStorage.getItem(
+              DASHBOARD_STORAGE_KEY
+            ) || '[]'
+          );
+
+          return projects.find(
+            project => project.id === currentProjectId
+          ) || null;
+
+        } catch (error) {
+          console.error(
+            'Could not load dashboard project:',
+            error
+          );
+
+          return null;
+        }
+      }
+
+
+      function populateDashboardProject(project) {
+        const fields = document.querySelectorAll(
+          '[data-project-field]'
         );
 
-        return null;
-      }
-    }
+        const status = $('project-status');
 
+        if (!project) {
+          fields.forEach(field => {
+            field.value = '';
+          });
 
-    function populateDashboardProject(project) {
-      const fields = document.querySelectorAll(
-        '[data-project-field]'
-      );
+          status.textContent = currentProjectId
+            ? 'Project not found'
+            : 'Opened independently';
 
-      const status = $('project-status');
+          status.className = currentProjectId
+            ? 'badge badge-poor'
+            : 'badge badge-good';
 
-      if (!project) {
-        fields.forEach(field => {
-          field.value = '';
-        });
-
-        status.textContent = currentProjectId
-          ? 'Project not found'
-          : 'Opened independently';
-
-        status.className = currentProjectId
-          ? 'badge badge-poor'
-          : 'badge badge-good';
-
-        return;
-      }
-
-      fields.forEach(field => {
-        const fieldName =
-          field.dataset.projectField;
-
-        field.value =
-          project[fieldName] ||
-          (fieldName === 'area_unit'
-            ? 'm²'
-            : '');
-      });
-
-      $('project-context-text').textContent = [
-        project.project_id,
-        project.facility,
-        project.address,
-        project.city,
-        project.province,
-        project.facility_type,
-        project.floor_area
-          ? `${project.floor_area} ${project.area_unit || 'm²'}`
-          : ''
-      ]
-        .filter(Boolean)
-        .join(' • ');
-
-      status.textContent = 'Project loaded';
-      status.className = 'badge badge-good';
-    }
-
-
-    function copyProjectFieldsToState(project) {
-      if (!project) {
-        return;
-      }
-
-      state.auditDate =
-        project.audit_date ||
-        state.auditDate ||
-        '';
-
-      state.auditor =
-        project.auditor ||
-        state.auditor ||
-        '';
-
-      state.client =
-        project.client ||
-        state.client ||
-        '';
-
-      state.facility =
-        project.facility ||
-        state.facility ||
-        '';
-
-      state.address =
-        project.address ||
-        state.address ||
-        '';
-
-      state.city =
-        project.city ||
-        state.city ||
-        '';
-
-      state.province =
-        project.province ||
-        state.province ||
-        '';
-
-      state.facilityType =
-        project.facility_type ||
-        state.facilityType ||
-        '';
-
-      state.floorArea =
-        project.floor_area ||
-        state.floorArea ||
-        '';
-
-      state.areaUnit =
-        project.area_unit ||
-        state.areaUnit ||
-        'm²';
-    }
-
-
-    function synchronizeDashboardProject() {
-      if (!currentProject) {
-        return;
-      }
-
-      try {
-        const projects = JSON.parse(
-          localStorage.getItem(
-            DASHBOARD_STORAGE_KEY
-          ) || '[]'
-        );
-
-        const index = projects.findIndex(
-          project => project.id === currentProject.id
-        );
-
-        if (index === -1) {
           return;
         }
 
-        projects[index] = {
-          ...projects[index],
+        fields.forEach(field => {
+          const fieldName =
+            field.dataset.projectField;
 
-          equipment_status:
-            calculateEquipmentStatus(),
+          field.value =
+            project[fieldName] ||
+            (fieldName === 'area_unit'
+              ? 'm²'
+              : '');
+        });
 
-          equipment_data: state,
+        $('project-context-text').textContent = [
+          project.project_id,
+          project.facility,
+          project.address,
+          project.city,
+          project.province,
+          project.facility_type,
+          project.floor_area
+            ? `${project.floor_area} ${project.area_unit || 'm²'}`
+            : ''
+        ]
+          .filter(Boolean)
+          .join(' • ');
 
-          updated_at:
-            new Date().toISOString()
-        };
-
-        localStorage.setItem(
-          DASHBOARD_STORAGE_KEY,
-          JSON.stringify(projects)
-        );
-
-        currentProject = projects[index];
-
-      } catch (error) {
-        console.error(
-          'Could not synchronize dashboard project:',
-          error
-        );
-      }
-    }
-
-
-    function calculateEquipmentStatus() {
-      const fields = [
-        ...document.querySelectorAll('[data-field]')
-      ];
-
-      const completed = fields.filter(field => {
-        return String(field.value || '').trim() !== '';
-      });
-
-      if (completed.length === 0) {
-        return 'Not started';
+        status.textContent = 'Project loaded';
+        status.className = 'badge badge-good';
       }
 
-      if (completed.length === fields.length) {
-        return 'Complete';
+
+      function copyProjectFieldsToState(project) {
+        if (!project) {
+          return;
+        }
+
+        state.auditDate =
+          project.audit_date ||
+          state.auditDate ||
+          '';
+
+        state.auditor =
+          project.auditor ||
+          state.auditor ||
+          '';
+
+        state.client =
+          project.client ||
+          state.client ||
+          '';
+
+        state.facility =
+          project.facility ||
+          state.facility ||
+          '';
+
+        state.address =
+          project.address ||
+          state.address ||
+          '';
+
+        state.city =
+          project.city ||
+          state.city ||
+          '';
+
+        state.province =
+          project.province ||
+          state.province ||
+          '';
+
+        state.facilityType =
+          project.facility_type ||
+          state.facilityType ||
+          '';
+
+        state.floorArea =
+          project.floor_area ||
+          state.floorArea ||
+          '';
+
+        state.areaUnit =
+          project.area_unit ||
+          state.areaUnit ||
+          'm²';
       }
 
-      return 'In progress';
-    }
 
-
-    /* =========================================================
-       CALCULATIONS
-    ========================================================== */
-
-    function calculateEstimatedKwh(row) {
-      return numberValue(row.quantity) *
-        numberValue(row.power) *
-        (row.unit === 'kW' ? 1 : 0.001) *
-        numberValue(row.load) *
-        numberValue(row.hours) *
-        numberValue(row.days);
-    }
-
-
-    function calculateLighting(row) {
-      const connectedWatts =
-        numberValue(row.qty) *
-        (
-          numberValue(row.lamps) *
-          numberValue(row.watt) +
-          numberValue(row.driver)
-        );
-
-      const estimatedKwh =
-        connectedWatts *
-        numberValue(row.hours) *
-        numberValue(row.days) /
-        1000;
-
-      return {
-        connectedWatts,
-        estimatedKwh
-      };
-    }
-
-
-    /* =========================================================
-       SECTION HEADERS AND SIDEBAR
-    ========================================================== */
-
-    function replaceSectionHeader(element) {
-      const index = element.getAttribute('index');
-      const title = element.getAttribute('title');
-      const icon = element.getAttribute('icon');
-
-      element.outerHTML = `
-        <div class="mb-1">
-          <h2 class="text-xl font-bold text-[#0f2040] flex items-center gap-2">
-            <i
-              data-lucide="${icon}"
-              class="w-5 h-5 text-[#1e6fbd]"
-            ></i>
-
-            ${title}
-          </h2>
-
-          <p
-            id="completion-${index}"
-            class="text-xs text-slate-500 mt-1"
-          ></p>
-        </div>
-      `;
-    }
-
-
-    function buildSidebar() {
-      const sidebarMarkup = sections.map(
-        (section, index) => `
-          <button
-            data-sec="${index}"
-            class="sidebar-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/70 hover:bg-[#1a3460] w-full text-left"
-            type="button"
-          >
-            <i
-              data-lucide="${section[1]}"
-              class="w-4 h-4"
-            ></i>
-
-            <span class="flex-1 truncate">
-              ${section[0]}
-            </span>
-
-            <span
-              class="sidebar-dot dot-grey"
-              data-dot="${index}"
-            ></span>
-          </button>
-        `
-      ).join('');
-
-      $('sidebar-nav').innerHTML = sidebarMarkup;
-      $('mobile-nav').innerHTML = sidebarMarkup;
-    }
-
-
-    function activateSection(index) {
-      activeSection = index;
-
-      document.querySelectorAll(
-        '.section-panel'
-      ).forEach(panel => {
-        panel.classList.toggle(
-          'active',
-          Number(panel.dataset.section) === index
-        );
-      });
-
-      document.querySelectorAll(
-        '.sidebar-btn'
-      ).forEach(button => {
-        button.classList.toggle(
-          'bg-[#1e6fbd]',
-          Number(button.dataset.sec) === index
-        );
-      });
-
-      $('mobile-overlay').classList.add('hidden');
-    }
-
-
-    /* =========================================================
-       EQUIPMENT TABLE RENDERING
-    ========================================================== */
-
-    function renderEquipmentPanel(key) {
-      const rows = state.equipment[key];
-      const isAppliance = key === 'appliances';
-
-      return `
-        <div class="card mt-3">
-
-          <div class="flex justify-between items-center mb-3">
-
-            <div class="text-xs text-slate-500">
-              ${
-                isAppliance
-                  ? 'Add appliances as required.'
-                  : 'Enter nameplate ratings and operating assumptions; measured kWh overrides the estimate.'
-              }
-            </div>
-
-            <button
-              class="text-xs font-semibold text-[#1e6fbd] no-print"
-              data-add-equipment="${key}"
-              type="button"
-            >
-              ＋ Add ${isAppliance ? 'Appliance' : 'Equipment'}
-            </button>
-
-          </div>
-
-
-          <div class="overflow-x-auto">
-
-            <table class="w-full text-sm">
-
-              <thead class="bg-slate-100 text-xs font-semibold">
-                <tr>
-                  <th class="p-2 text-left">
-                    Name
-                  </th>
-
-                  <th class="p-2 text-left">
-                    Location
-                  </th>
-
-                  <th class="p-2">
-                    Qty
-                  </th>
-
-                  <th class="p-2">
-                    Power
-                  </th>
-
-                  <th class="p-2">
-                    Unit
-                  </th>
-
-                  <th class="p-2">
-                    Load
-                  </th>
-
-                  <th class="p-2">
-                    Hours/day
-                  </th>
-
-                  <th class="p-2">
-                    Days/year
-                  </th>
-
-                  <th class="p-2 text-right">
-                    Estimated kWh/y
-                  </th>
-
-                  <th class="p-2">
-                    Measured kWh/y
-                  </th>
-
-                  <th class="p-2">
-                    Condition
-                  </th>
-
-                  <th class="p-2 text-left">
-                    Recommendation
-                  </th>
-
-                  <th class="p-2 no-print"></th>
-                </tr>
-              </thead>
-
-              <tbody>
-                ${
-                  rows.map(
-                    (row, index) =>
-                      renderEquipmentRow(
-                        key,
-                        row,
-                        index
-                      )
-                  ).join('')
-                }
-              </tbody>
-
-            </table>
-          </div>
-
-        </div>
-      `;
-    }
-
-
-    function renderEquipmentRow(key, row, index) {
-      return `
-        <tr class="border-t border-slate-200">
-
-          <td>
-            <input
-              class="table-input"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="name"
-              value="${escapeHtml(row.name)}"
-            >
-          </td>
-
-          <td>
-            <input
-              class="table-input"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="location"
-              value="${escapeHtml(row.location)}"
-            >
-          </td>
-
-          <td>
-            <input
-              class="table-input w-16"
-              type="number"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="quantity"
-              value="${escapeHtml(row.quantity)}"
-            >
-          </td>
-
-          <td>
-            <input
-              class="table-input w-20"
-              type="number"
-              step="0.01"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="power"
-              value="${escapeHtml(row.power)}"
-            >
-          </td>
-
-          <td>
-            <select
-              class="table-input"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="unit"
-            >
-              <option
-                value="W"
-                ${row.unit === 'W' ? 'selected' : ''}
-              >
-                W
-              </option>
-
-              <option
-                value="kW"
-                ${row.unit === 'kW' ? 'selected' : ''}
-              >
-                kW
-              </option>
-            </select>
-          </td>
-
-          <td>
-            <input
-              class="table-input w-16"
-              type="number"
-              step="0.01"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="load"
-              value="${escapeHtml(row.load)}"
-            >
-          </td>
-
-          <td>
-            <input
-              class="table-input w-20"
-              type="number"
-              step="0.1"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="hours"
-              value="${escapeHtml(row.hours)}"
-            >
-          </td>
-
-          <td>
-            <input
-              class="table-input w-20"
-              type="number"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="days"
-              value="${escapeHtml(row.days)}"
-            >
-          </td>
-
-          <td
-            class="p-2 font-semibold text-right"
-            data-equipment-estimate="${key}:${index}"
-          >
-            ${formatNumber(calculateEstimatedKwh(row))}
-          </td>
-
-          <td>
-            <input
-              class="table-input w-24"
-              type="number"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="measured"
-              value="${escapeHtml(row.measured)}"
-            >
-          </td>
-
-          <td>
-            <input
-              class="table-input"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="condition"
-              value="${escapeHtml(row.condition)}"
-            >
-          </td>
-
-          <td>
-            <input
-              class="table-input"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="recommendation"
-              value="${escapeHtml(row.recommendation)}"
-            >
-          </td>
-
-          <td class="p-2 no-print">
-            <button
-              class="text-red-600 text-xs font-bold"
-              data-delete-equipment="${key}"
-              data-equipment-index="${index}"
-              type="button"
-            >
-              Delete
-            </button>
-          </td>
-
-        </tr>
-      `;
-    }
-
-
-    function renderLightingPanel() {
-      return `
-        <div class="card mt-3">
-
-          <div class="flex justify-between items-center mb-3">
-
-            <div class="text-xs text-slate-500">
-              One row per fixture group or lighting circuit.
-            </div>
-
-            <button
-              class="text-xs font-semibold text-[#1e6fbd] no-print"
-              data-add-lighting
-              type="button"
-            >
-              ＋ Add Lighting Load
-            </button>
-
-          </div>
-
-
-          <div class="overflow-x-auto">
-
-            <table class="w-full text-sm">
-
-              <thead class="bg-slate-100 text-xs font-semibold">
-                <tr>
-                  <th class="p-2">
-                    Area / Location
-                  </th>
-
-                  <th class="p-2">
-                    Fixture Type
-                  </th>
-
-                  <th class="p-2">
-                    Fixtures
-                  </th>
-
-                  <th class="p-2">
-                    Lamps/Fixture
-                  </th>
-
-                  <th class="p-2">
-                    Lamp W
-                  </th>
-
-                  <th class="p-2">
-                    Driver W
-                  </th>
-
-                  <th class="p-2">
-                    Connected W
-                  </th>
-
-                  <th class="p-2">
-                    Hours/day
-                  </th>
-
-                  <th class="p-2">
-                    Days/year
-                  </th>
-
-                  <th class="p-2">
-                    Estimated kWh/y
-                  </th>
-
-                  <th class="p-2">
-                    Measured kWh/y
-                  </th>
-
-                  <th class="p-2">
-                    Controls
-                  </th>
-
-                  <th class="p-2">
-                    Upgrade
-                  </th>
-
-                  <th class="p-2 no-print"></th>
-                </tr>
-              </thead>
-
-              <tbody>
-                ${
-                  state.equipment.lighting
-                    .map(renderLightingRow)
-                    .join('')
-                }
-              </tbody>
-
-            </table>
-          </div>
-        </div>
-      `;
-    }
-
-
-    function renderLightingRow(row, index) {
-      const calculations =
-        calculateLighting(row);
-
-      return `
-        <tr class="border-t border-slate-200">
-
-          <td>
-            <input
-              class="table-input"
-              data-lighting-index="${index}"
-              data-lighting-field="area"
-              value="${escapeHtml(row.area)}"
-            >
-          </td>
-
-          <td>
-            <input
-              class="table-input"
-              data-lighting-index="${index}"
-              data-lighting-field="fixture"
-              value="${escapeHtml(row.fixture)}"
-            >
-          </td>
-
-          <td>
-            <input
-              class="table-input"
-              type="number"
-              data-lighting-index="${index}"
-              data-lighting-field="qty"
-              value="${escapeHtml(row.qty)}"
-            >
-          </td>
-
-          <td>
-            <input
-              class="table-input"
-              type="number"
-              data-lighting-index="${index}"
-              data-lighting-field="lamps"
-              value="${escapeHtml(row.lamps)}"
-            >
-          </td>
-
-          <td>
-            <input
-              class="table-input"
-              type="number"
-              data-lighting-index="${index}"
-              data-lighting-field="watt"
-              value="${escapeHtml(row.watt)}"
-            >
-          </td>
-
-          <td>
-            <input
-              class="table-input"
-              type="number"
-              data-lighting-index="${index}"
-              data-lighting-field="driver"
-              value="${escapeHtml(row.driver)}"
-            >
-          </td>
-
-          <td
-            class="p-2 font-semibold"
-            data-lighting-connected="${index}"
-          >
-            ${formatNumber(calculations.connectedWatts)}
-          </td>
-
-          <td>
-            <input
-              class="table-input"
-              type="number"
-              data-lighting-index="${index}"
-              data-lighting-field="hours"
-              value="${escapeHtml(row.hours)}"
-            >
-          </td>
-
-          <td>
-            <input
-              class="table-input"
-              type="number"
-              data-lighting-index="${index}"
-              data-lighting-field="days"
-              value="${escapeHtml(row.days)}"
-            >
-          </td>
-
-          <td
-            class="p-2 font-semibold"
-            data-lighting-estimate="${index}"
-          >
-            ${formatNumber(calculations.estimatedKwh)}
-          </td>
-
-          <td>
-            <input
-              class="table-input"
-              type="number"
-              data-lighting-index="${index}"
-              data-lighting-field="measured"
-              value="${escapeHtml(row.measured)}"
-            >
-          </td>
-
-          <td>
-            <input
-              class="table-input"
-              data-lighting-index="${index}"
-              data-lighting-field="controls"
-              value="${escapeHtml(row.controls)}"
-            >
-          </td>
-
-          <td>
-            <input
-              class="table-input"
-              data-lighting-index="${index}"
-              data-lighting-field="upgrade"
-              value="${escapeHtml(row.upgrade)}"
-            >
-          </td>
-
-          <td class="p-2 no-print">
-            <button
-              class="text-red-600 text-xs font-bold"
-              data-delete-lighting="${index}"
-              type="button"
-            >
-              Delete
-            </button>
-          </td>
-
-        </tr>
-      `;
-    }
-
-
-    function renderEquipmentPanels() {
-      equipmentTypes.forEach(key => {
-        $(`panel-${key}`).innerHTML =
-          renderEquipmentPanel(key);
-      });
-
-      $('panel-appliances').innerHTML =
-        renderEquipmentPanel('appliances');
-
-      $('panel-lighting').innerHTML =
-        renderLightingPanel();
-
-      bindDynamicEquipmentEvents();
-    }
-
-
-    /* =========================================================
-       EQUIPMENT EVENT HANDLERS
-    ========================================================== */
-
-    function bindDynamicEquipmentEvents() {
-      document
-        .querySelectorAll('[data-equipment-key]')
-        .forEach(element => {
-          element.addEventListener(
-            'input',
-            handleEquipmentInput
+      function synchronizeDashboardProject() {
+        if (!currentProject) {
+          return;
+        }
+
+        try {
+          const projects = JSON.parse(
+            localStorage.getItem(
+              DASHBOARD_STORAGE_KEY
+            ) || '[]'
           );
 
-          element.addEventListener(
-            'change',
-            handleEquipmentInput
+          const index = projects.findIndex(
+            project => project.id === currentProject.id
           );
-        });
 
-
-      document
-        .querySelectorAll('[data-add-equipment]')
-        .forEach(button => {
-          button.addEventListener(
-            'click',
-            () => {
-              const key =
-                button.dataset.addEquipment;
-
-              state.equipment[key].push(
-                createBlankEquipment(key)
-              );
-
-              renderEquipmentPanels();
-              saveState();
-            }
-          );
-        });
-
-
-      document
-        .querySelectorAll('[data-delete-equipment]')
-        .forEach(button => {
-          button.addEventListener(
-            'click',
-            () => {
-              const key =
-                button.dataset.deleteEquipment;
-
-              const index =
-                Number(button.dataset.equipmentIndex);
-
-              state.equipment[key].splice(
-                index,
-                1
-              );
-
-              renderEquipmentPanels();
-              saveState();
-            }
-          );
-        });
-
-
-      document
-        .querySelectorAll('[data-lighting-index]')
-        .forEach(element => {
-          element.addEventListener(
-            'input',
-            handleLightingInput
-          );
-        });
-
-
-      const addLighting =
-        document.querySelector(
-          '[data-add-lighting]'
-        );
-
-      if (addLighting) {
-        addLighting.addEventListener(
-          'click',
-          () => {
-            state.equipment.lighting.push({
-              area: '',
-              fixture: '',
-              qty: 1,
-              lamps: 1,
-              watt: 0,
-              driver: 0,
-              hours: 0,
-              days: 365,
-              measured: '',
-              controls: '',
-              upgrade: '',
-              notes: ''
-            });
-
-            renderEquipmentPanels();
-            saveState();
+          if (index === -1) {
+            return;
           }
-        );
+
+          projects[index] = {
+            ...projects[index],
+
+            equipment_status:
+              calculateEquipmentStatus(),
+
+            equipment_data: state,
+
+            updated_at:
+              new Date().toISOString()
+          };
+
+          localStorage.setItem(
+            DASHBOARD_STORAGE_KEY,
+            JSON.stringify(projects)
+          );
+
+          currentProject = projects[index];
+
+        } catch (error) {
+          console.error(
+            'Could not synchronize dashboard project:',
+            error
+          );
+        }
       }
 
 
-      document
-        .querySelectorAll('[data-delete-lighting]')
-        .forEach(button => {
-          button.addEventListener(
-            'click',
-            () => {
-              const index =
-                Number(button.dataset.deleteLighting);
+      function calculateEquipmentStatus() {
+        const fields = [
+          ...document.querySelectorAll('[data-field]')
+        ];
 
-              state.equipment.lighting.splice(
-                index,
-                1
-              );
-
-              renderEquipmentPanels();
-              saveState();
-            }
-          );
+        const completed = fields.filter(field => {
+          return String(field.value || '').trim() !== '';
         });
-    }
 
+        if (completed.length === 0) {
+          return 'Not started';
+        }
 
-    function handleEquipmentInput(event) {
-      const element = event.currentTarget;
+        if (completed.length === fields.length) {
+          return 'Complete';
+        }
 
-      const key =
-        element.dataset.equipmentKey;
-
-      const index =
-        Number(element.dataset.equipmentIndex);
-
-      const field =
-        element.dataset.equipmentField;
-
-      state.equipment[key][index][field] =
-        element.value;
-
-      const estimateCell =
-        document.querySelector(
-          `[data-equipment-estimate="${key}:${index}"]`
-        );
-
-      if (estimateCell) {
-        estimateCell.textContent =
-          formatNumber(
-            calculateEstimatedKwh(
-              state.equipment[key][index]
-            )
-          );
+        return 'In progress';
       }
 
-      saveState();
-      updateEnergySummaries();
-    }
+
+      /* =========================================================
+         CALCULATIONS
+      ========================================================== */
+
+      function calculateEstimatedKwh(row) {
+        return numberValue(row.quantity) *
+          numberValue(row.power) *
+          (row.unit === 'kW' ? 1 : 0.001) *
+          numberValue(row.load) *
+          numberValue(row.hours) *
+          numberValue(row.days);
+      }
 
 
-    function handleLightingInput(event) {
-      const element = event.currentTarget;
+      function calculateLighting(row) {
+        const connectedWatts =
+          numberValue(row.qty) *
+          (
+            numberValue(row.lamps) *
+            numberValue(row.watt) +
+            numberValue(row.driver)
+          );
 
-      const index =
-        Number(element.dataset.lightingIndex);
+        const estimatedKwh =
+          connectedWatts *
+          numberValue(row.hours) *
+          numberValue(row.days) /
+          1000;
 
-      const field =
-        element.dataset.lightingField;
-
-      state.equipment.lighting[index][field] =
-        element.value;
-
-      renderEquipmentPanels();
-      saveState();
-      updateEnergySummaries();
-    }
+        return {
+          connectedWatts,
+          estimatedKwh
+        };
+      }
 
 
-    /* =========================================================
-       UTILITY BILLING
-    ========================================================== */
+      /* =========================================================
+         SECTION HEADERS AND SIDEBAR
+      ========================================================== */
 
-    function renderUtilityRows() {
-      $('utility-body').innerHTML =
-        state.utilities.map(
-          (row, index) => `
-            <tr class="border-t border-slate-200">
+      function replaceSectionHeader(element) {
+        const index = element.getAttribute('index');
+        const title = element.getAttribute('title');
+        const icon = element.getAttribute('icon');
 
-              <td>
-                <input
-                  class="table-input"
-                  data-utility-index="${index}"
-                  data-utility-field="period"
-                  value="${escapeHtml(row.period)}"
-                >
-              </td>
+        element.outerHTML = `
+          <div class="mb-1">
+            <h2 class="text-xl font-bold text-[#0f2040] flex items-center gap-2">
+              <i
+                data-lucide="${icon}"
+                class="w-5 h-5 text-[#1e6fbd]"
+              ></i>
 
-              <td>
-                <input
-                  type="date"
-                  class="table-input"
-                  data-utility-index="${index}"
-                  data-utility-field="start"
-                  value="${escapeHtml(row.start)}"
-                >
-              </td>
+              ${title}
+            </h2>
 
-              <td>
-                <input
-                  type="date"
-                  class="table-input"
-                  data-utility-index="${index}"
-                  data-utility-field="end"
-                  value="${escapeHtml(row.end)}"
-                >
-              </td>
+            <p
+              id="completion-${index}"
+              class="text-xs text-slate-500 mt-1"
+            ></p>
+          </div>
+        `;
+      }
 
-              <td>
-                <input
-                  type="number"
-                  class="table-input text-right"
-                  data-utility-index="${index}"
-                  data-utility-field="kwh"
-                  value="${escapeHtml(row.kwh)}"
-                >
-              </td>
 
-              <td>
-                <input
-                  type="number"
-                  class="table-input text-right"
-                  data-utility-index="${index}"
-                  data-utility-field="kw"
-                  value="${escapeHtml(row.kw)}"
-                >
-              </td>
+      function buildSidebar() {
+        const sidebarMarkup = sections.map(
+          (section, index) => `
+            <button
+              data-sec="${index}"
+              class="sidebar-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/70 hover:bg-[#1a3460] w-full text-left"
+              type="button"
+            >
+              <i
+                data-lucide="${section[1]}"
+                class="w-4 h-4"
+              ></i>
 
-              <td>
-                <input
-                  type="number"
-                  class="table-input text-right"
-                  data-utility-index="${index}"
-                  data-utility-field="cost"
-                  value="${escapeHtml(row.cost)}"
-                >
-              </td>
+              <span class="flex-1 truncate">
+                ${section[0]}
+              </span>
 
-              <td>
-                <input
-                  class="table-input"
-                  data-utility-index="${index}"
-                  data-utility-field="notes"
-                  value="${escapeHtml(row.notes)}"
-                >
-              </td>
-
-              <td>
-                <button
-                  class="text-red-600 text-xs font-bold"
-                  data-delete-utility="${index}"
-                  type="button"
-                >
-                  Delete
-                </button>
-              </td>
-
-            </tr>
+              <span
+                class="sidebar-dot dot-grey"
+                data-dot="${index}"
+              ></span>
+            </button>
           `
         ).join('');
 
+        $('sidebar-nav').innerHTML = sidebarMarkup;
+        $('mobile-nav').innerHTML = sidebarMarkup;
+      }
 
-      document
-        .querySelectorAll('[data-utility-index]')
-        .forEach(element => {
-          element.addEventListener(
-            'input',
-            event => {
-              const input =
-                event.currentTarget;
 
-              const index =
-                Number(input.dataset.utilityIndex);
+      function activateSection(index) {
+        activeSection = index;
 
-              const field =
-                input.dataset.utilityField;
-
-              state.utilities[index][field] =
-                input.value;
-
-              saveState();
-              updateEnergySummaries();
-            }
+        document.querySelectorAll(
+          '.section-panel'
+        ).forEach(panel => {
+          panel.classList.toggle(
+            'active',
+            Number(panel.dataset.section) === index
           );
         });
 
+        document.querySelectorAll(
+          '.sidebar-btn'
+        ).forEach(button => {
+          button.classList.toggle(
+            'bg-[#1e6fbd]',
+            Number(button.dataset.sec) === index
+          );
+        });
 
-      document
-        .querySelectorAll('[data-delete-utility]')
-        .forEach(button => {
-          button.addEventListener(
+        $('mobile-overlay').classList.add('hidden');
+      }
+
+
+      /* =========================================================
+         EQUIPMENT TABLE RENDERING
+      ========================================================== */
+
+      function renderEquipmentPanel(key) {
+        const rows = state.equipment[key];
+        const isAppliance = key === 'appliances';
+
+        return `
+          <div class="card mt-3">
+
+            <div class="flex justify-between items-center mb-3">
+
+              <div class="text-xs text-slate-500">
+                ${
+                  isAppliance
+                    ? 'Add appliances as required.'
+                    : 'Enter nameplate ratings and operating assumptions; measured kWh overrides the estimate.'
+                }
+              </div>
+
+              <button
+                class="text-xs font-semibold text-[#1e6fbd] no-print"
+                data-add-equipment="${key}"
+                type="button"
+              >
+                ＋ Add ${isAppliance ? 'Appliance' : 'Equipment'}
+              </button>
+
+            </div>
+
+
+            <div class="overflow-x-auto">
+
+              <table class="w-full text-sm">
+
+                <thead class="bg-slate-100 text-xs font-semibold">
+                  <tr>
+                    <th class="p-2 text-left">
+                      Name
+                    </th>
+
+                    <th class="p-2 text-left">
+                      Location
+                    </th>
+
+                    <th class="p-2">
+                      Qty
+                    </th>
+
+                    <th class="p-2">
+                      Power
+                    </th>
+
+                    <th class="p-2">
+                      Unit
+                    </th>
+
+                    <th class="p-2">
+                      Load
+                    </th>
+
+                    <th class="p-2">
+                      Hours/day
+                    </th>
+
+                    <th class="p-2">
+                      Days/year
+                    </th>
+
+                    <th class="p-2 text-right">
+                      Estimated kWh/y
+                    </th>
+
+                    <th class="p-2">
+                      Measured kWh/y
+                    </th>
+
+                    <th class="p-2">
+                      Condition
+                    </th>
+
+                    <th class="p-2 text-left">
+                      Recommendation
+                    </th>
+
+                    <th class="p-2 no-print"></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  ${
+                    rows.map(
+                      (row, index) =>
+                        renderEquipmentRow(
+                          key,
+                          row,
+                          index
+                        )
+                    ).join('')
+                  }
+                </tbody>
+
+              </table>
+            </div>
+
+          </div>
+        `;
+      }
+
+
+      function renderEquipmentRow(key, row, index) {
+        return `
+          <tr class="border-t border-slate-200">
+
+            <td>
+              <input
+                class="table-input"
+                data-equipment-key="${key}"
+                data-equipment-index="${index}"
+                data-equipment-field="name"
+                value="${escapeHtml(row.name)}"
+              >
+            </td>
+
+            <td>
+              <input
+                class="table-input"
+                data-equipment-key="${key}"
+                data-equipment-index="${index}"
+                data-equipment-field="location"
+                value="${escapeHtml(row.location)}"
+              >
+            </td>
+
+            <td>
+              <input
+                class="table-input w-16"
+                type="number"
+                data-equipment-key="${key}"
+                data-equipment-index="${index}"
+                data-equipment-field="quantity"
+                value="${escapeHtml(row.quantity)}"
+              >
+            </td>
+
+            <td>
+              <input
+                class="table-input w-20"
+                type="number"
+                step="0.01"
+                data-equipment-key="${key}"
+                data-equipment-index="${index}"
+                data-equipment-field="power"
+                value="${escapeHtml(row.power)}"
+              >
+            </td>
+
+            <td>
+              <select
+                class="table-input"
+                data-equipment-key="${key}"
+                data-equipment-index="${index}"
+                data-equipment-field="unit"
+              >
+                <option
+                  value="W"
+                  ${row.unit === 'W' ? 'selected' : ''}
+                >
+                  W
+                </option>
+
+                <option
+                  value="kW"
+                  ${row.unit === 'kW' ? 'selected' : ''}
+                >
+                  kW
+                </option>
+              </select>
+            </td>
+
+            <td>
+              <input
+                class="table-input w-16"
+                type="number"
+                step="0.01"
+                data-equipment-key="${key}"
+                data-equipment-index="${index}"
+                data-equipment-field="load"
+                value="${escapeHtml(row.load)}"
+              >
+            </td>
+
+            <td>
+              <input
+                class="table-input w-20"
+                type="number"
+                step="0.1"
+                data-equipment-key="${key}"
+                data-equipment-index="${index}"
+                data-equipment-field="hours"
+                value="${escapeHtml(row.hours)}"
+              >
+            </td>
+
+            <td>
+              <input
+                class="table-input w-20"
+                type="number"
+                data-equipment-key="${key}"
+                data-equipment-index="${index}"
+                data-equipment-field="days"
+                value="${escapeHtml(row.days)}"
+              >
+            </td>
+
+            <td
+              class="p-2 font-semibold text-right"
+              data-equipment-estimate="${key}:${index}"
+            >
+              ${formatNumber(calculateEstimatedKwh(row))}
+            </td>
+
+            <td>
+              <input
+                class="table-input w-24"
+                type="number"
+                data-equipment-key="${key}"
+                data-equipment-index="${index}"
+                data-equipment-field="measured"
+                value="${escapeHtml(row.measured)}"
+              >
+            </td>
+
+            <td>
+              <input
+                class="table-input"
+                data-equipment-key="${key}"
+                data-equipment-index="${index}"
+                data-equipment-field="condition"
+                value="${escapeHtml(row.condition)}"
+              >
+            </td>
+
+            <td>
+              <input
+                class="table-input"
+                data-equipment-key="${key}"
+                data-equipment-index="${index}"
+                data-equipment-field="recommendation"
+                value="${escapeHtml(row.recommendation)}"
+              >
+            </td>
+
+            <td class="p-2 no-print">
+              <button
+                class="text-red-600 text-xs font-bold"
+                data-delete-equipment="${key}"
+                data-equipment-index="${index}"
+                type="button"
+              >
+                Delete
+              </button>
+            </td>
+
+          </tr>
+        `;
+      }
+
+
+      function renderLightingPanel() {
+        return `
+          <div class="card mt-3">
+
+            <div class="flex justify-between items-center mb-3">
+
+              <div class="text-xs text-slate-500">
+                One row per fixture group or lighting circuit.
+              </div>
+
+              <button
+                class="text-xs font-semibold text-[#1e6fbd] no-print"
+                data-add-lighting
+                type="button"
+              >
+                ＋ Add Lighting Load
+              </button>
+
+            </div>
+
+
+            <div class="overflow-x-auto">
+
+              <table class="w-full text-sm">
+
+                <thead class="bg-slate-100 text-xs font-semibold">
+                  <tr>
+                    <th class="p-2">
+                      Area / Location
+                    </th>
+
+                    <th class="p-2">
+                      Fixture Type
+                    </th>
+
+                    <th class="p-2">
+                      Fixtures
+                    </th>
+
+                    <th class="p-2">
+                      Lamps/Fixture
+                    </th>
+
+                    <th class="p-2">
+                      Lamp W
+                    </th>
+
+                    <th class="p-2">
+                      Driver W
+                    </th>
+
+                    <th class="p-2">
+                      Connected W
+                    </th>
+
+                    <th class="p-2">
+                      Hours/day
+                    </th>
+
+                    <th class="p-2">
+                      Days/year
+                    </th>
+
+                    <th class="p-2">
+                      Estimated kWh/y
+                    </th>
+
+                    <th class="p-2">
+                      Measured kWh/y
+                    </th>
+
+                    <th class="p-2">
+                      Controls
+                    </th>
+
+                    <th class="p-2">
+                      Upgrade
+                    </th>
+
+                    <th class="p-2 no-print"></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  ${
+                    state.equipment.lighting
+                      .map(renderLightingRow)
+                      .join('')
+                  }
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+        `;
+      }
+
+
+      function renderLightingRow(row, index) {
+        const calculations =
+          calculateLighting(row);
+
+        return `
+          <tr class="border-t border-slate-200">
+
+            <td>
+              <input
+                class="table-input"
+                data-lighting-index="${index}"
+                data-lighting-field="area"
+                value="${escapeHtml(row.area)}"
+              >
+            </td>
+
+            <td>
+              <input
+                class="table-input"
+                data-lighting-index="${index}"
+                data-lighting-field="fixture"
+                value="${escapeHtml(row.fixture)}"
+              >
+            </td>
+
+            <td>
+              <input
+                class="table-input"
+                type="number"
+                data-lighting-index="${index}"
+                data-lighting-field="qty"
+                value="${escapeHtml(row.qty)}"
+              >
+            </td>
+
+            <td>
+              <input
+                class="table-input"
+                type="number"
+                data-lighting-index="${index}"
+                data-lighting-field="lamps"
+                value="${escapeHtml(row.lamps)}"
+              >
+            </td>
+
+            <td>
+              <input
+                class="table-input"
+                type="number"
+                data-lighting-index="${index}"
+                data-lighting-field="watt"
+                value="${escapeHtml(row.watt)}"
+              >
+            </td>
+
+            <td>
+              <input
+                class="table-input"
+                type="number"
+                data-lighting-index="${index}"
+                data-lighting-field="driver"
+                value="${escapeHtml(row.driver)}"
+              >
+            </td>
+
+            <td
+              class="p-2 font-semibold"
+              data-lighting-connected="${index}"
+            >
+              ${formatNumber(calculations.connectedWatts)}
+            </td>
+
+            <td>
+              <input
+                class="table-input"
+                type="number"
+                data-lighting-index="${index}"
+                data-lighting-field="hours"
+                value="${escapeHtml(row.hours)}"
+              >
+            </td>
+
+            <td>
+              <input
+                class="table-input"
+                type="number"
+                data-lighting-index="${index}"
+                data-lighting-field="days"
+                value="${escapeHtml(row.days)}"
+              >
+            </td>
+
+            <td
+              class="p-2 font-semibold"
+              data-lighting-estimate="${index}"
+            >
+              ${formatNumber(calculations.estimatedKwh)}
+            </td>
+
+            <td>
+              <input
+                class="table-input"
+                type="number"
+                data-lighting-index="${index}"
+                data-lighting-field="measured"
+                value="${escapeHtml(row.measured)}"
+              >
+            </td>
+
+            <td>
+              <input
+                class="table-input"
+                data-lighting-index="${index}"
+                data-lighting-field="controls"
+                value="${escapeHtml(row.controls)}"
+              >
+            </td>
+
+            <td>
+              <input
+                class="table-input"
+                data-lighting-index="${index}"
+                data-lighting-field="upgrade"
+                value="${escapeHtml(row.upgrade)}"
+              >
+            </td>
+
+            <td class="p-2 no-print">
+              <button
+                class="text-red-600 text-xs font-bold"
+                data-delete-lighting="${index}"
+                type="button"
+              >
+                Delete
+              </button>
+            </td>
+
+          </tr>
+        `;
+      }
+
+
+      function renderEquipmentPanels() {
+        equipmentTypes.forEach(key => {
+          $(`panel-${key}`).innerHTML =
+            renderEquipmentPanel(key);
+        });
+
+        $('panel-appliances').innerHTML =
+          renderEquipmentPanel('appliances');
+
+        $('panel-lighting').innerHTML =
+          renderLightingPanel();
+
+        bindDynamicEquipmentEvents();
+      }
+
+
+      /* =========================================================
+         EQUIPMENT EVENT HANDLERS
+      ========================================================== */
+
+      function bindDynamicEquipmentEvents() {
+        document
+          .querySelectorAll('[data-equipment-key]')
+          .forEach(element => {
+            element.addEventListener(
+              'input',
+              handleEquipmentInput
+            );
+
+            element.addEventListener(
+              'change',
+              handleEquipmentInput
+            );
+          });
+
+
+        document
+          .querySelectorAll('[data-add-equipment]')
+          .forEach(button => {
+            button.addEventListener(
+              'click',
+              () => {
+                const key =
+                  button.dataset.addEquipment;
+
+                state.equipment[key].push(
+                  createBlankEquipment(key)
+                );
+
+                renderEquipmentPanels();
+                saveState();
+              }
+            );
+          });
+
+
+        document
+          .querySelectorAll('[data-delete-equipment]')
+          .forEach(button => {
+            button.addEventListener(
+              'click',
+              () => {
+                const key =
+                  button.dataset.deleteEquipment;
+
+                const index =
+                  Number(button.dataset.equipmentIndex);
+
+                state.equipment[key].splice(
+                  index,
+                  1
+                );
+
+                renderEquipmentPanels();
+                saveState();
+              }
+            );
+          });
+
+
+        document
+          .querySelectorAll('[data-lighting-index]')
+          .forEach(element => {
+            element.addEventListener(
+              'input',
+              handleLightingInput
+            );
+          });
+
+
+        const addLighting =
+          document.querySelector(
+            '[data-add-lighting]'
+          );
+
+        if (addLighting) {
+          addLighting.addEventListener(
             'click',
             () => {
-              const index =
-                Number(button.dataset.deleteUtility);
+              state.equipment.lighting.push({
+                area: '',
+                fixture: '',
+                qty: 1,
+                lamps: 1,
+                watt: 0,
+                driver: 0,
+                hours: 0,
+                days: 365,
+                measured: '',
+                controls: '',
+                upgrade: '',
+                notes: ''
+              });
 
-              state.utilities.splice(
-                index,
-                1
-              );
-
-              renderUtilityRows();
-              updateEnergySummaries();
+              renderEquipmentPanels();
               saveState();
             }
           );
-        });
-    }
+        }
 
 
-    function getEstimatedEquipmentEnergy() {
-      const equipmentEnergy =
-        Object.entries(state.equipment)
-          .filter(([key]) => key !== 'lighting')
-          .flatMap(([, rows]) => rows)
-          .reduce(
+        document
+          .querySelectorAll('[data-delete-lighting]')
+          .forEach(button => {
+            button.addEventListener(
+              'click',
+              () => {
+                const index =
+                  Number(button.dataset.deleteLighting);
+
+                state.equipment.lighting.splice(
+                  index,
+                  1
+                );
+
+                renderEquipmentPanels();
+                saveState();
+              }
+            );
+          });
+      }
+
+
+      function handleEquipmentInput(event) {
+        const element = event.currentTarget;
+
+        const key =
+          element.dataset.equipmentKey;
+
+        const index =
+          Number(element.dataset.equipmentIndex);
+
+        const field =
+          element.dataset.equipmentField;
+
+        state.equipment[key][index][field] =
+          element.value;
+
+        const estimateCell =
+          document.querySelector(
+            `[data-equipment-estimate="${key}:${index}"]`
+          );
+
+        if (estimateCell) {
+          estimateCell.textContent =
+            formatNumber(
+              calculateEstimatedKwh(
+                state.equipment[key][index]
+              )
+            );
+        }
+
+        saveState();
+        updateEnergySummaries();
+      }
+
+
+      function handleLightingInput(event) {
+        const element = event.currentTarget;
+
+        const index =
+          Number(element.dataset.lightingIndex);
+
+        const field =
+          element.dataset.lightingField;
+
+        state.equipment.lighting[index][field] =
+          element.value;
+
+        renderEquipmentPanels();
+        saveState();
+        updateEnergySummaries();
+      }
+
+
+      /* =========================================================
+         UTILITY BILLING
+      ========================================================== */
+
+      function renderUtilityRows() {
+        $('utility-body').innerHTML =
+          state.utilities.map(
+            (row, index) => `
+              <tr class="border-t border-slate-200">
+
+                <td>
+                  <input
+                    class="table-input"
+                    data-utility-index="${index}"
+                    data-utility-field="period"
+                    value="${escapeHtml(row.period)}"
+                  >
+                </td>
+
+                <td>
+                  <input
+                    type="date"
+                    class="table-input"
+                    data-utility-index="${index}"
+                    data-utility-field="start"
+                    value="${escapeHtml(row.start)}"
+                  >
+                </td>
+
+                <td>
+                  <input
+                    type="date"
+                    class="table-input"
+                    data-utility-index="${index}"
+                    data-utility-field="end"
+                    value="${escapeHtml(row.end)}"
+                  >
+                </td>
+
+                <td>
+                  <input
+                    type="number"
+                    class="table-input text-right"
+                    data-utility-index="${index}"
+                    data-utility-field="kwh"
+                    value="${escapeHtml(row.kwh)}"
+                  >
+                </td>
+
+                <td>
+                  <input
+                    type="number"
+                    class="table-input text-right"
+                    data-utility-index="${index}"
+                    data-utility-field="kw"
+                    value="${escapeHtml(row.kw)}"
+                  >
+                </td>
+
+                <td>
+                  <input
+                    type="number"
+                    class="table-input text-right"
+                    data-utility-index="${index}"
+                    data-utility-field="cost"
+                    value="${escapeHtml(row.cost)}"
+                  >
+                </td>
+
+                <td>
+                  <input
+                    class="table-input"
+                    data-utility-index="${index}"
+                    data-utility-field="notes"
+                    value="${escapeHtml(row.notes)}"
+                  >
+                </td>
+
+                <td>
+                  <button
+                    class="text-red-600 text-xs font-bold"
+                    data-delete-utility="${index}"
+                    type="button"
+                  >
+                    Delete
+                  </button>
+                </td>
+
+              </tr>
+            `
+          ).join('');
+
+
+        document
+          .querySelectorAll('[data-utility-index]')
+          .forEach(element => {
+            element.addEventListener(
+              'input',
+              event => {
+                const input =
+                  event.currentTarget;
+
+                const index =
+                  Number(input.dataset.utilityIndex);
+
+                const field =
+                  input.dataset.utilityField;
+
+                state.utilities[index][field] =
+                  input.value;
+
+                saveState();
+                updateEnergySummaries();
+              }
+            );
+          });
+
+
+        document
+          .querySelectorAll('[data-delete-utility]')
+          .forEach(button => {
+            button.addEventListener(
+              'click',
+              () => {
+                const index =
+                  Number(button.dataset.deleteUtility);
+
+                state.utilities.splice(
+                  index,
+                  1
+                );
+
+                renderUtilityRows();
+                updateEnergySummaries();
+                saveState();
+              }
+            );
+          });
+      }
+
+
+      function getEstimatedEquipmentEnergy() {
+        const equipmentEnergy =
+          Object.entries(state.equipment)
+            .filter(([key]) => key !== 'lighting')
+            .flatMap(([, rows]) => rows)
+            .reduce(
+              (total, row) =>
+                total + calculateEstimatedKwh(row),
+              0
+            );
+
+        const lightingEnergy =
+          state.equipment.lighting.reduce(
             (total, row) =>
-              total + calculateEstimatedKwh(row),
+              total + calculateLighting(row).estimatedKwh,
             0
           );
 
-      const lightingEnergy =
-        state.equipment.lighting.reduce(
-          (total, row) =>
-            total + calculateLighting(row).estimatedKwh,
-          0
-        );
-
-      return equipmentEnergy + lightingEnergy;
-    }
+        return equipmentEnergy + lightingEnergy;
+      }
 
 
-    function updateEnergySummaries() {
-      const utilityEnergy =
-        state.utilities.reduce(
-          (total, row) =>
-            total + numberValue(row.kwh),
-          0
-        );
+      function updateEnergySummaries() {
+        const utilityEnergy =
+          state.utilities.reduce(
+            (total, row) =>
+              total + numberValue(row.kwh),
+            0
+          );
 
-      const estimatedEnergy =
-        getEstimatedEquipmentEnergy();
+        const estimatedEnergy =
+          getEstimatedEquipmentEnergy();
 
-      const floorArea =
-        numberValue(state.floorArea);
+        const floorArea =
+          numberValue(state.floorArea);
 
-      const variance =
-        utilityEnergy - estimatedEnergy;
+        const variance =
+          utilityEnergy - estimatedEnergy;
 
-      const eui =
-        floorArea
-          ? utilityEnergy / floorArea
-          : 0;
+        const eui =
+          floorArea
+            ? utilityEnergy / floorArea
+            : 0;
 
-      $('energy-summary').innerHTML = [
-        ['Estimated equipment', estimatedEnergy],
-        ['Utility electricity', utilityEnergy],
-        ['Unallocated', variance],
-        ['Floor area', floorArea],
-        ['Actual EUI', eui]
-      ].map(
-        item => `
-          <div class="stat-card">
-            <div class="stat-val">
-              ${formatNumber(item[1])}
+        $('energy-summary').innerHTML = [
+          ['Estimated equipment', estimatedEnergy],
+          ['Utility electricity', utilityEnergy],
+          ['Unallocated', variance],
+          ['Floor area', floorArea],
+          ['Actual EUI', eui]
+        ].map(
+          item => `
+            <div class="stat-card">
+              <div class="stat-val">
+                ${formatNumber(item[1])}
+              </div>
+
+              <div class="stat-lbl">
+                ${item[0]}
+              </div>
             </div>
-
-            <div class="stat-lbl">
-              ${item[0]}
-            </div>
-          </div>
-        `
-      ).join('');
-
-
-      $('mv-summary').innerHTML = [
-        ['Estimated kWh/y', estimatedEnergy],
-        ['Actual kWh/y', utilityEnergy],
-        ['Variance kWh/y', variance],
-        [
-          'Variance %',
-          estimatedEnergy
-            ? variance / estimatedEnergy * 100
-            : 0
-        ]
-      ].map(
-        item => `
-          <div class="stat-card">
-            <div class="stat-val">
-              ${formatNumber(item[1])}${item[0].includes('%') ? '%' : ''}
-            </div>
-
-            <div class="stat-lbl">
-              ${item[0]}
-            </div>
-          </div>
-        `
-      ).join('');
-    }
-
-
-    /* =========================================================
-       RECOMMENDATIONS
-    ========================================================== */
-
-    function renderRecommendations() {
-      $('recommendation-body').innerHTML =
-        state.recommendations.map(
-          (row, index) => `
-            <tr class="border-t border-slate-200">
-
-              <td>
-                <input
-                  class="table-input w-16"
-                  data-recommendation-index="${index}"
-                  data-recommendation-field="priority"
-                  value="${escapeHtml(row.priority)}"
-                >
-              </td>
-
-              <td>
-                <input
-                  class="table-input"
-                  data-recommendation-index="${index}"
-                  data-recommendation-field="area"
-                  value="${escapeHtml(row.area)}"
-                >
-              </td>
-
-              <td>
-                <input
-                  class="table-input"
-                  data-recommendation-index="${index}"
-                  data-recommendation-field="text"
-                  value="${escapeHtml(row.text)}"
-                >
-              </td>
-
-              <td>
-                <input
-                  class="table-input"
-                  type="number"
-                  data-recommendation-index="${index}"
-                  data-recommendation-field="cost"
-                  value="${escapeHtml(row.cost)}"
-                >
-              </td>
-
-              <td>
-                <input
-                  class="table-input"
-                  type="number"
-                  data-recommendation-index="${index}"
-                  data-recommendation-field="savings"
-                  value="${escapeHtml(row.savings)}"
-                >
-              </td>
-
-              <td>
-                <input
-                  class="table-input"
-                  data-recommendation-index="${index}"
-                  data-recommendation-field="status"
-                  value="${escapeHtml(row.status)}"
-                >
-              </td>
-
-              <td>
-                <button
-                  class="text-red-600 text-xs font-bold"
-                  data-delete-recommendation="${index}"
-                  type="button"
-                >
-                  Delete
-                </button>
-              </td>
-
-            </tr>
           `
         ).join('');
 
 
-      document
-        .querySelectorAll('[data-recommendation-index]')
-        .forEach(element => {
-          element.addEventListener(
-            'input',
-            event => {
-              const input =
-                event.currentTarget;
+        $('mv-summary').innerHTML = [
+          ['Estimated kWh/y', estimatedEnergy],
+          ['Actual kWh/y', utilityEnergy],
+          ['Variance kWh/y', variance],
+          [
+            'Variance %',
+            estimatedEnergy
+              ? variance / estimatedEnergy * 100
+              : 0
+          ]
+        ].map(
+          item => `
+            <div class="stat-card">
+              <div class="stat-val">
+                ${formatNumber(item[1])}${item[0].includes('%') ? '%' : ''}
+              </div>
 
-              const index =
-                Number(
-                  input.dataset.recommendationIndex
-                );
-
-              const field =
-                input.dataset.recommendationField;
-
-              state.recommendations[index][field] =
-                input.value;
-
-              saveState();
-            }
-          );
-        });
-
-
-      document
-        .querySelectorAll('[data-delete-recommendation]')
-        .forEach(button => {
-          button.addEventListener(
-            'click',
-            () => {
-              const index =
-                Number(
-                  button.dataset.deleteRecommendation
-                );
-
-              state.recommendations.splice(
-                index,
-                1
-              );
-
-              renderRecommendations();
-              saveState();
-            }
-          );
-        });
-    }
-
-
-    /* =========================================================
-       GENERAL FIELD BINDING
-    ========================================================== */
-
-    function bindGeneralFields() {
-      document
-        .querySelectorAll('[data-field]')
-        .forEach(field => {
-          field.value =
-            state[field.dataset.field] || '';
-
-          field.addEventListener(
-            'input',
-            event => {
-              const input =
-                event.currentTarget;
-
-              state[input.dataset.field] =
-                input.value;
-
-              saveState();
-              updateEnergySummaries();
-            }
-          );
-        });
-    }
-
-
-    /* =========================================================
-       PROGRESS AND COMPLETION
-    ========================================================== */
-
-    function updateProgress() {
-      const fields = [
-        ...document.querySelectorAll('[data-field]')
-      ];
-
-      const completed =
-        fields.filter(field => {
-          return String(
-            field.value || ''
-          ).trim() !== '';
-        }).length;
-
-      const percentage =
-        fields.length
-          ? Math.round(
-              completed / fields.length * 100
-            )
-          : 0;
-
-      $('checked-count').textContent =
-        completed;
-
-      $('total-count').textContent =
-        fields.length;
-
-      $('progress-fill').style.width =
-        `${percentage}%`;
-
-      $('progress-pct').textContent =
-        `${percentage}%`;
-
-      $('overall-status').textContent =
-        calculateEquipmentStatus();
-
-
-      sections.forEach(
-        (section, index) => {
-          const panel =
-            document.querySelector(
-              `[data-section="${index}"]`
-            );
-
-          if (!panel) {
-            return;
-          }
-
-          const panelFields = [
-            ...panel.querySelectorAll(
-              'input, select, textarea'
-            )
-          ];
-
-          const panelCompleted =
-            panelFields.filter(field => {
-              return String(
-                field.value || ''
-              ).trim() !== '';
-            }).length;
-
-          const completion =
-            document.getElementById(
-              `completion-${index}`
-            );
-
-          if (completion) {
-            completion.textContent =
-              `Section completion: ${
-                panelFields.length
-                  ? Math.round(
-                      panelCompleted /
-                      panelFields.length *
-                      100
-                    )
-                  : 0
-              }%`;
-          }
-
-          const dot =
-            document.querySelector(
-              `[data-dot="${index}"]`
-            );
-
-          if (dot) {
-            dot.className =
-              'sidebar-dot ' +
-              (
-                panelCompleted === panelFields.length &&
-                panelFields.length
-                  ? 'dot-green'
-                  : panelCompleted
-                    ? 'dot-yellow'
-                    : 'dot-grey'
-              );
-          }
-        }
-      );
-    }
-
-
-    /* =========================================================
-       IMPORT AND EXPORT
-    ========================================================== */
-
-    function exportAudit() {
-      const blob = new Blob(
-        [
-          JSON.stringify(
-            state,
-            null,
-            2
-          )
-        ],
-        {
-          type: 'application/json'
-        }
-      );
-
-      const link =
-        document.createElement('a');
-
-      const url =
-        URL.createObjectURL(blob);
-
-      link.href = url;
-      link.download = 'equipment-audit.json';
-      link.click();
-
-      URL.revokeObjectURL(url);
-    }
-
-
-    function importAudit() {
-      $('file-input').click();
-    }
-
-
-    function importAuditFile(event) {
-      const file =
-        event.target.files[0];
-
-      if (!file) {
-        return;
+              <div class="stat-lbl">
+                ${item[0]}
+              </div>
+            </div>
+          `
+        ).join('');
       }
 
-      const reader =
-        new FileReader();
 
-      reader.onload = () => {
-        try {
-          state =
-            JSON.parse(reader.result);
+      /* =========================================================
+         RECOMMENDATIONS
+      ========================================================== */
 
-          localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(state)
-          );
+      function renderRecommendations() {
+        $('recommendation-body').innerHTML =
+          state.recommendations.map(
+            (row, index) => `
+              <tr class="border-t border-slate-200">
 
-          location.reload();
+                <td>
+                  <input
+                    class="table-input w-16"
+                    data-recommendation-index="${index}"
+                    data-recommendation-field="priority"
+                    value="${escapeHtml(row.priority)}"
+                  >
+                </td>
 
-        } catch (error) {
-          alert(
-            `Import failed: ${error.message}`
-          );
-        }
+                <td>
+                  <input
+                    class="table-input"
+                    data-recommendation-index="${index}"
+                    data-recommendation-field="area"
+                    value="${escapeHtml(row.area)}"
+                  >
+                </td>
 
-        event.target.value = '';
-      };
+                <td>
+                  <input
+                    class="table-input"
+                    data-recommendation-index="${index}"
+                    data-recommendation-field="text"
+                    value="${escapeHtml(row.text)}"
+                  >
+                </td>
 
-      reader.readAsText(file);
-    }
+                <td>
+                  <input
+                    class="table-input"
+                    type="number"
+                    data-recommendation-index="${index}"
+                    data-recommendation-field="cost"
+                    value="${escapeHtml(row.cost)}"
+                  >
+                </td>
+
+                <td>
+                  <input
+                    class="table-input"
+                    type="number"
+                    data-recommendation-index="${index}"
+                    data-recommendation-field="savings"
+                    value="${escapeHtml(row.savings)}"
+                  >
+                </td>
+
+                <td>
+                  <input
+                    class="table-input"
+                    data-recommendation-index="${index}"
+                    data-recommendation-field="status"
+                    value="${escapeHtml(row.status)}"
+                  >
+                </td>
+
+                <td>
+                  <button
+                    class="text-red-600 text-xs font-bold"
+                    data-delete-recommendation="${index}"
+                    type="button"
+                  >
+                    Delete
+                  </button>
+                </td>
+
+              </tr>
+            `
+          ).join('');
 
 
-    /* =========================================================
-       EVENT BINDING
-    ========================================================== */
+        document
+          .querySelectorAll('[data-recommendation-index]')
+          .forEach(element => {
+            element.addEventListener(
+              'input',
+              event => {
+                const input =
+                  event.currentTarget;
 
-    function bindEvents() {
-      document
-        .querySelectorAll('.sidebar-btn')
-        .forEach(button => {
-          button.addEventListener(
-            'click',
-            () => {
-              activateSection(
-                Number(button.dataset.sec)
+                const index =
+                  Number(
+                    input.dataset.recommendationIndex
+                  );
+
+                const field =
+                  input.dataset.recommendationField;
+
+                state.recommendations[index][field] =
+                  input.value;
+
+                saveState();
+              }
+            );
+          });
+
+
+        document
+          .querySelectorAll('[data-delete-recommendation]')
+          .forEach(button => {
+            button.addEventListener(
+              'click',
+              () => {
+                const index =
+                  Number(
+                    button.dataset.deleteRecommendation
+                  );
+
+                state.recommendations.splice(
+                  index,
+                  1
+                );
+
+                renderRecommendations();
+                saveState();
+              }
+            );
+          });
+      }
+
+
+      /* =========================================================
+         GENERAL FIELD BINDING
+      ========================================================== */
+
+      function bindGeneralFields() {
+        document
+          .querySelectorAll('[data-field]')
+          .forEach(field => {
+            field.value =
+              state[field.dataset.field] || '';
+
+            field.addEventListener(
+              'input',
+              event => {
+                const input =
+                  event.currentTarget;
+
+                state[input.dataset.field] =
+                  input.value;
+
+                saveState();
+                updateEnergySummaries();
+              }
+            );
+          });
+      }
+
+
+      /* =========================================================
+         PROGRESS AND COMPLETION
+      ========================================================== */
+
+      function updateProgress() {
+        const fields = [
+          ...document.querySelectorAll('[data-field]')
+        ];
+
+        const completed =
+          fields.filter(field => {
+            return String(
+              field.value || ''
+            ).trim() !== '';
+          }).length;
+
+        const percentage =
+          fields.length
+            ? Math.round(
+                completed / fields.length * 100
+              )
+            : 0;
+
+        $('checked-count').textContent =
+          completed;
+
+        $('total-count').textContent =
+          fields.length;
+
+        $('progress-fill').style.width =
+          `${percentage}%`;
+
+        $('progress-pct').textContent =
+          `${percentage}%`;
+
+        $('overall-status').textContent =
+          calculateEquipmentStatus();
+
+
+        sections.forEach(
+          (section, index) => {
+            const panel =
+              document.querySelector(
+                `[data-section="${index}"]`
               );
+
+            if (!panel) {
+              return;
             }
-          );
-        });
+
+            const panelFields = [
+              ...panel.querySelectorAll(
+                'input, select, textarea'
+              )
+            ];
+
+            const panelCompleted =
+              panelFields.filter(field => {
+                return String(
+                  field.value || ''
+                ).trim() !== '';
+              }).length;
+
+            const completion =
+              document.getElementById(
+                `completion-${index}`
+              );
+
+            if (completion) {
+              completion.textContent =
+                `Section completion: ${
+                  panelFields.length
+                    ? Math.round(
+                        panelCompleted /
+                        panelFields.length *
+                        100
+                      )
+                    : 0
+                }%`;
+            }
+
+            const dot =
+              document.querySelector(
+                `[data-dot="${index}"]`
+              );
+
+            if (dot) {
+              dot.className =
+                'sidebar-dot ' +
+                (
+                  panelCompleted === panelFields.length &&
+                  panelFields.length
+                    ? 'dot-green'
+                    : panelCompleted
+                      ? 'dot-yellow'
+                      : 'dot-grey'
+                );
+            }
+          }
+        );
+      }
 
 
-      $('add-utility').addEventListener(
-        'click',
-        () => {
-          state.utilities.push({
-            period: '',
-            start: '',
-            end: '',
-            kwh: '',
-            kw: '',
-            cost: '',
-            notes: ''
-          });
+      /* =========================================================
+         IMPORT AND EXPORT
+      ========================================================== */
 
-          renderUtilityRows();
-          saveState();
-        }
-      );
-
-
-      $('add-recommendation').addEventListener(
-        'click',
-        () => {
-          state.recommendations.push({
-            priority: '',
-            area: '',
-            text: '',
-            cost: '',
-            savings: '',
-            status: 'Open'
-          });
-
-          renderRecommendations();
-          saveState();
-        }
-      );
-
-
-      $('btn-print').addEventListener(
-        'click',
-        () => {
-          window.print();
-        }
-      );
-
-
-      $('btn-save').addEventListener(
-        'click',
-        exportAudit
-      );
-
-
-      $('btn-open').addEventListener(
-        'click',
-        importAudit
-      );
-
-
-      $('file-input').addEventListener(
-        'change',
-        importAuditFile
-      );
-
-
-      $('btn-reset').addEventListener(
-        'click',
-        () => {
-          if (
-            !confirm(
-              'Reset all Equipment Audit data?'
+      function exportAudit() {
+        const blob = new Blob(
+          [
+            JSON.stringify(
+              state,
+              null,
+              2
             )
-          ) {
-            return;
+          ],
+          {
+            type: 'application/json'
+          }
+        );
+
+        const link =
+          document.createElement('a');
+
+        const url =
+          URL.createObjectURL(blob);
+
+        link.href = url;
+        link.download = 'equipment-audit.json';
+        link.click();
+
+        URL.revokeObjectURL(url);
+      }
+
+
+      function importAudit() {
+        $('file-input').click();
+      }
+
+
+      function importAuditFile(event) {
+        const file =
+          event.target.files[0];
+
+        if (!file) {
+          return;
+        }
+
+        const reader =
+          new FileReader();
+
+        reader.onload = () => {
+          try {
+            state =
+              JSON.parse(reader.result);
+
+            localStorage.setItem(
+              STORAGE_KEY,
+              JSON.stringify(state)
+            );
+
+            location.reload();
+
+          } catch (error) {
+            alert(
+              `Import failed: ${error.message}`
+            );
           }
 
-          localStorage.removeItem(
-            STORAGE_KEY
-          );
+          event.target.value = '';
+        };
 
-          location.reload();
-        }
-      );
-
-
-      $('mobile-menu').addEventListener(
-        'click',
-        () => {
-          $('mobile-overlay')
-            .classList
-            .remove('hidden');
-        }
-      );
-
-
-      $('mobile-close').addEventListener(
-        'click',
-        () => {
-          $('mobile-overlay')
-            .classList
-            .add('hidden');
-        }
-      );
-    }
-
-
-    /* =========================================================
-       INITIALIZATION
-    ========================================================== */
-
-    function initializeEquipmentAudit() {
-      document
-        .querySelectorAll('section-header')
-        .forEach(replaceSectionHeader);
-
-
-      currentProject =
-        loadDashboardProject();
-
-
-      populateDashboardProject(
-        currentProject
-      );
-
-
-      copyProjectFieldsToState(
-        currentProject
-      );
-
-
-      buildSidebar();
-      bindGeneralFields();
-      renderEquipmentPanels();
-      renderUtilityRows();
-      renderRecommendations();
-      updateEnergySummaries();
-      bindEvents();
-      activateSection(0);
-      updateProgress();
-
-
-      if (
-        window.lucide &&
-        typeof lucide.createIcons === 'function'
-      ) {
-        lucide.createIcons();
+        reader.readAsText(file);
       }
-    }
 
 
-    initializeEquipmentAudit();
-// Defensive rebind: the sidebar is generated dynamically by buildSidebar().
-document.querySelectorAll('.sidebar-btn').forEach(button=>{
-  button.onclick=()=>activateSection(Number(button.dataset.sec));
-});
+      /* =========================================================
+         EVENT BINDING
+      ========================================================== */
 
-document.getElementById('btn-home')?.addEventListener('click', function (event) {
-  event.preventDefault();
-  window.location.href = 'index.html';
-});
-  </script>
+      function bindEvents() {
+        document
+          .querySelectorAll('.sidebar-btn')
+          .forEach(button => {
+            button.addEventListener(
+              'click',
+              () => {
+                activateSection(
+                  Number(button.dataset.sec)
+                );
+              }
+            );
+          });
+
+
+        $('add-utility').addEventListener(
+          'click',
+          () => {
+            state.utilities.push({
+              period: '',
+              start: '',
+              end: '',
+              kwh: '',
+              kw: '',
+              cost: '',
+              notes: ''
+            });
+
+            renderUtilityRows();
+            saveState();
+          }
+        );
+
+
+        $('add-recommendation').addEventListener(
+          'click',
+          () => {
+            state.recommendations.push({
+              priority: '',
+              area: '',
+              text: '',
+              cost: '',
+              savings: '',
+              status: 'Open'
+            });
+
+            renderRecommendations();
+            saveState();
+          }
+        );
+
+
+        $('btn-print').addEventListener(
+          'click',
+          () => {
+            window.print();
+          }
+        );
+
+
+        $('btn-save').addEventListener(
+          'click',
+          exportAudit
+        );
+
+
+        $('btn-open').addEventListener(
+          'click',
+          importAudit
+        );
+
+
+        $('file-input').addEventListener(
+          'change',
+          importAuditFile
+        );
+
+
+        $('btn-reset').addEventListener(
+          'click',
+          () => {
+            if (
+              !confirm(
+                'Reset all Equipment Audit data?'
+              )
+            ) {
+              return;
+            }
+
+            localStorage.removeItem(
+              STORAGE_KEY
+            );
+
+            location.reload();
+          }
+        );
+
+
+        $('mobile-menu').addEventListener(
+          'click',
+          () => {
+            $('mobile-overlay')
+              .classList
+              .remove('hidden');
+          }
+        );
+
+
+        $('mobile-close').addEventListener(
+          'click',
+          () => {
+            $('mobile-overlay')
+              .classList
+              .add('hidden');
+          }
+        );
+      }
+
+
+      /* =========================================================
+         INITIALIZATION
+      ========================================================== */
+
+      function initializeEquipmentAudit() {
+        document
+          .querySelectorAll('section-header')
+          .forEach(replaceSectionHeader);
+
+
+        currentProject =
+          loadDashboardProject();
+
+
+        populateDashboardProject(
+          currentProject
+        );
+
+
+        copyProjectFieldsToState(
+          currentProject
+        );
+
+
+        buildSidebar();
+        bindGeneralFields();
+        renderEquipmentPanels();
+        renderUtilityRows();
+        renderRecommendations();
+        updateEnergySummaries();
+        bindEvents();
+        activateSection(0);
+        updateProgress();
+
+
+        if (
+          window.lucide &&
+          typeof lucide.createIcons === 'function'
+        ) {
+          lucide.createIcons();
+        }
+      }
+
+
+      initializeEquipmentAudit();
+  // Defensive rebind: the sidebar is generated dynamically by buildSidebar().
+  document.querySelectorAll('.sidebar-btn').forEach(button=>{
+    button.onclick=()=>activateSection(Number(button.dataset.sec));
+  });
+
+  document.getElementById('btn-home')?.addEventListener('click', function (event) {
+    event.preventDefault();
+    window.location.href = 'index.html';
+  });
+</script>
 
 
 </body>
