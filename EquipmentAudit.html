@@ -3126,7 +3126,8 @@ document.getElementById('btn-home')?.addEventListener('click', function (event) 
       lucide.createIcons();
     }
 // 2. Clear Active Fields Logic Handler
-      document.getElementById('btn-reset')?.addEventListener('click', () => {
+     
+/* document.getElementById('btn-reset')?.addEventListener('click', () => {
         if (confirm('Are you completely sure you want to clear all form entries?')) {
           const targetForm = document.getElementById('auditForm');
           if (targetForm) {
@@ -3145,7 +3146,19 @@ document.getElementById('btn-home')?.addEventListener('click', function (event) 
             if (pct) pct.innerText = '0%';
           }
         }
-      });
+      });*/
+// Reset
+  document.getElementById('btn-reset').addEventListener('click', () => {
+    document.getElementById('reset-modal').classList.remove('hidden');
+  });
+  document.getElementById('reset-cancel').addEventListener('click', () => {
+    document.getElementById('reset-modal').classList.add('hidden');
+  });
+  document.getElementById('reset-confirm').addEventListener('click', () => {
+    localStorage.removeItem(STORAGE_KEY);
+    state = defaultState();
+    location.reload();
+  });
 
 	bindEvents();
   });
