@@ -3123,6 +3123,7 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
     initializeEquipmentAudit();
 // Defensive rebind: the sidebar is generated dynamically by buildSidebar().
+
 document.querySelectorAll('.sidebar-btn').forEach(button=>{
   button.onclick=()=>activateSection(Number(button.dataset.sec));
 });
