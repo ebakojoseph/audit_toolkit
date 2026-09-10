@@ -312,7 +312,7 @@
     return list.find(p=>String(p.id)===String(id))||null;
   };
 })();
-lucide.createIcons()}document.addEventListener('DOMContentLoaded',init)
+
 </script>
 </head>
 
@@ -3143,6 +3143,13 @@ document.getElementById('btn-home')?.addEventListener('click', function (event) 
   window.location.href = 'index.html';
 });
   </script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  });
+</script>
 
 
 </body>
