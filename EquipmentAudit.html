@@ -3042,24 +3042,38 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
       );
 
 
+          // Open Mobile Sidebar & Overlay Layer
       $('mobile-menu').addEventListener(
         'click',
         () => {
-          $('mobile-overlay')
-            .classList
-            .remove('hidden');
+          // 1. Reveal the dim backdrop layer
+          $('mobile-overlay').classList.remove('hidden');
+          
+          // 2. FORCE the responsive sidebar pane to pop out over the page layout
+          const mobileSidebar = $('sidebar-container'); // Use your sidebar's actual ID here
+          if (mobileSidebar) {
+            mobileSidebar.classList.remove('hidden');
+            mobileSidebar.classList.add('fixed', 'inset-y-0', 'left-0', 'z-50', 'w-64', 'flex');
+          }
         }
       );
 
-
+      // Close Mobile Sidebar & Overlay Layer
       $('mobile-close').addEventListener(
         'click',
         () => {
-          $('mobile-overlay')
-            .classList
-            .add('hidden');
+          // 1. Hide the dim backdrop layer
+          $('mobile-overlay').classList.add('hidden');
+          
+          // 2. Safely restore default responsive layout hiding rules
+          const mobileSidebar = $('sidebar-container');
+          if (mobileSidebar) {
+            mobileSidebar.classList.add('hidden');
+            mobileSidebar.classList.remove('fixed', 'inset-y-0', 'left-0', 'z-50', 'w-64', 'flex');
+          }
         }
       );
+
     }
 
 
