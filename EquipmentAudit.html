@@ -357,12 +357,27 @@
           class="text-xs font-semibold text-blue-200">
           </span>
       </div>
+
+      <!-- Right Section: Swipeable horizontal scroll container matching Code 2 -->
+      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap max-w-full py-1 no-scrollbar">
+        
+        <!-- Dashboard Action Buttons (Unchanged contents from Code 1) -->
+        <div id="dashboard-actions" class="flex gap-2 shrink-0">
+
       <div class="flex items-center gap-2 ml-auto">
 <a
   href="index.html"
   id="btn-home"
+
   class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
   title="Return to Dashboard"
+
+  class="flex items-center gap-1.5 bg-navy-700 hover:bg-navy-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition"
+
+  class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
+
+  title="Return to Dashboard"
+>
   <i data-lucide="home" class="w-3.5 h-3.5"></i>
   <span class="hidden sm:inline">Dashboard</span>
 </a>
@@ -399,6 +414,11 @@
           class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
           type="button">
 
+          class="btn bg-[#1a3460] flex items-center gap-1.5 shrink-0"
+          type="button">
+
+          class="bg-[#1a3460] px-3 py-1.5 rounded-lg text-xs font-semibold no-print"
+          type="button">
 	<i
             data-lucide="printer" class=""w-4 h-4""
           ></i>
