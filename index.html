@@ -272,7 +272,7 @@ async function uploadMonthlyFile(){
   );
 
   if(!r.ok)throw Error(`Save failed: ${r.status}`);
-  setSyncStatus(`OneDrive: ${monthFileName()}`);
+  setSyncStatus(`Synced`);
 }
 
 async function initializeOneDrive(){
