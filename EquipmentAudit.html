@@ -1946,14 +1946,55 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
           </td>
 
           <td>
-            <input
-              class="table-input"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="condition"
-              value="${escapeHtml(row.condition)}"
-            >
-          </td>
+  <select
+    class="table-input"
+    data-equipment-key="${key}"
+    data-equipment-index="${index}"
+    data-equipment-field="condition"
+  >
+    <option
+      value=""
+      ${row.condition === '' ? 'selected' : ''}
+    >
+      Select Condition
+    </option>
+
+    <option
+      value="Excellent"
+      ${row.condition === 'Excellent' ? 'selected' : ''}
+    >
+      Excellent - New / Like New
+    </option>
+
+    <option
+      value="Good"
+      ${row.condition === 'Good' ? 'selected' : ''}
+    >
+      Good - Operating Normally
+    </option>
+
+    <option
+      value="Fair"
+      ${row.condition === 'Fair' ? 'selected' : ''}
+    >
+      Fair - Minor Deficiencies
+    </option>
+
+    <option
+      value="Poor"
+      ${row.condition === 'Poor' ? 'selected' : ''}
+    >
+      Poor - Major Deficiencies
+    </option>
+
+    <option
+      value="Replace"
+      ${row.condition === 'Replace' ? 'selected' : ''}
+    >
+      End of Life / Replacement Recommended
+    </option>
+  </select>
+</td>
 
           <td>
             <input
