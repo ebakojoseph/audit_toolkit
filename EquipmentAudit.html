@@ -2221,26 +2221,20 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
     }
 
 
-    let renderEquipmentPanelsTimeout;
+    function renderEquipmentPanels() {
+      equipmentTypes.forEach(key => {
+        $(`panel-${key}`).innerHTML =
+          renderEquipmentPanel(key);
+      });
 
-function renderEquipmentPanels() {
-  clearTimeout(renderEquipmentPanelsTimeout);
+      $('panel-appliances').innerHTML =
+        renderEquipmentPanel('appliances');
 
-  renderEquipmentPanelsTimeout = setTimeout(() => {
-    equipmentTypes.forEach(key => {
-      $(`panel-${key}`).innerHTML =
-        renderEquipmentPanel(key);
-    });
+      $('panel-lighting').innerHTML =
+        renderLightingPanel();
 
-    $('panel-appliances').innerHTML =
-      renderEquipmentPanel('appliances');
-
-    $('panel-lighting').innerHTML =
-      renderLightingPanel();
-
-    bindDynamicEquipmentEvents();
-  }, 60000); // 1 minute
-}
+      bindDynamicEquipmentEvents();
+    }
 
 
     /* =========================================================
@@ -2405,21 +2399,40 @@ function renderEquipmentPanels() {
 
 
     function handleLightingInput(event) {
-      const element = event.currentTarget;
+  const element = event.currentTarget;
+  const index = Number(element.dataset.lightingIndex);
+  const field = element.dataset.lightingField;
 
-      const index =
-        Number(element.dataset.lightingIndex);
+  const row = state.equipment.lighting[index];
+  if (!row) return;
 
-      const field =
-        element.dataset.lightingField;
+  // Save the value without rebuilding the Lighting table.
+  row[field] = element.value;
 
-      state.equipment.lighting[index][field] =
-        element.value;
+  // Update calculated values in the existing row only.
+  const calculations = calculateLighting(row);
 
-      renderEquipmentPanels();
-      saveState();
-      updateEnergySummaries();
-    }
+  const connectedCell = document.querySelector(
+    `[data-lighting-connected="${index}"]`
+  );
+
+  const estimateCell = document.querySelector(
+    `[data-lighting-estimate="${index}"]`
+  );
+
+  if (connectedCell) {
+    connectedCell.textContent =
+      formatNumber(calculations.connectedWatts);
+  }
+
+  if (estimateCell) {
+    estimateCell.textContent =
+      formatNumber(calculations.estimatedKwh);
+  }
+
+  saveState();
+  updateEnergySummaries();
+}
 
 
     /* =========================================================
