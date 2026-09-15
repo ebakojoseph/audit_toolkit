@@ -2235,7 +2235,8 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
     $('panel-lighting').innerHTML =
       renderLightingPanel();
   }
-
+// Always rebind lighting events, even if panel wasn't re-rendered
+bindLightingEvents();
   bindDynamicEquipmentEvents();
 }
 
