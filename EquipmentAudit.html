@@ -2,24 +2,15 @@
 <html lang="en">
 
 <head>
-<meta http-equiv="Cache-Control" content="no-store">
-<meta http-equiv="Pragma" content="no-cache">
-  <meta charset="UTF-8">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>Equipment Audit</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script
-    src="https://unpkg.com/lucide@latest"
-    
-  ></script>
-
-  <style>
-    :root {
+	<meta http-equiv="Cache-Control" content="no-store">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+	<title>Equipment Audit</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://unpkg.com/lucide@latest"></script>
+	<style>
+		:root {
       --navy: #0f2040;
       --accent: #1e6fbd;
       --surface: #f1f5f9;
@@ -27,90 +18,88 @@
       --muted: #64748b;
       --warn: #f59e0b;
       --pass: #22c55e;
-    }
+		}
 
-    * {
+		* {
       box-sizing: border-box;
-    }
+		}
 
-    body {
+		body {
       margin: 0;
       background: var(--surface);
       font-family: Inter, Arial, sans-serif;
       color: #1e293b;
-    }
+		}
 
-    input,
-    select,
-    textarea {
-      font: inherit;
-    }
+		input,
+		select,
+		textarea {
+		font: inherit;
+		}
 
-    .sidebar-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
+		.sidebar-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		flex-shrink: 0;
+		}
 
-    .dot-grey {
-      background: #cbd5e1;
-    }
+		.dot-grey {
+		background: #cbd5e1;
+		}
 
-    .dot-yellow {
-      background: #f59e0b;
-    }
+		.dot-yellow {
+		background: #f59e0b;
+		}
 
-    .dot-green {
-      background: #22c55e;
-    }
+		.dot-green {
+		background: #22c55e;
+		}
 
-    .section-panel {
-      display: none;
-    }
+		.section-panel {
+		display: none;
+		}
 
-    .section-panel.active {
-      display: block;
-    }
+		.section-panel.active {
+		display: block;
+		}
+		.card {
+		background: #fff;
+		border-radius: 1rem;
+		padding: 1.25rem;
+		box-shadow: 0 1px 3px #0f20401a;
+		}
 
-    .card {
-      background: #fff;
-      border-radius: 1rem;
-      padding: 1.25rem;
-      box-shadow: 0 1px 3px #0f20401a;
-    }
+		.field {
+		width: 100%;
+		border: 1px solid #cbd5e1;
+		border-radius: 0.75rem;
+		padding: 0.5rem 0.75rem;
+		font-size: 0.875rem;
+		outline: none;
+		background: #fff;
+		}
+		.field:focus {
+		border-color: #4797e7;
+		box-shadow: 0 0 0 3px #d1e5f9;
+		}
 
-    .field {
-      width: 100%;
-      border: 1px solid #cbd5e1;
-      border-radius: 0.75rem;
-      padding: 0.5rem 0.75rem;
-      font-size: 0.875rem;
-      outline: none;
-      background: #fff;
-    }
+		.field[readonly],
+		.field:disabled {
+		background: #f8fafc;
+		color: #475569;
+		cursor: not-allowed;
+		}
 
-    .field:focus {
-      border-color: #4797e7;
-      box-shadow: 0 0 0 3px #d1e5f9;
-    }
+		.stat-card {
+		background: #fff;
+		border: 1px solid var(--border);
+		border-radius: 14px;
+		padding: 16px;
+		text-align: center;
+		}
 
-    .field[readonly],
-    .field:disabled {
-      background: #f8fafc;
-      color: #475569;
-      cursor: not-allowed;
-    }
-
-    .stat-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      text-align: center;
-    }
-
-    .stat-val {
+		.stat-val {
       font-size: 24px;
       font-weight: 700;
       color: var(--navy);
@@ -202,17 +191,99 @@
         border: 1px solid #ddd;
       }
     }
-  
+  /* Equipment Table Column Widths */
+
+	.col-name {
+  min-width: 160px;
+}
+
+.col-location {
+  min-width: 140px;
+}
+
+.col-qty {
+  width: 70px;
+  text-align: center;
+}
+
+.qty-input {
+  text-align: center;
+}
+}
+
+.col-type {
+  min-width: 140px;
+}
+
+.col-capacity {
+  min-width: 140px;
+}
+
+.col-efficiency {
+  min-width: 100px;
+}
+
+.col-hours {
+  min-width: 100px;
+}
+
+.col-days {
+  min-width: 100px;
+}
+
+.col-energy {
+  min-width: 130px;
+}
+
+.col-year {
+  min-width: 100px;
+}
+
+.col-life {
+  min-width: 110px;
+}
+
+.col-condition {
+  min-width: 180px;
+}
+
+.col-cost {
+  min-width: 120px;
+}
+
+.col-payback {
+  min-width: 100px;
+}
+
+.col-roi {
+  min-width: 90px;
+}
+
+.col-carbon {
+  min-width: 130px;
+}
+
+.col-recommendation {
+  min-width: 280px;
+}
+
+.calculated-cell {
+  background: #f1f5f9;
+  color: #475569;
+  font-weight: 600;
+}
+``
 /* Always-visible mobile hamburger */
 @media (max-width:767px){
   #mobile-menu{display:flex!important;visibility:visible!important;opacity:1!important;width:42px;height:42px;color:#fff;background:#1e6fbd;border:2px solid #75b1ed;border-radius:8px;align-items:center;justify-content:center;z-index:1000;position:relative;}
   #mobile-menu::before,#mobile-menu::after{content:"";position:absolute;width:22px;height:3px;background:#fff;border-radius:2px;left:9px;}
   #mobile-menu::before{box-shadow:0 -7px 0 #fff,0 7px 0 #fff;}
   #mobile-menu svg,#mobile-menu i{display:none!important;}
+  
 }
 </style>
 <script>
-(function(){
+	(function(){
   const SIGNOUT_KEY='building-diagnostics-signout';
   const CHANNEL_NAME='building-diagnostics-auth';
   let redirecting=false;
@@ -269,7 +340,6 @@
   };
 })();
 </script>
-
 <script id="AUTH_GATE_V2">
 (function(){
   const SIGNOUT_KEY='building-diagnostics-signout';
@@ -298,7 +368,6 @@
   };
 })();
 </script>
-
 <script id="shared-auth-project-patch">
 (function(){
   const SIGNOUT_KEY='building-diagnostics-signout';
@@ -322,19 +391,16 @@
 })();
 </script>
 </head>
-
-
 <body>
-
   <!-- =========================================================
        HEADER
   ========================================================== -->
 
   <header
-    class="fixed top-0 left-0 right-0 z-50 bg-[#0f2040] text-white shadow-lg h-[60px]"
-  >
-    <div class="flex items-center h-full px-4 gap-3">
- <!-- Left Section: Icon only (Title removed) -->
+    class="fixed top-0 left-0 right-0 z-50 bg-[#0f2040] text-white shadow-lg h-[60px]">
+    <div 
+		class="flex items-center h-full px-4 gap-3">
+		<!-- Left Section: Icon only (Title removed) -->
     <div class="flex items-center shrink-0">
       <i data-lucide="clipboard-check" class="w-5 h-5 text-blue-300"></i>
     </div>
@@ -1117,11 +1183,9 @@
   <!-- =========================================================
        BOTTOM STATUS BAR
   ========================================================== -->
-
-  <div
+	<div
     id="bottom-bar"
-    class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-300 z-40 px-4 py-2 flex items-center justify-between text-xs"
-  >
+    class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-300 z-40 px-4 py-2 flex items-center justify-between text-xs">
     <span>
       <b id="checked-count">0</b>
       of
@@ -1714,315 +1778,1395 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
     /* =========================================================
        EQUIPMENT TABLE RENDERING
     ========================================================== */
+	function renderEquipmentPanels() {
 
-    function renderEquipmentPanel(key) {
-      const rows = state.equipment[key];
-      const isAppliance = key === 'appliances';
+  $('panel-furnace').innerHTML =
+    renderFurnacePanel();
 
-      return `
-        <div class="card mt-3">
+  $('panel-boiler').innerHTML =
+    renderBoilerPanel();
 
-          <div class="flex justify-between items-center mb-3">
+  $('panel-heatPump').innerHTML =
+    renderHeatPumpPanel();
 
-            <div class="text-xs text-slate-500">
-              ${
-                isAppliance
-                  ? 'Add appliances as required.'
-                  : 'Enter nameplate ratings and operating assumptions; measured kWh overrides the estimate.'
-              }
-            </div>
+  $('panel-ac').innerHTML =
+    renderACPanel();
 
-            <button
-              class="text-xs font-semibold text-[#1e6fbd] no-print"
-              data-add-equipment="${key}"
-              type="button"
-            >
-              ＋ Add ${isAppliance ? 'Appliance' : 'Equipment'}
-            </button>
+  $('panel-appliances').innerHTML =
+    renderAppliancePanel();
 
-          </div>
+  $('panel-lighting').innerHTML =
+    renderLightingPanel();
+	
+  $('panel-ventilation').innerHTML =
+	renderVentilationPanel();
 
+  bindDynamicEquipmentEvents();
 
-          <div class="overflow-x-auto">
+}
+``	
+	function renderNameInput(key, index, row) {
 
-            <table class="w-full text-sm">
+  return `
+    <input
+      class="table-input w50"
+      data-equipment-key="${key}"
+      data-equipment-index="${index}"
+      data-equipment-field="name"
+      value="${escapeHtml(row.name)}"
+    >
+  `;
 
-              <thead class="bg-slate-100 text-xs font-semibold">
-                <tr>
-                  <th class="p-2 text-left">
-                    Name
-                  </th>
+}
+	function renderLocationInput(key, index, row) {
 
-                  <th class="p-2 text-left">
-                    Location
-                  </th>
+  return `
+    <input
+      class="table-input w-50"
+      data-equipment-key="${key}"
+      data-equipment-index="${index}"
+      data-equipment-field="location"
+      value="${escapeHtml(row.location)}"
+    >
+  `;
 
-                  <th class="p-2">
-                    Qty
-                  </th>
+}
+	function renderQuantityInput(key, index, row) {
 
-                  <th class="p-2">
-                    Power
-                  </th>
+  return `
+    <input
+      type="number"
+      class="table-input min-w-[120px]"
+      data-equipment-key="${key}"
+      data-equipment-index="${index}"
+      data-equipment-field="quantity"
+      value="${escapeHtml(row.quantity)}"
+    >
+  `;
 
-                  <th class="p-2">
-                    Unit
-                  </th>
+}
+	function renderRecommendationInput(key, index, row) {
 
-                  <th class="p-2">
-                    Load
-                  </th>
+  return `
+    <input
+      class="table-input"
+      data-equipment-key="${key}"
+      data-equipment-index="${index}"
+      data-equipment-field="recommendation"
+      value="${escapeHtml(row.recommendation)}"
+    >
+  `;
 
-                  <th class="p-2">
-                    Hours/day
-                  </th>
+}
+	function renderDeleteButton(key, index) {
 
-                  <th class="p-2">
-                    Days/year
-                  </th>
+  return `
+    <button
+      class="text-red-600 text-xs font-bold"
+      data-delete-equipment="${key}"
+      data-equipment-index="${index}"
+      type="button"
+    >
+      Delete
+    </button>
+  `;
 
-                  <th class="p-2 text-right">
-                    Estimated kWh/y
-                  </th>
+}
+	function renderConditionSelect(key, index, row) {
 
-                  <th class="p-2">
-                    Measured kWh/y
-                  </th>
+  return `
+    <select
+      class="table-input"
+      data-equipment-key="${key}"
+      data-equipment-index="${index}"
+      data-equipment-field="condition"
+    >
 
-                  <th class="p-2">
-                    Condition
-                  </th>
+      <option value=""
+        ${row.condition === '' ? 'selected' : ''}>
+        Select Condition
+      </option>
 
-                  <th class="p-2 text-left">
-                    Recommendation
-                  </th>
+      <option value="Excellent"
+        ${row.condition === 'Excellent' ? 'selected' : ''}>
+        Excellent
+      </option>
 
-                  <th class="p-2 no-print"></th>
-                </tr>
-              </thead>
+      <option value="Good"
+        ${row.condition === 'Good' ? 'selected' : ''}>
+        Good
+      </option>
 
-              <tbody>
-                ${
-                  rows.map(
-                    (row, index) =>
-                      renderEquipmentRow(
-                        key,
-                        row,
-                        index
-                      )
-                  ).join('')
-                }
-              </tbody>
+      <option value="Fair"
+        ${row.condition === 'Fair' ? 'selected' : ''}>
+        Fair
+      </option>
 
-            </table>
-          </div>
+      <option value="Poor"
+        ${row.condition === 'Poor' ? 'selected' : ''}>
+        Poor
+      </option>
 
-        </div>
-      `;
-    }
+      <option value="Replace"
+        ${row.condition === 'Replace' ? 'selected' : ''}>
+        Replace
+      </option>
 
+    </select>
+  `;
 
-    function renderEquipmentRow(key, row, index) {
-      return `
-        <tr class="border-t border-slate-200">
+}
+	function renderFuelTypeSelect(key, index, row) {
 
-          <td>
-            <input
-              class="table-input"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="name"
-              value="${escapeHtml(row.name)}"
-            >
-          </td>
+  return `
+    <select
+      class="table-input"
+      data-equipment-key="${key}"
+      data-equipment-index="${index}"
+      data-equipment-field="fuelType"
+    >
 
-          <td>
-            <input
-              class="table-input"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="location"
-              value="${escapeHtml(row.location)}"
-            >
-          </td>
+      <option value=""
+        ${row.fuelType === '' ? 'selected' : ''}>
+        Select Fuel
+      </option>
 
-          <td>
-            <input
-              class="table-input w-16"
-              type="number"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="quantity"
-              value="${escapeHtml(row.quantity)}"
-            >
-          </td>
+      <option value="Natural Gas"
+        ${row.fuelType === 'Natural Gas' ? 'selected' : ''}>
+        Natural Gas
+      </option>
 
-          <td>
-            <input
-              class="table-input w-20"
-              type="number"
-              step="0.01"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="power"
-              value="${escapeHtml(row.power)}"
-            >
-          </td>
+      <option value="Electricity"
+        ${row.fuelType === 'Electricity' ? 'selected' : ''}>
+        Electricity
+      </option>
+	  <option
+        value="Dual Fuel"
+		${row.fuelType === 'Dual Fuel' ? 'selected' : ''}
+		>
+		Dual Fuel
+	  </option>
+      <option value="Propane"
+        ${row.fuelType === 'Propane' ? 'selected' : ''}>
+        Propane
+      </option>
 
-          <td>
-            <select
-              class="table-input"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="unit"
-            >
-              <option
-                value="W"
-                ${row.unit === 'W' ? 'selected' : ''}
-              >
-                W
-              </option>
+      <option value="Oil"
+        ${row.fuelType === 'Oil' ? 'selected' : ''}>
+        Oil
+      </option>
 
-              <option
-                value="kW"
-                ${row.unit === 'kW' ? 'selected' : ''}
-              >
-                kW
-              </option>
-            </select>
-          </td>
+      <option value="District Energy"
+        ${row.fuelType === 'District Energy' ? 'selected' : ''}>
+        District Energy
+      </option>
 
-          <td>
-            <input
-              class="table-input w-16"
-              type="number"
-              step="0.01"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="load"
-              value="${escapeHtml(row.load)}"
-            >
-          </td>
+      <option value="Wood / Biomass"
+        ${row.fuelType === 'Wood / Biomass' ? 'selected' : ''}>
+        Wood / Biomass
+      </option>
 
-          <td>
-            <input
-              class="table-input w-20"
-              type="number"
-              step="0.1"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="hours"
-              value="${escapeHtml(row.hours)}"
-            >
-          </td>
+    </select>
+  `;
 
-          <td>
-            <input
-              class="table-input w-20"
-              type="number"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="days"
-              value="${escapeHtml(row.days)}"
-            >
-          </td>
+}
+	
+	function renderFurnacePanel() {
 
-          <td
-            class="p-2 font-semibold text-right"
-            data-equipment-estimate="${key}:${index}"
-          >
-            ${formatNumber(calculateEstimatedKwh(row))}
-          </td>
+  const rows = state.equipment.furnace;
 
-          <td>
-            <input
-              class="table-input w-24"
-              type="number"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="measured"
-              value="${escapeHtml(row.measured)}"
-            >
-          </td>
+  return `
+    <div class="card mt-3">
 
-          <td>
-  <select
-    class="table-input"
-    data-equipment-key="${key}"
-    data-equipment-index="${index}"
-    data-equipment-field="condition"
-  >
-    <option
+      <div class="overflow-x-auto">
+
+        <table class="w-full text-sm">
+
+          <thead class="bg-slate-100 text-xs font-semibold">
+
+            <tr>
+				<th class="col-name">Name</th>
+				<th class="col-location">Location</th>
+				<th class="col-qty">Qty</th>
+				<th class="col-type">Fuel Type</th>
+				<th class="col-capacity">Heating Capacity</th>
+				<th class="col-efficiency">AFUE (%)</th>
+				<th class="col-year">Install Year</th>
+				<th class="col-condition">Condition</th>
+				<th class="col-type">Usage Profile</th>
+				<th class="col-recommendation">Recommendation</th>
+				<th></th>
+			</tr>
+
+          </thead>
+
+          <tbody>
+
+            ${
+              rows.map(
+                (row,index) =>
+                renderFurnaceRow(row,index)
+              ).join('')
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+  `;
+}
+	function renderFurnaceRow(row,index){
+
+  return `
+    <tr>
+
+      <td>${renderNameInput('furnace',index,row)}</td>
+
+      <td>${renderLocationInput('furnace',index,row)}</td>
+
+      <td>${renderQuantityInput('furnace',index,row)}</td>
+
+      <td>${renderFuelTypeSelect('furnace',index,row)}</td>
+
+      <td>
+        <input
+			class="table-input"
+			placeholder="BTU/hr"
+			data-equipment-key="furnace"
+			data-equipment-index="${index}"
+			data-equipment-field="heatingCapacity"
+			value="${escapeHtml(row.heatingCapacity)}"
+		>
+      </td>
+
+      <td>
+        <input
+          type="number"
+          class="table-input"
+          data-equipment-key="furnace"
+          data-equipment-index="${index}"
+          data-equipment-field="afue"
+          value="${escapeHtml(row.afue)}"
+        >
+      </td>
+
+      <td>
+        <input
+          type="number"
+          class="table-input"
+          data-equipment-key="furnace"
+          data-equipment-index="${index}"
+          data-equipment-field="installationYear"
+          value="${escapeHtml(row.installationYear)}"
+        >
+      </td>
+
+      <td>${renderConditionSelect('furnace',index,row)}</td>
+
+      <td>
+        <select
+          class="table-input"
+          data-equipment-key="furnace"
+          data-equipment-index="${index}"
+          data-equipment-field="usageProfile"
+        >
+          <option
+  value="Low"
+  ${row.usageProfile === 'Low' ? 'selected' : ''}
+>
+  Low
+</option>
+
+<option
+  value="Typical"
+  ${row.usageProfile === 'Typical' ? 'selected' : ''}
+>
+  Typical
+</option>
+
+<option
+  value="High"
+  ${row.usageProfile === 'High' ? 'selected' : ''}
+>
+  High
+</option>
+        </select>
+      </td>
+
+      <td>${renderRecommendationInput('furnace',index,row)}</td>
+
+      <td>${renderDeleteButton('furnace',index)}</td>
+
+    </tr>
+  `;
+}
+	function renderBoilerPanel() {
+
+  const rows = state.equipment.boiler;
+
+  return `
+    <div class="card mt-3">
+
+      <div class="overflow-x-auto">
+
+        <table class="w-full text-sm">
+
+          <thead class="bg-slate-100 text-xs font-semibold">
+
+            <tr>
+
+				<th class="col-name"> Name </th>
+
+				<th class="col-location"> Location </th>
+
+				<th class="col-qty"> Qty </th>
+				<th class="col-type"> Fuel Type </th>
+				<th class="col-type">Boiler Type</th>
+				<th class="col-capacity">  Capacity</th>
+				<th class="col-efficiency"> Efficiency (%)</th>
+				<th class="col-year"> Install Year</th>
+				<th class="col-condition"> Condition</th>
+				<th class="col-type">  Usage Profile </th>
+				<th class="col-recommendation"> Recommendation </th>
+				<th class="col-qty"></th>
+
+			</tr>
+
+          </thead>
+
+          <tbody>
+
+            ${
+              rows.map(
+                (row,index) =>
+                renderBoilerRow(row,index)
+              ).join('')
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+  `;
+}
+	function renderBoilerRow(row,index){
+
+  return `
+    <tr>
+
+      <td>${renderNameInput('boiler',index,row)}</td>
+
+      <td>${renderLocationInput('boiler',index,row)}</td>
+
+      <td>${renderQuantityInput('boiler',index,row)}</td>
+
+      <td>${renderFuelTypeSelect('boiler',index,row)}</td>
+
+      <td>
+        <select
+          class="table-input"
+          data-equipment-key="boiler"
+          data-equipment-index="${index}"
+          data-equipment-field="boilerType"
+        >
+         <option
       value=""
-      ${row.condition === '' ? 'selected' : ''}
+      ${row.boilerType === '' ? 'selected' : ''}
     >
-      Select Condition
+      Select Type
     </option>
 
     <option
-      value="Excellent"
-      ${row.condition === 'Excellent' ? 'selected' : ''}
+      value="Hot Water"
+      ${row.boilerType === 'Hot Water' ? 'selected' : ''}
     >
-      Excellent - New / Like New
+      Hot Water
     </option>
 
     <option
-      value="Good"
-      ${row.condition === 'Good' ? 'selected' : ''}
+      value="Steam"
+      ${row.boilerType === 'Steam' ? 'selected' : ''}
     >
-      Good - Operating Normally
+      Steam
     </option>
 
     <option
-      value="Fair"
-      ${row.condition === 'Fair' ? 'selected' : ''}
+      value="Condensing"
+      ${row.boilerType === 'Condensing' ? 'selected' : ''}
     >
-      Fair - Minor Deficiencies
+      Condensing
     </option>
 
     <option
-      value="Poor"
-      ${row.condition === 'Poor' ? 'selected' : ''}
+      value="Non-Condensing"
+      ${row.boilerType === 'Non-Condensing' ? 'selected' : ''}
     >
-      Poor - Major Deficiencies
+      Non-Condensing
     </option>
 
     <option
-      value="Replace"
-      ${row.condition === 'Replace' ? 'selected' : ''}
+      value="Electric"
+      ${row.boilerType === 'Electric' ? 'selected' : ''}
     >
-      End of Life / Replacement Recommended
+      Electric
     </option>
+
+    <option
+      value="Combination"
+      ${row.boilerType === 'Combination' ? 'selected' : ''}
+    >
+      Combination (Combi)
+    </option>
+
   </select>
 </td>
+      <td>
+        <input
+			class="table-input"
+			placeholder="BTU/hr"
+			data-equipment-key="boiler"
+			data-equipment-index="${index}"
+			data-equipment-field="capacity"
+			value="${escapeHtml(row.capacity)}"
+		>
+      </td>
 
-          <td>
-            <input
-              class="table-input"
-              data-equipment-key="${key}"
-              data-equipment-index="${index}"
-              data-equipment-field="recommendation"
-              value="${escapeHtml(row.recommendation)}"
-            >
-          </td>
+      <td>
+        <input
+          class="table-input"
+          data-equipment-key="boiler"
+          data-equipment-index="${index}"
+          data-equipment-field="efficiency"
+          value="${escapeHtml(row.efficiency)}"
+        >
+      </td>
 
-          <td class="p-2 no-print">
-            <button
-              class="text-red-600 text-xs font-bold"
-              data-delete-equipment="${key}"
-              data-equipment-index="${index}"
-              type="button"
-            >
-              Delete
-            </button>
-          </td>
+      <td>
+        <input
+          type="number"
+          class="table-input"
+          data-equipment-key="boiler"
+          data-equipment-index="${index}"
+          data-equipment-field="installationYear"
+          value="${escapeHtml(row.installationYear)}"
+        >
+      </td>
 
-        </tr>
-      `;
-    }
+      <td>${renderConditionSelect('boiler',index,row)}</td>
 
+      <td>
+        <select
+          class="table-input"
+          data-equipment-key="boiler"
+          data-equipment-index="${index}"
+          data-equipment-field="usageProfile"
+        >
+          <option
+  value="Low"
+  ${row.usageProfile === 'Low' ? 'selected' : ''}
+>
+  Low
+</option>
 
-    function renderLightingPanel() {
+<option
+  value="Typical"
+  ${row.usageProfile === 'Typical' ? 'selected' : ''}
+>
+  Typical
+</option>
+
+<option
+  value="High"
+  ${row.usageProfile === 'High' ? 'selected' : ''}
+>
+  High
+</option>
+        </select>
+      </td>
+
+      <td>${renderRecommendationInput('boiler',index,row)}</td>
+
+      <td>${renderDeleteButton('boiler',index)}</td>
+
+    </tr>
+  `;
+}
+	function renderHeatPumpPanel() {
+
+  const rows = state.equipment.heatPump;
+
+  return `
+    <div class="card mt-3">
+      <div class="overflow-x-auto">
+
+        <table class="w-full text-sm">
+
+          <thead class="bg-slate-100 text-xs font-semibold">
+            <tr>
+              <th class="col-name">
+    Name
+  </th>
+
+  <th class="col-location">
+    Location
+  </th>
+
+  <th class="col-qty">
+    Qty
+  </th>
+
+  <th class="col-type">
+    Type
+  </th>
+
+  <th class="col-capacity">
+    Heating Capacity
+  </th>
+
+  <th class="col-capacity">
+    Cooling Capacity
+  </th>
+
+  <th class="col-efficiency">
+    COP
+  </th>
+
+  <th class="col-efficiency">
+    HSPF
+  </th>
+
+  <th class="col-efficiency">
+    SEER
+  </th>
+
+  <th class="col-year">
+    Install Year
+  </th>
+
+  <th class="col-condition">
+    Condition
+  </th>
+
+  <th class="col-recommendation">
+    Recommendation
+  </th>
+
+  <th class="col-qty"></th>
+
+            </tr>
+          </thead>
+
+          <tbody>
+            ${
+              rows.map(
+                (row,index) =>
+                renderHeatPumpRow(row,index)
+              ).join('')
+            }
+          </tbody>
+
+        </table>
+
+      </div>
+    </div>
+  `;
+}
+	function renderHeatPumpRow(row, index) {
+
+  return `
+    <tr>
+
+      <td>
+        ${renderNameInput('heatPump', index, row)}
+      </td>
+
+      <td>
+        ${renderLocationInput('heatPump', index, row)}
+      </td>
+
+      <td>
+        ${renderQuantityInput('heatPump', index, row)}
+      </td>
+
+      <td>
+        <select
+          class="table-input"
+          data-equipment-key="heatPump"
+          data-equipment-index="${index}"
+          data-equipment-field="type"
+        >
+
+          <option
+            value=""
+            ${row.type === '' ? 'selected' : ''}
+          >
+            Select Type
+          </option>
+
+          <option
+            value="Air Source"
+            ${row.type === 'Air Source' ? 'selected' : ''}
+          >
+            Air Source
+          </option>
+
+          <option
+            value="Ground Source"
+            ${row.type === 'Ground Source' ? 'selected' : ''}
+          >
+            Ground Source (Geothermal)
+          </option>
+
+          <option
+            value="Water Source"
+            ${row.type === 'Water Source' ? 'selected' : ''}
+          >
+            Water Source
+          </option>
+
+          <option
+            value="Hybrid"
+            ${row.type === 'Hybrid' ? 'selected' : ''}
+          >
+            Hybrid / Dual Fuel
+          </option>
+
+          <option
+            value="Ductless Mini-Split"
+            ${row.type === 'Ductless Mini-Split' ? 'selected' : ''}
+          >
+            Ductless Mini-Split
+          </option>
+
+        </select>
+      </td>
+
+      <td>
+        <input
+          class="table-input"
+          placeholder="Heating BTU/hr"
+          data-equipment-key="heatPump"
+          data-equipment-index="${index}"
+          data-equipment-field="heatingCapacity"
+          value="${escapeHtml(row.heatingCapacity)}"
+        >
+      </td>
+
+      <td>
+        <input
+          class="table-input"
+          placeholder="Cooling BTU/hr"
+          data-equipment-key="heatPump"
+          data-equipment-index="${index}"
+          data-equipment-field="coolingCapacity"
+          value="${escapeHtml(row.coolingCapacity)}"
+        >
+      </td>
+
+      <td>
+        <input
+          class="table-input"
+          type="number"
+          step="0.1"
+          data-equipment-key="heatPump"
+          data-equipment-index="${index}"
+          data-equipment-field="cop"
+          value="${escapeHtml(row.cop)}"
+        >
+      </td>
+
+      <td>
+        <input
+          class="table-input"
+          type="number"
+          step="0.1"
+          data-equipment-key="heatPump"
+          data-equipment-index="${index}"
+          data-equipment-field="hspf"
+          value="${escapeHtml(row.hspf)}"
+        >
+      </td>
+
+      <td>
+        <input
+          class="table-input"
+          type="number"
+          step="0.1"
+          data-equipment-key="heatPump"
+          data-equipment-index="${index}"
+          data-equipment-field="seer"
+          value="${escapeHtml(row.seer)}"
+        >
+      </td>
+
+      <td>
+        <input
+          type="number"
+          class="table-input"
+          data-equipment-key="heatPump"
+          data-equipment-index="${index}"
+          data-equipment-field="installationYear"
+          value="${escapeHtml(row.installationYear)}"
+        >
+      </td>
+
+      <td>
+        ${renderConditionSelect('heatPump', index, row)}
+      </td>
+
+      <td>
+        ${renderRecommendationInput('heatPump', index, row)}
+      </td>
+
+      <td class="no-print">
+        ${renderDeleteButton('heatPump', index)}
+      </td>
+
+    </tr>
+  `;
+
+}
+	function renderACPanel() {
+
+  const rows = state.equipment.ac;
+
+  return `
+    <div class="card mt-3">
+      <div class="overflow-x-auto">
+
+        <table class="w-full text-sm">
+
+          <thead class="bg-slate-100 text-xs font-semibold">
+            <tr>
+
+  <th class="col-name">
+    Name
+  </th>
+
+  <th class="col-location">
+    Location
+  </th>
+
+  <th class="col-qty">
+    Qty
+  </th>
+
+  <th class="col-type">
+    Type
+  </th>
+
+  <th class="col-capacity">
+    Cooling Capacity
+  </th>
+
+  <th class="col-efficiency">
+    SEER
+  </th>
+
+  <th class="col-efficiency">
+    EER
+  </th>
+
+  <th class="col-type">
+    Refrigerant
+  </th>
+
+  <th class="col-year">
+    Install Year
+  </th>
+
+  <th class="col-condition">
+    Condition
+  </th>
+
+  <th class="col-recommendation">
+    Recommendation
+  </th>
+
+  <th class="col-qty"></th>
+
+</tr>
+          </thead>
+
+          <tbody>
+            ${
+              rows.map(
+                (row,index)=>
+                  renderACRow(row,index)
+              ).join('')
+            }
+          </tbody>
+
+        </table>
+
+      </div>
+    </div>
+  `;
+}
+	function renderACRow(row,index){
+
+		return `
+    <tr>
+
+      <td>${renderNameInput('ac',index,row)}</td>
+
+      <td>${renderLocationInput('ac',index,row)}</td>
+
+      <td>${renderQuantityInput('ac',index,row)}</td>
+
+      <td>
+  <select
+    class="table-input"
+    data-equipment-key="ac"
+    data-equipment-index="${index}"
+    data-equipment-field="type"
+  >
+
+    <option
+      value=""
+      ${row.type === '' ? 'selected' : ''}
+    >
+      Select Type
+    </option>
+
+    <option
+      value="Split System"
+      ${row.type === 'Split System' ? 'selected' : ''}
+    >
+      Split System
+    </option>
+
+    <option
+      value="Packaged Unit"
+      ${row.type === 'Packaged Unit' ? 'selected' : ''}
+    >
+      Packaged Unit
+    </option>
+
+    <option
+      value="Rooftop Unit"
+      ${row.type === 'Rooftop Unit' ? 'selected' : ''}
+    >
+      Rooftop Unit (RTU)
+    </option>
+
+    <option
+      value="Window Unit"
+      ${row.type === 'Window Unit' ? 'selected' : ''}
+    >
+      Window Unit
+    </option>
+
+    <option
+      value="Ductless Mini-Split"
+      ${row.type === 'Ductless Mini-Split' ? 'selected' : ''}
+    >
+      Ductless Mini-Split
+    </option>
+
+    <option
+      value="Central Air"
+      ${row.type === 'Central Air' ? 'selected' : ''}
+    >
+      Central Air
+    </option>
+
+  </select>
+</td>
+      <td>
+  <input
+    class="table-input"
+    placeholder="Cooling BTU/hr"
+    data-equipment-key="ac"
+    data-equipment-index="${index}"
+    data-equipment-field="coolingCapacity"
+    value="${escapeHtml(row.coolingCapacity)}"
+  >
+</td>
+
+      <td><input class="table-input" data-equipment-key="ac" data-equipment-index="${index}" data-equipment-field="seer" value="${escapeHtml(row.seer)}"></td>
+
+      <td><input class="table-input" data-equipment-key="ac" data-equipment-index="${index}" data-equipment-field="eer" value="${escapeHtml(row.eer)}"></td>
+
+      <td><input class="table-input" data-equipment-key="ac" data-equipment-index="${index}" data-equipment-field="refrigerant" value="${escapeHtml(row.refrigerant)}"></td>
+
+      <td><input class="table-input" type="number" data-equipment-key="ac" data-equipment-index="${index}" data-equipment-field="installationYear" value="${escapeHtml(row.installationYear)}"></td>
+
+      <td>${renderConditionSelect('ac',index,row)}</td>
+
+      <td>${renderRecommendationInput('ac',index,row)}</td>
+
+      <td>${renderDeleteButton('ac',index)}</td>
+
+    </tr>
+  `;
+}
+	function renderVentilationPanel() {
+
+  const rows = state.equipment.ventilation;
+
+  return `
+    <div class="card mt-3">
+
+      <div class="flex justify-between items-center mb-3">
+
+        <div class="text-xs text-slate-500">
+          Add ventilation equipment as required.
+        </div>
+
+        <button
+          class="text-xs font-semibold text-[#1e6fbd] no-print"
+          data-add-equipment="ventilation"
+          type="button"
+        >
+          ＋ Add Ventilation Equipment
+        </button>
+
+      </div>
+
+      <div class="overflow-x-auto">
+
+        <table class="w-full text-sm">
+
+          <thead class="bg-slate-100 text-xs font-semibold">
+
+            <tr>
+
+              <th class="col-name">
+    Name
+  </th>
+
+  <th class="col-location">
+    Location
+  </th>
+
+  <th class="col-qty">
+    Qty
+  </th>
+
+  <th class="col-capacity">
+    Power
+  </th>
+
+  <th class="col-type">
+    Unit
+  </th>
+
+  <th class="col-efficiency">
+    Load
+  </th>
+
+  <th class="col-hours">
+    Hours/day
+  </th>
+
+  <th class="col-days">
+    Days/year
+  </th>
+
+  <th class="col-energy">
+    Estimated kWh/y
+  </th>
+
+  <th class="col-energy">
+    Measured kWh/y
+  </th>
+
+  <th class="col-condition">
+    Condition
+  </th>
+
+  <th class="col-recommendation">
+    Recommendation
+  </th>
+
+  <th class="col-qty"></th>
+
+</tr>
+
+          
+          </thead>
+
+          <tbody>
+
+            ${
+              rows.map(
+                (row,index)=>
+                  renderVentilationRow(
+                    row,
+                    index
+                  )
+              ).join('')
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+  `;
+}
+	function renderVentilationRow(row, index) {
+
+  return `
+    <tr class="border-t border-slate-200">
+
+      <td>
+        ${renderNameInput('ventilation', index, row)}
+      </td>
+
+      <td>
+        ${renderLocationInput('ventilation', index, row)}
+      </td>
+
+      <td>
+        ${renderQuantityInput('ventilation', index, row)}
+      </td>
+
+      <td>
+        <input
+          class="table-input w-20"
+          type="number"
+          step="0.01"
+          data-equipment-key="ventilation"
+          data-equipment-index="${index}"
+          data-equipment-field="power"
+          value="${escapeHtml(row.power)}"
+        >
+      </td>
+
+      <td>
+        <select
+          class="table-input"
+          data-equipment-key="ventilation"
+          data-equipment-index="${index}"
+          data-equipment-field="unit"
+        >
+
+          <option
+            value="W"
+            ${row.unit === 'W' ? 'selected' : ''}
+          >
+            W
+          </option>
+
+          <option
+            value="kW"
+            ${row.unit === 'kW' ? 'selected' : ''}
+          >
+            kW
+          </option>
+
+        </select>
+      </td>
+
+      <td>
+        <input
+          class="table-input w-16"
+          type="number"
+          step="0.01"
+          data-equipment-key="ventilation"
+          data-equipment-index="${index}"
+          data-equipment-field="load"
+          value="${escapeHtml(row.load)}"
+        >
+      </td>
+
+      <td>
+        <input
+          class="table-input w-20"
+          type="number"
+          step="0.1"
+          data-equipment-key="ventilation"
+          data-equipment-index="${index}"
+          data-equipment-field="hours"
+          value="${escapeHtml(row.hours)}"
+        >
+      </td>
+
+      <td>
+        <input
+          class="table-input w-20"
+          type="number"
+          data-equipment-key="ventilation"
+          data-equipment-index="${index}"
+          data-equipment-field="days"
+          value="${escapeHtml(row.days)}"
+        >
+      </td>
+
+      <td
+        class="p-2 font-semibold text-right"
+        data-equipment-estimate="ventilation:${index}"
+      >
+        ${formatNumber(calculateEstimatedKwh(row))}
+      </td>
+
+      <td>
+        <input
+          class="table-input w-24"
+          type="number"
+          data-equipment-key="ventilation"
+          data-equipment-index="${index}"
+          data-equipment-field="measured"
+          value="${escapeHtml(row.measured)}"
+        >
+      </td>
+
+      <td>
+        ${renderConditionSelect('ventilation', index, row)}
+      </td>
+
+      <td>
+        ${renderRecommendationInput('ventilation', index, row)}
+      </td>
+
+      <td class="p-2 no-print">
+        ${renderDeleteButton('ventilation', index)}
+      </td>
+
+    </tr>
+  `;
+}
+	function renderAppliancePanel() {
+
+  const rows = state.equipment.appliances;
+
+  return `
+    <div class="card mt-3">
+
+      <div class="flex justify-between items-center mb-3">
+
+        <div class="text-xs text-slate-500">
+          Add appliances as required. Estimated energy is calculated from power and operating schedule.
+        </div>
+
+        <button
+          class="text-xs font-semibold text-[#1e6fbd] no-print"
+          data-add-equipment="appliances"
+          type="button"
+        >
+          ＋ Add Appliance
+        </button>
+
+      </div>
+
+      <div class="overflow-x-auto">
+
+        <table class="w-full text-sm">
+
+          <thead class="bg-slate-100 text-xs font-semibold">
+
+            <tr>
+
+  <th class="p-2 text-left col-name">
+    Name
+  </th>
+
+  <th class="p-2 text-left col-location">
+    Location
+  </th>
+
+  <th class="p-2 col-qty">
+    Qty
+  </th>
+
+  <th class="p-2 col-capacity">
+    Power
+  </th>
+
+  <th class="p-2 col-type">
+    Unit
+  </th>
+
+  <th class="p-2 col-efficiency">
+    Load
+  </th>
+
+  <th class="p-2 col-hours">
+    Hours/day
+  </th>
+
+  <th class="p-2 col-days">
+    Days/year
+  </th>
+
+  <th class="p-2 text-right col-energy">
+    Estimated kWh/y
+  </th>
+
+  <th class="p-2 col-energy">
+    Measured kWh/y
+  </th>
+
+  <th class="p-2 col-condition">
+    Condition
+  </th>
+
+  <th class="p-2 text-left col-recommendation">
+    Recommendation
+  </th>
+
+  <th class="p-2 no-print col-qty"></th>
+
+</tr>
+
+          </thead>
+
+          <tbody>
+
+            ${
+              rows
+                .map(
+                  (row, index) =>
+                    renderApplianceRow(
+                      row,
+                      index
+                    )
+                )
+                .join('')
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+  `;
+}
+	function renderApplianceRow(row, index) {
+
+  return `
+    <tr class="border-t border-slate-200">
+
+      <td>
+        ${renderNameInput('appliances', index, row)}
+      </td>
+
+      <td>
+        ${renderLocationInput('appliances', index, row)}
+      </td>
+
+      <td>
+        ${renderQuantityInput('appliances', index, row)}
+      </td>
+
+      <td>
+        <input
+          class="table-input w-20"
+          type="number"
+          step="0.01"
+          data-equipment-key="appliances"
+          data-equipment-index="${index}"
+          data-equipment-field="power"
+          value="${escapeHtml(row.power)}"
+        >
+      </td>
+
+      <td>
+        <select
+          class="table-input"
+          data-equipment-key="appliances"
+          data-equipment-index="${index}"
+          data-equipment-field="unit"
+        >
+
+          <option
+            value="W"
+            ${row.unit === 'W' ? 'selected' : ''}
+          >
+            W
+          </option>
+
+          <option
+            value="kW"
+            ${row.unit === 'kW' ? 'selected' : ''}
+          >
+            kW
+          </option>
+
+        </select>
+      </td>
+
+      <td>
+        <input
+          class="table-input w-16"
+          type="number"
+          step="0.01"
+          data-equipment-key="appliances"
+          data-equipment-index="${index}"
+          data-equipment-field="load"
+          value="${escapeHtml(row.load)}"
+        >
+      </td>
+
+      <td>
+        <input
+          class="table-input w-20"
+          type="number"
+          step="0.1"
+          data-equipment-key="appliances"
+          data-equipment-index="${index}"
+          data-equipment-field="hours"
+          value="${escapeHtml(row.hours)}"
+        >
+      </td>
+
+      <td>
+        <input
+          class="table-input w-20"
+          type="number"
+          data-equipment-key="appliances"
+          data-equipment-index="${index}"
+          data-equipment-field="days"
+          value="${escapeHtml(row.days)}"
+        >
+      </td>
+
+      <td
+        class="p-2 font-semibold text-right"
+        data-equipment-estimate="appliances:${index}"
+      >
+        ${formatNumber(calculateEstimatedKwh(row))}
+      </td>
+
+      <td>
+        <input
+          class="table-input w-24"
+          type="number"
+          data-equipment-key="appliances"
+          data-equipment-index="${index}"
+          data-equipment-field="measured"
+          value="${escapeHtml(row.measured)}"
+        >
+      </td>
+
+      <td>
+        ${renderConditionSelect('appliances', index, row)}
+      </td>
+
+      <td>
+        ${renderRecommendationInput('appliances', index, row)}
+      </td>
+
+      <td class="p-2 no-print">
+        ${renderDeleteButton('appliances', index)}
+      </td>
+
+    </tr>
+  `;
+}
+	function renderLightingPanel() {
       return `
         <div class="card mt-3">
 
@@ -2049,57 +3193,60 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
               <thead class="bg-slate-100 text-xs font-semibold">
                 <tr>
-                  <th class="p-2">
-                    Area / Location
-                  </th>
 
-                  <th class="p-2">
-                    Fixture Type
-                  </th>
+  <th class="p-2 col-location">
+    Location
+  </th>
 
-                  <th class="p-2">
-                    Fixtures
-                  </th>
+  <th class="p-2 col-type">
+    Fixture Type
+  </th>
 
-                  <th class="p-2">
-                    Lamps/Fixture
-                  </th>
+  <th class="p-2 col-qty">
+    Fixtures
+  </th>
 
-                  <th class="p-2">
-                    Lamp W
-                  </th>
+  <th class="p-2 col-qty">
+    Lamps/Fixture
+  </th>
 
-                  <th class="p-2">
-                    Driver W
-                  </th>
+  <th class="p-2 col-efficiency">
+    Lamp W
+  </th>
 
-                  <th class="p-2">
-                    Connected W
-                  </th>
+  <th class="p-2 col-efficiency">
+    Ballast/Driver (W)
+  </th>
 
-                  <th class="p-2">
-                    Hours/day
-                  </th>
+  <th class="p-2 col-energy">
+    Total Load (W)
+  </th>
 
-                  <th class="p-2">
-                    Days/year
-                  </th>
+  <th class="p-2 col-hours">
+    Hours/day
+  </th>
 
-                  <th class="p-2">
-                    Estimated kWh/y
-                  </th>
+  <th class="p-2 col-days">
+    Days/year
+  </th>
 
-                  <th class="p-2">
-                    Measured kWh/y
-                  </th>
+  <th class="p-2 col-energy">
+    Estimated kWh/y
+  </th>
 
-                  <th class="p-2">
-                    Controls
-                  </th>
+  <th class="p-2 col-energy">
+    Measured kWh/y
+  </th>
 
-                  <th class="p-2">
-                    Upgrade
-                  </th>
+  <th class="p-2 col-type">
+    Controls
+  </th>
+
+  <th class="p-2 col-recommendation">
+    Upgrade
+  </th>
+
+</tr>
 
                   <th class="p-2 no-print"></th>
                 </tr>
@@ -2118,8 +3265,6 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
         </div>
       `;
     }
-
-
     function renderLightingRow(row, index) {
       const calculations =
         calculateLighting(row);
@@ -2138,7 +3283,7 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
           <td>
             <input
-              class="table-input"
+              class="table-input w-32"
               data-lighting-index="${index}"
               data-lighting-field="fixture"
               value="${escapeHtml(row.fixture)}"
@@ -2177,7 +3322,7 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
           <td>
             <input
-              class="table-input"
+              class="table-input w-32"
               type="number"
               data-lighting-index="${index}"
               data-lighting-field="driver"
@@ -2186,7 +3331,7 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
           </td>
 
           <td
-            class="p-2 font-semibold"
+            class="p-2 font-semibold w-32"
             data-lighting-connected="${index}"
           >
             ${formatNumber(calculations.connectedWatts)}
@@ -2213,7 +3358,7 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
           </td>
 
           <td
-            class="p-2 font-semibold"
+            class="p-2 font-semibold w-32"
             data-lighting-estimate="${index}"
           >
             ${formatNumber(calculations.estimatedKwh)}
@@ -2221,7 +3366,7 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
           <td>
             <input
-              class="table-input"
+              class="table-input w-32"
               type="number"
               data-lighting-index="${index}"
               data-lighting-field="measured"
@@ -2260,23 +3405,7 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
         </tr>
       `;
     }
-
-
-    function renderEquipmentPanels() {
-      equipmentTypes.forEach(key => {
-        $(`panel-${key}`).innerHTML =
-          renderEquipmentPanel(key);
-      });
-
-      $('panel-appliances').innerHTML =
-        renderEquipmentPanel('appliances');
-
-      $('panel-lighting').innerHTML =
-        renderLightingPanel();
-
-      bindDynamicEquipmentEvents();
-    }
-
+   
 
     /* =========================================================
        EQUIPMENT EVENT HANDLERS
