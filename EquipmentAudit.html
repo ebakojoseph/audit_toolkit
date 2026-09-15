@@ -2008,55 +2008,55 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
               <thead class="bg-slate-100 text-xs font-semibold">
                 <tr>
-                  <th class="p-2 text-center">
+                  <th class="p-2">
                     Area / Location
                   </th>
 
-                  <th class="p-2 text-center">
-                    Type of Fixture
+                  <th class="p-2">
+                    Fixture Type
                   </th>
 
-                  <th class="p-2 text-center">
-                    No. of Fixtures
+                  <th class="p-2">
+                    Fixtures
                   </th>
 
-                  <th class="p-2 text-center">
-                    Lamps per Fixture
+                  <th class="p-2">
+                    Lamps/Fixture
                   </th>
 
-                  <th class="p-2 text-center">
-                    Power Rating (W)
+                  <th class="p-2">
+                    Lamp W
                   </th>
 
-                  <th class="p-2 text-center">
-                    Ballast Power (W)
+                  <th class="p-2">
+                    Driver W
                   </th>
 
-                  <th class="p-2 text-center">
-                    Connected Load (W)
+                  <th class="p-2">
+                    Connected W
                   </th>
 
-                  <th class="p-2 text-center">
-                    Hours used per day
+                  <th class="p-2">
+                    Hours/day
                   </th>
 
-                  <th class="p-2 text-center">
-                    Days used year
+                  <th class="p-2">
+                    Days/year
                   </th>
 
-                  <th class="p-2 text-center">
+                  <th class="p-2">
                     Estimated kWh/y
                   </th>
 
-                  <th class="p-2 text-center">
+                  <th class="p-2">
                     Measured kWh/y
                   </th>
 
-                  <th class="p-2 text-center">
+                  <th class="p-2">
                     Controls
                   </th>
 
-                  <th class="p-2 text-center">
+                  <th class="p-2">
                     Upgrade
                   </th>
 
@@ -2094,173 +2094,19 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
               value="${escapeHtml(row.area)}"
             >
           </td>
-<td>
-  <select
-    class="table-input"
-    data-lighting-index="${index}"
-    data-lighting-field="fixture"
-  >
-    <option value="">Select fixture type</option>
-
-    <optgroup label="LED fixtures">
-      <option value="LED A-lamp" ${row.fixture === 'LED A-lamp' ? 'selected' : ''}>
-        LED A-lamp
-      </option>
-      <option value="LED panel" ${row.fixture === 'LED panel' ? 'selected' : ''}>
-        LED panel
-      </option>
-      <option value="LED troffer" ${row.fixture === 'LED troffer' ? 'selected' : ''}>
-        LED troffer
-      </option>
-      <option value="LED tube" ${row.fixture === 'LED tube' ? 'selected' : ''}>
-        LED tube
-      </option>
-      <option value="LED downlight" ${row.fixture === 'LED downlight' ? 'selected' : ''}>
-        LED downlight
-      </option>
-      <option value="LED high-bay" ${row.fixture === 'LED high-bay' ? 'selected' : ''}>
-        LED high-bay
-      </option>
-      <option value="LED low-bay" ${row.fixture === 'LED low-bay' ? 'selected' : ''}>
-        LED low-bay
-      </option>
-      <option value="LED strip" ${row.fixture === 'LED strip' ? 'selected' : ''}>
-        LED strip
-      </option>
-      <option value="LED wall pack" ${row.fixture === 'LED wall pack' ? 'selected' : ''}>
-        LED wall pack
-      </option>
-      <option value="LED floodlight" ${row.fixture === 'LED floodlight' ? 'selected' : ''}>
-        LED floodlight
-      </option>
-      <option value="LED area light" ${row.fixture === 'LED area light' ? 'selected' : ''}>
-        LED area light
-      </option>
-      <option value="LED streetlight" ${row.fixture === 'LED streetlight' ? 'selected' : ''}>
-        LED streetlight
-      </option>
-      <option value="LED exit sign" ${row.fixture === 'LED exit sign' ? 'selected' : ''}>
-        LED exit sign
-      </option>
-    </optgroup>
-
-    <optgroup label="Fluorescent fixtures">
-      <option value="2x2 fluorescent troffer" ${row.fixture === '2x2 fluorescent troffer' ? 'selected' : ''}>
-        2x2 fluorescent troffer
-      </option>
-      <option value="2x4 fluorescent troffer" ${row.fixture === '2x4 fluorescent troffer' ? 'selected' : ''}>
-        2x4 fluorescent troffer
-      </option>
-      <option value="1x4 fluorescent fixture" ${row.fixture === '1x4 fluorescent fixture' ? 'selected' : ''}>
-        1x4 fluorescent fixture
-      </option>
-      <option value="Linear fluorescent T5" ${row.fixture === 'Linear fluorescent T5' ? 'selected' : ''}>
-        Linear fluorescent T5
-      </option>
-      <option value="Linear fluorescent T8" ${row.fixture === 'Linear fluorescent T8' ? 'selected' : ''}>
-        Linear fluorescent T8
-      </option>
-      <option value="Linear fluorescent T12" ${row.fixture === 'Linear fluorescent T12' ? 'selected' : ''}>
-        Linear fluorescent T12
-      </option>
-      <option value="Compact fluorescent CFL" ${row.fixture === 'Compact fluorescent CFL' ? 'selected' : ''}>
-        Compact fluorescent CFL
-      </option>
-      <option value="Fluorescent strip" ${row.fixture === 'Fluorescent strip' ? 'selected' : ''}>
-        Fluorescent strip
-      </option>
-    </optgroup>
-
-    <optgroup label="HID fixtures">
-      <option value="Metal halide" ${row.fixture === 'Metal halide' ? 'selected' : ''}>
-        Metal halide
-      </option>
-      <option value="High-pressure sodium" ${row.fixture === 'High-pressure sodium' ? 'selected' : ''}>
-        High-pressure sodium
-      </option>
-      <option value="Low-pressure sodium" ${row.fixture === 'Low-pressure sodium' ? 'selected' : ''}>
-        Low-pressure sodium
-      </option>
-      <option value="Mercury vapor" ${row.fixture === 'Mercury vapor' ? 'selected' : ''}>
-        Mercury vapor
-      </option>
-      <option value="HID high-bay" ${row.fixture === 'HID high-bay' ? 'selected' : ''}>
-        HID high-bay
-      </option>
-      <option value="HID floodlight" ${row.fixture === 'HID floodlight' ? 'selected' : ''}>
-        HID floodlight
-      </option>
-    </optgroup>
-
-    <optgroup label="Conventional fixtures">
-      <option value="Incandescent" ${row.fixture === 'Incandescent' ? 'selected' : ''}>
-        Incandescent
-      </option>
-      <option value="Halogen" ${row.fixture === 'Halogen' ? 'selected' : ''}>
-        Halogen
-      </option>
-      <option value="Recessed downlight" ${row.fixture === 'Recessed downlight' ? 'selected' : ''}>
-        Recessed downlight
-      </option>
-      <option value="Surface-mounted fixture" ${row.fixture === 'Surface-mounted fixture' ? 'selected' : ''}>
-        Surface-mounted fixture
-      </option>
-      <option value="Pendant" ${row.fixture === 'Pendant' ? 'selected' : ''}>
-        Pendant
-      </option>
-      <option value="Chandelier" ${row.fixture === 'Chandelier' ? 'selected' : ''}>
-        Chandelier
-      </option>
-      <option value="Track light" ${row.fixture === 'Track light' ? 'selected' : ''}>
-        Track light
-      </option>
-      <option value="Wall sconce" ${row.fixture === 'Wall sconce' ? 'selected' : ''}>
-        Wall sconce
-      </option>
-      <option value="Task light" ${row.fixture === 'Task light' ? 'selected' : ''}>
-        Task light
-      </option>
-      <option value="Desk lamp" ${row.fixture === 'Desk lamp' ? 'selected' : ''}>
-        Desk lamp
-      </option>
-      <option value="Floor lamp" ${row.fixture === 'Floor lamp' ? 'selected' : ''}>
-        Floor lamp
-      </option>
-    </optgroup>
-
-    <optgroup label="Outdoor and specialty">
-      <option value="Security light" ${row.fixture === 'Security light' ? 'selected' : ''}>
-        Security light
-      </option>
-      <option value="Canopy light" ${row.fixture === 'Canopy light' ? 'selected' : ''}>
-        Canopy light
-      </option>
-      <option value="Parking lot light" ${row.fixture === 'Parking lot light' ? 'selected' : ''}>
-        Parking lot light
-      </option>
-      <option value="Bollard light" ${row.fixture === 'Bollard light' ? 'selected' : ''}>
-        Bollard light
-      </option>
-      <option value="Cove light" ${row.fixture === 'Cove light' ? 'selected' : ''}>
-        Cove light
-      </option>
-      <option value="Sign lighting" ${row.fixture === 'Sign lighting' ? 'selected' : ''}>
-        Sign lighting
-      </option>
-      <option value="Emergency lighting" ${row.fixture === 'Emergency lighting' ? 'selected' : ''}>
-        Emergency lighting
-      </option>
-      <option value="Other" ${row.fixture === 'Other' ? 'selected' : ''}>
-        Other
-      </option>
-    </optgroup>
-  </select>
-</td>
-       
 
           <td>
             <input
-              class="table-input text-center"
+              class="table-input"
+              data-lighting-index="${index}"
+              data-lighting-field="fixture"
+              value="${escapeHtml(row.fixture)}"
+            >
+          </td>
+
+          <td>
+            <input
+              class="table-input"
               type="number"
               data-lighting-index="${index}"
               data-lighting-field="qty"
@@ -2270,7 +2116,7 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
           <td>
             <input
-              class="table-input text-center"
+              class="table-input"
               type="number"
               data-lighting-index="${index}"
               data-lighting-field="lamps"
@@ -2280,7 +2126,7 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
           <td>
             <input
-              class="table-input text-center"
+              class="table-input"
               type="number"
               data-lighting-index="${index}"
               data-lighting-field="watt"
@@ -2290,7 +2136,7 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
           <td>
             <input
-              class="table-input text-center"
+              class="table-input"
               type="number"
               data-lighting-index="${index}"
               data-lighting-field="driver"
@@ -2985,102 +2831,90 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
     ========================================================== */
 
     function updateProgress() {
-      const fields = [
-        ...document.querySelectorAll('[data-field]')
+  /*
+   * Overall progress
+   */
+  const allFields = [
+    ...document.querySelectorAll(
+      'main input:not([readonly]):not([disabled]), ' +
+      'main select:not([disabled]), ' +
+      'main textarea:not([readonly]):not([disabled])'
+    )
+  ];
+
+  const completed = allFields.filter(field =>
+    String(field.value ?? '').trim() !== ''
+  ).length;
+
+  const total = allFields.length;
+
+  const percentage = total
+    ? Math.round((completed / total) * 100)
+    : 0;
+
+  $('checked-count').textContent = completed;
+  $('total-count').textContent = total;
+  $('progress-fill').style.width = `${percentage}%`;
+  $('progress-pct').textContent = `${percentage}%`;
+
+  $('overall-status').textContent =
+    percentage === 0
+      ? 'Not started'
+      : percentage === 100
+        ? 'Complete'
+        : 'In progress';
+
+
+  /*
+   * Individual section progress
+   */
+  document
+    .querySelectorAll('.section-panel')
+    .forEach(panel => {
+      const sectionIndex = panel.dataset.section;
+
+      const sectionFields = [
+        ...panel.querySelectorAll(
+          'input:not([readonly]):not([disabled]), ' +
+          'select:not([disabled]), ' +
+          'textarea:not([readonly]):not([disabled])'
+        )
       ];
 
-      const completed =
-        fields.filter(field => {
-          return String(
-            field.value || ''
-          ).trim() !== '';
-        }).length;
+      const sectionCompleted = sectionFields.filter(field =>
+        String(field.value ?? '').trim() !== ''
+      ).length;
 
-      const percentage =
-        fields.length
-          ? Math.round(
-              completed / fields.length * 100
-            )
-          : 0;
+      const sectionTotal = sectionFields.length;
 
-      $('checked-count').textContent =
-        completed;
+      const sectionPercentage = sectionTotal
+        ? Math.round((sectionCompleted / sectionTotal) * 100)
+        : 0;
 
-      $('total-count').textContent =
-        fields.length;
+      const completion = $(`completion-${sectionIndex}`);
 
-      $('progress-fill').style.width =
-        `${percentage}%`;
+      if (completion) {
+        completion.textContent =
+          `Section completion: ${sectionPercentage}%`;
+      }
 
-      $('progress-pct').textContent =
-        `${percentage}%`;
-
-      $('overall-status').textContent =
-        calculateEquipmentStatus();
-
-
-      sections.forEach(
-        (section, index) => {
-          const panel =
-            document.querySelector(
-              `[data-section="${index}"]`
-            );
-
-          if (!panel) {
-            return;
-          }
-
-          const panelFields = [
-            ...panel.querySelectorAll(
-              'input, select, textarea'
-            )
-          ];
-
-          const panelCompleted =
-            panelFields.filter(field => {
-              return String(
-                field.value || ''
-              ).trim() !== '';
-            }).length;
-
-          const completion =
-            document.getElementById(
-              `completion-${index}`
-            );
-
-          if (completion) {
-            completion.textContent =
-              `Section completion: ${
-                panelFields.length
-                  ? Math.round(
-                      panelCompleted /
-                      panelFields.length *
-                      100
-                    )
-                  : 0
-              }%`;
-          }
-
-          const dot =
-            document.querySelector(
-              `[data-dot="${index}"]`
-            );
-
-          if (dot) {
-            dot.className =
-              'sidebar-dot ' +
-              (
-                panelCompleted === panelFields.length &&
-                panelFields.length
-                  ? 'dot-green'
-                  : panelCompleted
-                    ? 'dot-yellow'
-                    : 'dot-grey'
-              );
-          }
-        }
+      const dot = document.querySelector(
+        `[data-dotindex="${sectionIndex}"]`
       );
-    }
+
+      if (dot) {
+        dot.className =
+          'sidebar-dot ' +
+          (
+            sectionCompleted === 0
+              ? 'dot-grey'
+              : sectionCompleted === sectionTotal
+                ? 'dot-green'
+                : 'dot-yellow'
+          );
+      }
+    });
+}
 
 
     /* =========================================================
