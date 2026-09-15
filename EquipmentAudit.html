@@ -2222,19 +2222,22 @@ const CROSS_TAB_SIGNOUT_KEY="building-diagnostics-signout";
 
 
     function renderEquipmentPanels() {
-      equipmentTypes.forEach(key => {
-        $(`panel-${key}`).innerHTML =
-          renderEquipmentPanel(key);
-      });
+  equipmentTypes.forEach(key => {
+    $(`panel-${key}`).innerHTML =
+      renderEquipmentPanel(key);
+  });
 
-      $('panel-appliances').innerHTML =
-        renderEquipmentPanel('appliances');
+  $('panel-appliances').innerHTML =
+    renderEquipmentPanel('appliances');
 
-      $('panel-lighting').innerHTML =
-        renderLightingPanel();
+  // Do not replace the Lighting table while typing.
+  if (!$('panel-lighting').querySelector('[data-lighting-index]')) {
+    $('panel-lighting').innerHTML =
+      renderLightingPanel();
+  }
 
-      bindDynamicEquipmentEvents();
-    }
+  bindDynamicEquipmentEvents();
+}
 
 
     /* =========================================================
